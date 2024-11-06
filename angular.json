@@ -28,9 +28,12 @@
               }
             ],
             "styles": [ 
+              "src/styles.css",
               "./src/assets/public/vendor/bootstrap-select/dist/css/bootstrap-select.min.css",
               "./src/assets/public/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css", 
-              "./src/assets/public/css/style.css"
+              "./src/assets/public/css/style.css",
+              "node_modules/datatables.net-dt/css/dataTables.dataTables.min.css" 
+              
             ],
             "scripts": [  
               "./src/assets/public/vendor/global/global.min.js",
@@ -40,11 +43,9 @@
               "./src/assets/public/js/custom.min.js",
               "./src/assets/public/js/deznav-init.js", 
               "./src/assets/public/js/demo.js",
-              "./src/assets/public/js/styleSwitcher.js",
-              "src/assets/files/assets/pages/data-table/js/jszip.min.js",
-              "src/assets/files/assets/pages/data-table/js/pdfmake.min.js",
-              "src/assets/files/assets/pages/data-table/js/vfs_fonts.js",
-              "src/assets/files/assets/pages/data-table/js/data-table-custom.js"
+              "./src/assets/public/js/styleSwitcher.js" , 
+              "node_modules/jquery/dist/jquery.min.js", 
+              "node_modules/datatables.net/js/dataTables.min.js" 
             ],
             "server": "src/main.server.ts",
             "prerender": true,

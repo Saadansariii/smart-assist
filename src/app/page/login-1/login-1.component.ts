@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {   showAlert } from '../../utils/aleart';
 import { create } from 'domain';
+import { Token } from '@angular/compiler';
 // import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -78,6 +79,7 @@ export class Login1Component {
         this.loginObj
       )
       .subscribe((res: any) => {
+        
         console.log(res);
         if (res.token) {
           // alert('Login Successful'); 
@@ -86,7 +88,7 @@ export class Login1Component {
             window.location.reload();
           });
           // Store the token in sessionStorage
-          sessionStorage.setItem('adminToken', res.token);
+          sessionStorage.setItem('adminToken', res.token); 
           setTimeout(() => {
             this.router.navigateByUrl('/login');
             sessionStorage.removeItem('adminToken');

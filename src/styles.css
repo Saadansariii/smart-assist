@@ -1,8 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 /* You can add global styles to this file, and also import other style files */
-/* @import "node_modules/datatables.net-dt/css/jquery.dataTables.min.css"; */
-@import url('datatables.net-dt/css/jquery.dataTables.css');
-@import url('bootstrap/dist/css/bootstrap.min.css');
+/* @import "node_modules/datatables.net-dt/css/jquery.dataTables.min.css"; */ 
 
 .cursor-pointer{
     cursor: pointer;

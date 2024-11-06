@@ -1,39 +1,68 @@
-import { Component,  Inject, OnInit, PLATFORM_ID  } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterLink,
+} from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { Token } from '@angular/compiler';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrls: ['./header.component.css'], // corrected `styleUrl` to `styleUrls`
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+  guestDetails: any;
+  pageTitle: string = 'Dashboard';
 
-  constructor(private router: Router,@Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
-  guestDetails:any;
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      // Now it's safe to access localStorage
-      const loginType = localStorage.getItem('login_type');
-      console.log(loginType);
-    }
-   const userDetails1:any = localStorage.getItem('userDetails'); 
-    this.guestDetails = userDetails1;  
-    this.guestDetails = JSON.parse(this.guestDetails);   
+    this.updateTitle();
+    // if (isPlatformBrowser(this.platformId)) {
+    //   // Access localStorage only if running in the browser
+    //   const loginType = sessionStorage.getItem('login_type');
+    //   console.log(loginType);
+
+    //   const userDetails = sessionStorage.getItem('userDetails');
+    //   this.guestDetails = userDetails ? JSON.parse(userDetails) : null;
+    // }
+
+    // header name  
+    this.router.events
+    .pipe(
+      filter(event => event instanceof NavigationEnd)
+    )
+    .subscribe(() => this.updateTitle());
+    
   }
 
-
-  view(page:any){
-    this.router.navigate(["../Admin/"+page]); 
+  private updateTitle(): void {
+    const route = this.getDeepestChild(this.activatedRoute);
+    this.pageTitle = route.snapshot.data['title'] || 'Dashboard';
   }
   
-  logout(){
-    localStorage.clear(); 
+  private getDeepestChild(route: ActivatedRoute): ActivatedRoute {
+    return route.firstChild ? this.getDeepestChild(route.firstChild) : route;
+  }
+
+  // view(page: any) {
+  //   this.router.navigate([`../Admin/${page}`]);
+  // }
+
+  logout() {
+    // if (isPlatformBrowser(this.platformId)) {
+    // }
+    sessionStorage.removeItem('adminToken');
     this.guestDetails = null;
-    this.router.navigate(['/']);  
-  } 
-  
-} 
+  }
+}

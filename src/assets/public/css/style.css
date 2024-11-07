@@ -14,7 +14,7 @@
 @import url(../vendor/animate/animate.min.css);
 @import url(../vendor/aos/css/aos.min.css);
 @import url(../vendor/perfect-scrollbar/css/perfect-scrollbar.css);
-@import url(../vendor/metismenu/css/metisMenu.min.css);
+@import url(../vendor/metismenu/css/metisMenu.min.css); 
 .gradient_one {
   background-image: linear-gradient(to right, rgba(186, 1, 181, 0.85) 0%, rgba(103, 25, 255, 0.85) 100%); }
 
@@ -1249,8 +1249,12 @@ pre {
     max-width: 66.6666666667%; }
 
   .col-xl-9 {
+    /* text-align: center; */
+    /* align-items: center; */
+    /* text-align: center; */
     flex: 0 0 75%;
-    max-width: 75%; }
+    /* max-width: 100%;  */
+  }
 
   .col-xl-10 {
     flex: 0 0 83.3333333333%;
@@ -5127,7 +5131,8 @@ button.bg-dark:focus {
   display: table-cell !important; }
 
 .d-flex {
-  display: flex !important; }
+  /* display: flex !important; */
+ }
 
 .d-inline-flex {
   display: inline-flex !important; }
@@ -5383,7 +5388,8 @@ button.bg-dark:focus {
   align-items: flex-start !important; }
 
 .align-items-end {
-  align-items: flex-end !important; }
+  align-items: flex-end !important;
+text-align: center; }
 
 .align-items-center {
   align-items: center !important; }
@@ -33107,7 +33113,9 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   [data-theme-version="dark"] .search-area-2 .input-group-append .input-group-text {
     background-color: #1b1b1b; }
   [data-theme-version="dark"] .dataTablesCard {
-    background-color: #1b1b1b; }
+    background-color: #1b1b1b;
+    
+  }
   [data-theme-version="dark"] .compose-content .dropzone {
     background: #151515 !important; }
     [data-theme-version="dark"] .compose-content .dropzone .dz-message .dz-button {
@@ -39578,13 +39586,13 @@ code {
     font-size: 14px;
     font-weight: 500;
     white-space: nowrap;
-    border-color: #f3f3f3;
+    border-color: #d3d3d3;
     color: #000; }
     [data-theme-version="dark"] .table thead th {
       border-color: #3b3f45; }
   .table tbody tr td {
     vertical-align: middle;
-    border-color: #f3f3f3; }
+    border-color: #d3d3d3; }
     [data-theme-version="dark"] .table tbody tr td {
       border-color: #3b3f45; }
   .table:not(.table-bordered) thead th {
@@ -39780,7 +39788,8 @@ table.dataTable.no-footer {
 .dataTablesCard {
   background-color: #fff;
   box-shadow: 0px 12px 23px 0px rgba(62, 73, 84, 0.04);
-  border-radius: 20px; }
+  border-radius: 20px; 
+text-align: center;}
   .dataTablesCard tbody tr:hover {
     box-shadow: 0px 10px 40px -3px rgba(0, 0, 0, 0.1);
     border-radius: 1.75rem; }

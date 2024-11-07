@@ -10,6 +10,7 @@ import { SingleDealerComponent } from './page/single-dealer/single-dealer.compon
 import { Login1Component } from './page/login-1/login-1.component';
 import { AlertComponent } from './component/utils/alert/alert.component';
 import { ProfileComponent } from './page/profile/profile.component';
+import { DealerResolver } from './service/dealar-resolver.service';
 
 export const routes: Routes = [ 
   { path: '', component: Login1Component, pathMatch: 'full' },
@@ -27,7 +28,12 @@ export const routes: Routes = [
       { path: 'customer', component: CustomerComponent, data: { title: 'Customer' } },
       { path: 'user', component: SingleDealerComponent, data: { title: 'User' } },
       { path: 'profile', component: ProfileComponent, data: { title: 'Profile' } },
-      { path: 'alert', component: AlertComponent }
+      { path: 'alert', component: AlertComponent },
+      { 
+        path: 'singleUser/:id', 
+        component: SingleDealerComponent, 
+        resolve: { dealerData: DealerResolver }  // Use the DealerResolver to load data before component initializes
+      }
     ]
   }
       ]; 

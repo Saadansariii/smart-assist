@@ -324,7 +324,9 @@ img {
 
 svg {
   overflow: hidden;
-  vertical-align: middle; }
+  vertical-align: middle; 
+  margin-top: 1em;
+}
 
 table {
   border-collapse: collapse; }
@@ -6177,7 +6179,8 @@ text-align: center; }
 
 .mr-2,
 .mx-2 {
-  margin-right: 0.5rem !important; }
+  margin-right: 0.5rem !important; 
+}
 
 .mb-2,
 .my-2 {

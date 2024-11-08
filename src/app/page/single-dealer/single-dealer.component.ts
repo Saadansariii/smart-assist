@@ -2,17 +2,17 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { SingleDealerResponse } from '../../model/interface/master';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
 import { MasterService } from '../../service/master.service';
-import { Users } from '../../model/class/users';  
+import { Users } from '../../model/class/users';
 
 @Component({
   selector: 'app-single-dealer',
   standalone: true,
   imports: [FormsModule, CommonModule, SharedModule],
   templateUrl: './single-dealer.component.html',
-  styleUrls: ['./single-dealer.component.css'], // Corrected this line
+  styleUrls: ['./single-dealer.component.css'],
 })
 export class SingleDealerComponent implements OnInit {
   userList = signal<any>([]);
@@ -20,23 +20,26 @@ export class SingleDealerComponent implements OnInit {
   leadList = signal<any>([]);
   dealerData: SingleDealerResponse | undefined;
   masterSrv = inject(MasterService);
- 
-  showUsersTable: boolean = true; // Initialize to true
+
+  showUsersTable: boolean = true;
   showLeadsTable: boolean = false;
   showOpportunityTable: boolean = false;
 
   constructor(private route: ActivatedRoute) {}
 
-  selectedOption: string = 'Users';
+  selectedOption: string = 'users';
 
   handleSelectionChange(event: Event) {
-
     const option = (event.target as HTMLSelectElement).value;
     this.selectedOption = option;
+    console.log("Option selected:", option);
+
     switch (option) {
       case 'leads':
         this.toggleLeadsTable();
-        this.getAllLeads;
+        if (this.dealerData) {
+          this.getAllLeads(this.dealerData.dealer.dealer_id);
+        }
         break;
       case 'users':
         if (this.dealerData) {
@@ -47,15 +50,15 @@ export class SingleDealerComponent implements OnInit {
         }
         break;
       case 'opportunity':
-        this.getAllOpp;
         this.toggleOpportunityTable();
+        if (this.dealerData) {
+          this.getAllOpp(this.dealerData.dealer.dealer_id);
+        }
         break;
-      // Add more cases for followUps, appointment, etc. if necessary
     }
   }
 
-  
-  toggleUsersTable() { 
+  toggleUsersTable() {
     this.showUsersTable = true;
     this.showLeadsTable = false;
     this.showOpportunityTable = false;
@@ -72,23 +75,17 @@ export class SingleDealerComponent implements OnInit {
     this.showUsersTable = false;
     this.showLeadsTable = false;
   }
-  
 
-
-  ngOnInit() {  
-    
-     
-    
+  ngOnInit() {
     this.route.data.subscribe((data) => {
       this.dealerData = data['dealerData'];
-       
       if (this.dealerData) {
         this.getUser(this.dealerData.dealer.dealer_id);
       } else {
         console.warn("Dealer data not available from resolver.");
       }
     });
-   
+
     this.route.paramMap.subscribe((params) => {
       const dealerId = params.get('id');
       if (dealerId) {
@@ -98,15 +95,13 @@ export class SingleDealerComponent implements OnInit {
       }
     });
   }
-  
 
   getUser(dealerId: string) {
     console.log("Fetching user data for dealerId:", dealerId);
     this.masterSrv.getAllUser(dealerId).subscribe({
       next: (res: Users[]) => {
         this.userList.set(res);
-        console.log(res, 'Response');
-        console.log(dealerId, 'Dealer Id');
+        console.log("User data fetched:", res);
       },
       error: (err: any) => {
         console.error('Error fetching users:', err);
@@ -117,7 +112,8 @@ export class SingleDealerComponent implements OnInit {
   getAllLeads(dealerId: string) {
     this.masterSrv.getAllLead(dealerId).subscribe({
       next: (res: Users[]) => {
-        this.leadList.set(res); 
+        this.leadList.set(res);
+        console.log("Leads data fetched:", res);
       },
       error: (err) => {
         alert(err.message || 'An error occurred while fetching leads.');
@@ -125,16 +121,15 @@ export class SingleDealerComponent implements OnInit {
     });
   }
 
-  getAllOpp(dealerId: string){
+  getAllOpp(dealerId: string) {
     this.masterSrv.getAllOpportunities(dealerId).subscribe({
       next: (res: Users[]) => {
-        this.leadList.set(res); 
+        this.Opportunity.set(res);
+        console.log("Opportunities data fetched:", res);
       },
       error: (err) => {
-        alert(err.message || 'An error occurred while fetching leads.');
+        alert(err.message || 'An error occurred while fetching opportunities.');
       },
     });
   }
-
- 
 }

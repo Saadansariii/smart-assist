@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="content-body">
     <!-- <div class="row mb-5 align-items-center" > -->
-    <div class="col-xl-9">
+    <div class="col-xl-12">
       <!-- <div class="col-xl-3 align-self-start "> -->
       <div class="card m-0">
         <div class="card-body px-4 py-3 py-lg-2">
@@ -9,10 +9,27 @@
             <div class="col-xl-3 col-xxl-12 col-lg-12">
               <!-- <p class="mb-2 fs-14">Lorem Ipsum is simply dummy text of the printing and</p> -->
             </div>
-            <div class="col-xl-7 col-xxl-12 col-lg-12">
+            <div class="col-xl-7 col-xxl-12 col-lg-12" *ngIf="dealerData">
               <div class="row align-items-center">
-                <div class="col-xl-4 col-md-4 col-sm-4">
+                <div class="col-xl-3 col-md-3 col-sm-3">
                   <div class="media align-items-center">
+                    <div class="media-body ml-1">
+                      <p class="mb-0 fs-12">
+                        {{ dealerData.dealer.dealer_name }}
+                      </p>
+                      <h4 class="mb-0 text-black font-w600 fs-22">
+                        Dealer Code : {{ dealerData.dealer.dealer_code }}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-3 col-md-3 col-sm-3">
+                  <div
+                    class="media align-items-center"
+                    (click)="
+                      toggleUsersTable(); getUser(dealerData.dealer.dealer_id)
+                    "
+                  >
                     <span class="mr-3">
                       <svg
                         width="30"
@@ -31,12 +48,54 @@
                     </span>
                     <div class="media-body ml-1">
                       <p class="mb-0 fs-12">Users</p>
-                      <h4 class="mb-0 text-black font-w600 fs-22">765 User</h4>
+                      <h4 class="mb-0 text-black font-w600 fs-22">
+                        {{ dealerData.users }} User
+                      </h4>
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-4 col-md-4 col-sm-4">
-                  <div class="media align-items-center">
+                <div class="col-xl-3 col-md-3 col-sm-3">
+                  <div
+                    class="media align-items-center"
+                    (click)="
+                      toggleUsersTable(); getUser(dealerData.dealer.dealer_id)
+                    "
+                  >
+                    <span class="mr-3">
+                      <svg
+                        width="30"
+                        height="19"
+                        viewBox="0 0 30 19"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M29.3124 0.990819C30.1459 1.71561 30.234 2.97887 29.5092 3.81239L20.7578 13.8765C19.359 15.4851 16.9444 15.7141 15.2681 14.397L11.1176 11.1359L3.87074 17.9564C3.06639 18.7135 1.80064 18.6751 1.04361 17.8708C0.286573 17.0664 0.324929 15.8007 1.12928 15.0436L8.3761 8.22309C9.817 6.86695 12.0329 6.76812 13.5888 7.99062L17.7394 11.2518L26.4908 1.18767C27.2156 0.354158 28.4788 0.266024 29.3124 0.990819Z"
+                          fill="#2130B8"
+                        />
+                      </svg>
+                    </span>
+                    <div class="media-body ml-1"  (click)="
+                    toggleUsersTable(); getAllOpp(dealerData.dealer.dealer_id)
+                  "> 
+                      <p class="mb-0 fs-12">Opportunities</p>
+                      <h4 class="mb-0 text-black font-w600 fs-22">
+                        {{ dealerData.leads }} Opportunities
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <!-- </div> -->
+                <div class="col-xl-3 col-md-3 col-sm-3">
+                  <div
+                    class="media align-items-center"
+                    (click)="
+                      toggleLeadsTable();
+                      getAllLeads(dealerData.dealer.dealer_id)
+                    "
+                  >
                     <span class="mr-3">
                       <svg
                         width="25"
@@ -77,7 +136,9 @@
                     </span>
                     <div class="media-body ml-1">
                       <p class="mb-0 fs-12">Lead</p>
-                      <h4 class="mb-0 text-black font-w600 fs-22">3 Lead</h4>
+                      <h4 class="mb-0 text-black font-w600 fs-22">
+                        {{ dealerData.leads }} Lead
+                      </h4>
                     </div>
                   </div>
                 </div>
@@ -100,27 +161,50 @@
     </div>
     <!-- table header -->
 
-    <div class="col-xl-9" style="margin-top: 2em !important">
+    <div
+      class="col-xl-9"
+      style="
+        margin-top: 2em !important;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      "
+    >
       <div class="card">
         <div class="card-body py-3 py-md-2">
           <div class="row align-items-center">
-            <div class="col-xl-3 col-xxl-3 col-lg-3 mb-3 mb-md-0">
+            <div class="mb-md-0">
               <div class="media align-items-end">
-                <div class="media-body ml-1">
+                <div class="media-body ml-2">
                   <p class="mb-1 fs-14">Table</p>
-                  <h3 class="mb-0 text-black font-w600 fs-20">Leads Table</h3>
+                  <h3 class="mb-0 text-black font-w600 fs-20">{{selectedOption}} </h3>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <!-- dropdown -->
+      <div class="form-group" style="margin-inline: 1em">
+        <select class="form-control form-control-lg" (change)="handleSelectionChange($event)">
+          <option selected value="users">Total Users</option>
+          <option value="leads">Total Leads</option>
+          <!-- <option value="followUps">Follow Ups</option> -->
+          <!-- <option value="appointment">Appointment</option> -->
+          <!-- <option value="testDrive">Test Drive</option> -->
+          <option value="opportunity" >opportunity</option>
+        </select>
+      </div>
+      
+
+       
     </div>
     <!-- table -->
 
     <div class="row">
       <div class="col-lg-12">
-        <div class="table-responsive" *ngIf="showUsersTable">
+        <div class="table-responsive" *ngIf="selectedOption === 'users'">
           <table
             id="example5"
             class="table display mb-4 table-responsive-xl dataTablesCard fs-14"
@@ -137,22 +221,22 @@
             </thead>
             <tbody>
               <tr *ngFor="let user of userList()">
-                <td  >
+                <td>
                   {{ user.account_id }}
                 </td>
-                <td  >
+                <td>
                   {{ user.name }}
                 </td>
-                <td  >
+                <td>
                   {{ user.email }}
                 </td>
-                <td  >
+                <td>
                   {{ user.phone }}
                 </td>
-                <td  >
+                <td>
                   {{ user.role }}
                 </td>
-                <td  >
+                <td>
                   {{ user.dealer_code }}
                 </td>
               </tr>
@@ -165,60 +249,141 @@
     <!-- table 2 -->
     <div class="row">
       <div class="col-lg-12">
-        <div class="table-responsive" *ngIf="!showUsersTable">
+        <div class="table-responsive" *ngIf="selectedOption === 'leads'">
           <table
             id="example5"
             class="table display mb-4 table-responsive-xl dataTablesCard fs-14"
           >
             <thead>
               <tr>
-                <th >Lead Code</th>
-                <th >Dealer Name</th>
-                <th >Dealer Code</th>
-                <th >Status</th>
-                <th >Purchase Type</th>
-                <th >Type</th>
-                <th >Sub Type</th>
-                <th >Brand</th>
-                <th >PMI</th>
-                <th >Lead Source</th>
-                <th >Last Name</th>
-                <th >Description</th>
-                <th >Mobile</th>
-                <th >Phone</th>
-                <th >Email</th>
-                <th >Lead Owner</th>
-                <th >Owner Account ID</th>
-                <th >Enquiry Type</th>
-                <th >Expected Date of Purchase</th>
+                <th>Lead Code</th>
+                <th>Dealer Name</th>
+                <!-- <th>Dealer Code</th> -->
+                <th>Status</th>
+                <th>Purchase Type</th>
+                <th>Type</th>
+                <th>Sub Type</th>
+                <th>Brand</th>
+                <th>PMI</th>
+                <th>Lead Source</th> 
+                <th>Last Name</th>
+                <!-- <th>Description</th> -->
+                <th>Mobile</th> 
+                <th>Email</th>
+                <th>Lead Owner</th>
+                <!-- <th>Owner Account ID</th> --> 
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let lead of leadList()">
-                <td >{{ lead.lead_code }}</td>
-                <td >{{ lead.dealer_name }}</td>
-                <td >{{ lead.dealer_code }}</td>
-                <td >{{ lead.status }}</td>
-                <td >{{ lead.purchase_type }}</td>
-                <td >{{ lead.type }}</td>
-                <td >{{ lead.sub_type }}</td>
-                <td >{{ lead.brand }}</td>
-                <td >{{ lead.PMI }}</td>
-                <td >{{ lead.lead_source }}</td>
-                <td >{{ lead.lname }}</td>
-                <td >{{ lead.description }}</td>
-                <td >{{ lead.mobile }}</td>
-                <td >{{ lead.phone }}</td>
-                <td >{{ lead.email }}</td>
-                <td >{{ lead.lead_owner }}</td>
-                <td >{{ lead.owner_acc_id }}</td>
-                <td >{{ lead.enquiry_type }}</td>
-                <td >{{ lead.expected_date_purchase }}</td>
+                <td>{{ lead.lead_code }}</td>
+                <td>{{ lead.dealer_name }}</td>
+                <!-- <td>{{ lead.dealer_code }}</td> -->
+                <td>{{ lead.status }}</td>
+                <td>{{ lead.purchase_type }}</td>
+                <td>{{ lead.type }}</td>
+                <td>{{ lead.sub_type }}</td>
+                <td>{{ lead.brand }}</td>
+                <td>{{ lead.PMI }}</td>
+                <td>{{ lead.lead_source }}</td>
+                <td>{{ lead.lname }}</td>
+                <!-- <td>{{ lead.description }}</td> -->
+                <td>{{ lead.mobile }}</td> 
+                <td>{{ lead.email }}</td>
+                <td>{{ lead.lead_owner }}</td>
+                <!-- <td>{{ lead.owner_acc_id }}</td> -->
+                <!-- <td>{{ lead.enquiry_type }}</td>  -->
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
+<!-- tabel 3 -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="table-responsive" *ngIf="selectedOption === 'opportunity'">
+          <table
+            id="example5"
+            class="table display mb-4 table-responsive-xl dataTablesCard fs-14"
+          >
+            <thead> 
+              <tr>
+                <th>Opportunity Name</th>
+                <th>stage</th>
+                <th>Opportunities Record</th>
+                <th>account Name</th>
+                <th>close Date</th>
+                <th>Opportunity Currency</th>
+                <th>VIN</th>
+                <th>Purchase Type</th>
+                <th>Sub Type</th>
+                <th>Brand</th>
+                <th>PMI</th>
+                <th>Description</th>
+                <th>Mobile</th>
+                <th>Phone</th>
+                <th>E-mail</th>
+                <th>Enquiry Type</th> 
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let opp of Opportunity()">
+                <td>
+                  {{ opp.opportunity_name }}
+                </td>
+                <td>
+                  {{ opp.stage }}
+                </td>
+                <td>
+                  {{ opp.opportunity_record_type }}
+                </td>
+                <td>
+                  {{ opp.account_name }}
+                </td>
+                <td>
+                  {{ opp.close_date }}
+                </td>
+                <td>
+                  {{ opp.VIN }}
+                </td>
+                <td>
+                  {{ opp.purchase_type}}
+                </td>
+                <td>
+                  {{ opp.type }}
+                </td>
+                <td>
+                  {{ opp.sub_type }}
+                </td>
+                <td>
+                  {{ opp.brand }}
+                </td>
+                <td>
+                  {{ opp.PMI }}
+                </td>
+                <td>
+                  {{ opp.description }}
+                </td>
+                <td>
+                  {{ opp.mobile }}
+                </td>
+                <td>
+                  {{ opp.phone }}
+                </td>
+                <td>
+                  {{ opp.email }}
+                </td>
+                <td>
+                  {{ opp.enquiry_type }}
+                </td> 
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </div>

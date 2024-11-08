@@ -2,6 +2,8 @@
 // import { SingleDealer } from '../class/dealerSingle';
 // import { Users } from '../class/users';
 import { dealers } from '../class/dealers';
+import { SingleDealer } from '../class/dealerSingle';
+import { Leads } from '../class/leads';
 import { Users } from '../class/users';
 import { Vehicles } from '../class/vehicle';
 
@@ -19,8 +21,8 @@ export interface VehicleResponse {
   vehicle: Vehicles[];
 }
 
-export interface SingleDealerResponse {
-//   dealer: SingleDealer;
+export interface SingleDealerResponse { 
+  dealer: SingleDealer;
   users: number;
   leads: number;
 }
@@ -28,3 +30,5 @@ export interface SingleDealerResponse {
 export interface UserResponse extends Users {
    
 }
+
+ 

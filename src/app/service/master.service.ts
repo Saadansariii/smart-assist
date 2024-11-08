@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 // import { Distributors } from '../model/class/distributor';
 import { Observable } from 'rxjs';
 import {
-  DealerResponse,
+  DealerResponse, 
   SingleDealerResponse,
  
   UserResponse,
@@ -63,6 +63,19 @@ export class MasterService {
       .set('accept', 'application/json');
     return this.http.get<UserResponse[]>(
       `${this.apiUrl}dealers/${id}/leads/all`,
+      {
+        headers,
+      }
+    );
+  }
+
+  getAllOpportunities(id: string): Observable<UserResponse[]>{
+    const token = sessionStorage.getItem('adminToken');
+    const headers = new HttpHeaders()
+      .set('authorization', `Bearer ${token}`)
+      .set('accept', 'application/json');
+    return this.http.get<UserResponse[]>(
+      `${this.apiUrl}dealers/${id}/opportunities/all`,
       {
         headers,
       }

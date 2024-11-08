@@ -1,5 +1,5 @@
 export class Users {
-    account_id: string
+     account_id: string
       name: string
       email: string
       phone: string

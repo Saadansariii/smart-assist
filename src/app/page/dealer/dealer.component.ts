@@ -6,11 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { MasterService } from '../../service/master.service';  
 import { DealerResponse } from '../../model/interface/master'; 
 import { dealers } from '../../model/class/dealers';
-
  
-
- 
-
 @Component({
   selector: 'app-dealer',
   standalone: true,
@@ -95,8 +91,8 @@ export class DealerComponent implements OnInit {
   getAllDealer() {
     this.masterSrv.getAllDealer().subscribe(
       (res: DealerResponse) => {
-        this.dealerList.set(res.dealers);
-        this.totalDealer.set(res.totalDealers);
+        this.dealerList.set(res.dealer.rows);
+        this.totalDealer.set(res.dealer.count);
       },
       (error) => {
         alert(error.message);

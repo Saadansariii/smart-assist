@@ -7,11 +7,21 @@ import { Leads } from '../class/leads';
 import { Users } from '../class/users';
 import { Vehicles } from '../class/vehicle';
 
+ 
+
 export interface DealerResponse {
-  totalDealers: number;
-  totalPages: number;
-  currentPage: number;
-  dealers: dealers[];
+  dealer: {
+    count: number;          // Total dealers count
+    rows: dealers[];        // Array of dealer objects
+  };
+  ids: string[];
+  leads: Lead[];
+}
+
+
+export interface Lead {
+  dealer_id: string;
+  count: number;
 }
 
 export interface VehicleResponse {

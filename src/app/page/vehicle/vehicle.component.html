@@ -1,9 +1,9 @@
 <div class="content-body">
   <div class="row mb-5 align-items-center">
-    <div class="col-xl-3 mb-4 mb-xl-0 "  >
-      <a 
-      (click)="openModal( ) 
-      " data-target="#exampleModalCenter"
+    <div class="col-xl-3 mb-4 mb-xl-0">
+      <a
+        (click)="openModal()"
+        data-target="#exampleModalCenter"
         data-toggle="modal"
         class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
         >+New Vehicle</a
@@ -23,9 +23,7 @@
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g clip-path="url(#clip0)">
-                      
-                    </g>
+                    <g clip-path="url(#clip0)"></g>
                     <defs>
                       <clipPath id="clip0">
                         <rect width="24" height="24" fill="white" />
@@ -35,7 +33,9 @@
                 </span>
                 <div class="media-body ml-1">
                   <p class="mb-1 fs-14">Total Vehicle</p>
-                  <h3 class="mb-0 text-black font-w600 fs-20">{{totalVehicle()}}</h3>
+                  <h3 class="mb-0 text-black font-w600 fs-20">
+                    {{ totalVehicle() }}
+                  </h3>
                 </div>
               </div>
             </div>
@@ -113,10 +113,12 @@
               <td>{{ vehicle.type }}</td>
               <td>{{ vehicle.VIN }}</td>
               <td class="d-flex">
-                <a href="javascript:void(0);" 
-                data-target="#exampleModalCenter"
-                data-toggle="modal"
-                (click)="openModal(vehicle)">
+                <a
+                  href="javascript:void(0);"
+                  data-target="#exampleModalCenter"
+                  data-toggle="modal"
+                  (click)="openModal(vehicle)"
+                >
                   <svg
                     width="25"
                     height="24"
@@ -170,48 +172,91 @@
     </div>
   </div>
 </div>
- 
+
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" style="margin-block: 2em;"  >
-  <div class="modal-dialog modal-dialog-centered" role="document" >
-    <div class="modal-content" >
+<div class="modal fade" id="exampleModalCenter" style="margin-block: 2em">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" style="align-items: center; margin-inline: auto;">Add New Vehicle</h5>
+        <h5
+          class="modal-title"
+          style="align-items: center; margin-inline: auto"
+        >
+          Add New Vehicle
+        </h5>
         <button type="button" class="close" data-dismiss="modal">
           <span>&times;</span>
         </button>
-      </div> 
-      <div class="form-group" style="margin-inline: 1em;">
-        <input class="form-control form-control-lg" type="text" placeholder="Vehicle Name" [(ngModel)]="vehicleObj.vehicle_name">
       </div>
-      <div class="form-group" style="margin-inline: 1em;">
-        <input class="form-control form-control-lg" type="text" placeholder="Vehicle Years Of Manufacturing" [(ngModel)]="vehicleObj.YOM">
+      <div class="form-group" style="margin-inline: 1em">
+        <input
+          class="form-control form-control-lg"
+          type="text"
+          placeholder="Vehicle Name"
+          [(ngModel)]="vehicleObj.vehicle_name"
+        />
+      </div>
+      <div class="form-group" style="margin-inline: 1em">
+        <input
+          class="form-control form-control-lg"
+          type="text"
+          placeholder="Vehicle Years Of Manufacturing"
+          [(ngModel)]="vehicleObj.YOM"
+          [disabled]="!!vehicleObj.YOM"
+        />
+        <!-- <div *ngIf="vehicleObj.YOM" class="input-group-append">
+          <span class="input-group-text">
+            <i class="fa-solid fa-eye-slash"></i>
+          </span>
+        </div> -->
       </div>
 
-      <div class="form-group" style="margin-inline: 1em;">
-        <select class="form-control form-control-lg" [(ngModel)]="vehicleObj.type"
-        [ngModelOptions]="{ standalone: true }">
+      <div class="form-group" style="margin-inline: 1em">
+        <select
+          class="form-control form-control-lg"
+          [(ngModel)]="vehicleObj.type"
+          [ngModelOptions]="{ standalone: true }"
+        >
           <option value="petrol">Petrol</option>
           <option value="diesel">Diesel</option>
           <option value="EV">EV</option>
         </select>
-    </div>
+      </div>
 
-    <div class="form-group" style="margin-inline: 1em;">
-      <input class="form-control form-control-lg" type="text" placeholder="VIN"  [(ngModel)]="vehicleObj.VIN">
-    </div>
+      <div class="form-group" style="margin-inline: 1em">
+        <input
+          class="form-control form-control-lg"
+          type="text"
+          placeholder="VIN"
+          [(ngModel)]="vehicleObj.VIN"
+          [disabled]="!!vehicleObj.VIN"
+        />
+      </div>
 
-    <!-- model footer buttons  -->
+      <!-- model footer buttons  -->
       <div class="modal-footer">
         <ng-container *ngIf="vehicleObj.vehicle_id; else saveButton">
-          <button type="button" class="btn btn-primary" (click)="onUpdate()">Edit</button>
+          <button type="button" class="btn btn-primary" (click)="onUpdate()">
+            Edit
+          </button>
         </ng-container>
-        <button type="button" class="btn btn-danger light" data-dismiss="modal" (click)="closeModal()">
+        <button
+          type="button"
+          class="btn btn-danger light"
+          data-dismiss="modal"
+          (click)="closeModal()"
+        >
           Close
         </button>
         <ng-template #saveButton>
-        <button type="button" class="btn btn-primary" (click)="createVehicle()">save</button>
-      </ng-template>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="createVehicle()"
+          >
+            save
+          </button>
+        </ng-template>
       </div>
     </div>
   </div>

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router'; 
 
 // Import your shared standalone components
 import { HeaderComponent } from '../layout/header/header.component';
-import { SidebarComponent } from '../layout/sidebar/sidebar.component';
+import { SidebarComponent } from '../layout/sidebar/sidebar.component'; 
 
 @NgModule({
   imports: [
@@ -13,14 +13,14 @@ import { SidebarComponent } from '../layout/sidebar/sidebar.component';
     FormsModule,
     RouterModule,
     HeaderComponent,  // Import standalone component
-    SidebarComponent  // Import standalone component
+    SidebarComponent 
   ],
   exports: [
     CommonModule,
     FormsModule,
     RouterModule,
     HeaderComponent,  // Export standalone component
-    SidebarComponent  // Export standalone component
+    SidebarComponent 
   ]
 })
 export class SharedModule { }

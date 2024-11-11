@@ -11,6 +11,7 @@ import { Login1Component } from './page/login-1/login-1.component';
 import { AlertComponent } from './component/utils/alert/alert.component';
 import { ProfileComponent } from './page/profile/profile.component';
 import { DealerResolver } from './service/dealar-resolver.service';
+import { UsersComponent } from './page/users/users.component';
 
 export const routes: Routes = [ 
   { path: '', component: Login1Component, pathMatch: 'full' },
@@ -24,7 +25,9 @@ export const routes: Routes = [
       { path: 'overview', component: OverviewComponent },
       { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard' } },
       { path: 'dealer', component: DealerComponent, data: { title: 'Dealer' } },
+      { path: 'users', component: DealerComponent, data: { title: 'Dealer' } },
       { path: 'vehicle', component: VehicleComponent, data: { title: 'Vehicle' } },
+      { path: 'user-all', component: UsersComponent, data: { title: 'Users' } },
       { path: 'customer', component: CustomerComponent, data: { title: 'Customer' } },
       { path: 'user', component: SingleDealerComponent, data: { title: 'User' } },
       { path: 'profile', component: ProfileComponent, data: { title: 'Profile' } },

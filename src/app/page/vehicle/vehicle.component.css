@@ -1,7 +1,123 @@
-.buttons:hover{
-    color: white !important;
-
+.buttons:hover {
+  color: white !important;
 }
-.buttons{
-    color: black !important;
+.buttons {
+  color: black !important;
+}
+
+
+
+
+/* Add this to your component's CSS file or styles.css */
+
+/* Container styling */
+.form-group {
+  margin-inline: 1rem;
+  margin-top: 1em;
+  width: 100%;
+  max-width: 480px;
+}
+
+/* Calendar container */
+:host ::ng-deep .p-calendar {
+  width: 97%;
+}
+
+/* Input field styling */
+:host ::ng-deep .p-calendar .p-inputtext {
+  /* width: 100%; */
+  height: 42px;
+  border-radius: 4px;
+  padding: 0.5rem .5rem;
+  font-size: 1rem;
+  border: 1px solid #ced4da;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #ffffff;
+}
+
+/* Input focus state */
+:host ::ng-deep .p-calendar .p-inputtext:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+/* Calendar popup panel */
+:host ::ng-deep .p-datepicker {
+  padding: 0.1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Calendar header */
+:host ::ng-deep .p-datepicker .p-datepicker-header {
+  padding: 0.5rem;
+  border-bottom: 1px solid #dee2e6; 
+  border-radius: 8px 8px 0 0;
+}
+
+/* Month/Year dropdown buttons */
+:host
+  ::ng-deep
+  .p-datepicker
+  .p-datepicker-header
+  .p-datepicker-title
+  .p-datepicker-month,
+:host
+  ::ng-deep
+  .p-datepicker
+  .p-datepicker-header
+  .p-datepicker-title
+  .p-datepicker-year {
+  color: #495057;
+  font-weight: 600;
+  margin: 0 0.5rem;
+}
+
+/* Navigation buttons */
+:host ::ng-deep .p-datepicker .p-datepicker-header .p-datepicker-prev,
+:host ::ng-deep .p-datepicker .p-datepicker-header .p-datepicker-next {
+  width: 2rem;
+  height: 2rem;
+  color: #6c757d;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-header .p-datepicker-prev:hover,
+:host ::ng-deep .p-datepicker .p-datepicker-header .p-datepicker-next:hover {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+/* Calendar days */
+:host ::ng-deep .p-datepicker table td {
+  padding: 0.25rem;
+}
+
+:host ::ng-deep .p-datepicker table td > span {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+/* Today's date */
+:host ::ng-deep .p-datepicker table td.p-datepicker-today > span {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+/* Selected date */
+:host ::ng-deep .p-datepicker table td.p-datepicker-today > span.p-highlight,
+:host ::ng-deep .p-datepicker table td > span.p-highlight {
+  background-color: #2196f3;
+  color: #ffffff;
+}
+
+
+
+/* Placeholder text color */
+:host ::ng-deep .p-calendar .p-inputtext::placeholder {
+  color: #6c757d;
 }

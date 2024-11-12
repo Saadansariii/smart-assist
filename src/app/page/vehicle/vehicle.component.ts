@@ -3,19 +3,36 @@ import { Component, inject, OnInit, signal, Signal } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { DataTablesModule } from 'angular-datatables';
 import { Config } from 'datatables.net';
-import { FormsModule } from '@angular/forms'; 
-import { VehicleResponse } from '../../model/interface/master'; 
+import { FormsModule } from '@angular/forms';
+import { VehicleResponse } from '../../model/interface/master';
 import { Vehicles } from '../../model/class/vehicle';
-import { MasterService } from '../../service/master.service';
+import { MasterService } from '../../service/master.service'; 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import {   FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CalendarModule } from 'primeng/calendar';
+
 
 @Component({
   selector: 'app-vehicle',
   standalone: true,
-  imports: [CommonModule, SharedModule, DataTablesModule, FormsModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    DataTablesModule,
+    FormsModule ,MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,ReactiveFormsModule, CalendarModule
+     
+  ],
   templateUrl: './vehicle.component.html',
   styleUrl: './vehicle.component.css',
 })
 export class VehicleComponent implements OnInit { 
+
   totalVehicle = signal<number>(0);
   vehicleList = signal<Vehicles[]>([]);
   masterSrv = inject(MasterService);
@@ -24,8 +41,14 @@ export class VehicleComponent implements OnInit {
   dtOptions: Config = {};
   items: any;
 
+ 
+  formGroup: FormGroup | undefined;
+
+  date: Date | undefined;
+
   ngOnInit(): void {
-    this.displayAllVehicle();
+    this.displayAllVehicle(); 
+    
   }
 
   isModalVisible = false;
@@ -35,7 +58,7 @@ export class VehicleComponent implements OnInit {
     this.vehicleObj = vehicle
       ? { ...vehicle }
       : {
-          YOM: '',
+          YOM: new Date(),
           vehicle_name: '',
           type: '',
           VIN: '',
@@ -55,7 +78,7 @@ export class VehicleComponent implements OnInit {
 
   displayAllVehicle() {
     this.masterSrv.getAllVehicle().subscribe((res: VehicleResponse) => {
-      this.totalVehicle.set(res.totalVehicles)
+      this.totalVehicle.set(res.totalVehicles);
       this.vehicleList.set(res.vehicle);
     });
   }
@@ -64,9 +87,8 @@ export class VehicleComponent implements OnInit {
     this.masterSrv.createNewVehicle(this.vehicleObj).subscribe(
       (res: VehicleResponse) => {
         alert('new vehicle created');
-        this.displayAllVehicle();
         this.isModalVisible = false;
-        this.vehicleObj = new Vehicles();
+        this.displayAllVehicle();  
       },
       (error) => {
         alert('something was wrong');
@@ -74,7 +96,8 @@ export class VehicleComponent implements OnInit {
     );
   }
 
-  deleteVehicleId(id: string) { 
+  deleteVehicleId(id: string) {
+    alert('r u ok ');
     this.masterSrv.deleteVehicle(id).subscribe(
       (res) => {
         alert(res.message);

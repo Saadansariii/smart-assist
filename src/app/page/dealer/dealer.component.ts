@@ -146,6 +146,7 @@ export class DealerComponent implements OnInit {
   }
 
   deleteDealerId(id: string) { 
+    alert('are u sure')
     this.masterSrv.deleteDealer(id).subscribe(
       (res) => {
         alert(res.message);

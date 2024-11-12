@@ -1,9 +1,8 @@
- 
-// import { SingleDealer } from '../class/dealerSingle';
-// import { Users } from '../class/users';
+ import { Customers } from '../class/customer';
 import { dealers } from '../class/dealers';
 import { SingleDealer } from '../class/dealerSingle';
-import { Leads } from '../class/leads';
+import { Leads } from '../class/leads'; 
+import { UserList } from '../class/multiuser';
 import { Users } from '../class/users';
 import { Vehicles } from '../class/vehicle';
 
@@ -39,6 +38,30 @@ export interface SingleDealerResponse {
 
 export interface UserResponse extends Users {
    
+}
+
+export interface MultiuserResponse{
+  totalCount: number;
+  message: string;
+  totalUsers: number ;
+  totalPages: number;
+  currentPage:number;
+  users: UserList [];
+}
+
+export interface CustomerResponse{
+  totalCustomers: number;
+  totalPages: number;
+  currentPage: number ;
+  customers: Customers[];
+}
+
+export interface ProfileResponse{
+  corporate_id: string
+  name: string
+  email: string
+  role: string
+  password: string
 }
 
  

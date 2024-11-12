@@ -83,7 +83,7 @@ export class Login1Component {
         console.log(res);
         if (res.token) {
           // alert('Login Successful'); 
-            showAlert('danger' , 'loginsucessful')
+            showAlert('success' , 'loginsucessful')
           this.router.navigate(['/Admin/dashboard']).then(() => {
             window.location.reload();
           });

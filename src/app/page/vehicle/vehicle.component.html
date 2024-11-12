@@ -6,7 +6,7 @@
         data-target="#exampleModalCenter"
         data-toggle="modal"
         class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
-        >+New Vehicle</a
+        >Add New Vehicle</a
       >
     </div>
     <div class="col-xl-9">
@@ -32,24 +32,12 @@
                   </svg>
                 </span>
                 <div class="media-body ml-1">
-                  <p class="mb-1 fs-14">Total Vehicle</p>
+                  <p class="mb-1 fs-14">Total Users</p>
                   <h3 class="mb-0 text-black font-w600 fs-20">
                     {{ totalVehicle() }}
                   </h3>
                 </div>
               </div>
-            </div>
-            <div class="col-md-7 text-md-right">
-              <a
-                href="javascript:void(0);"
-                class="btn btn-secondary rounded ml-2 btn-sm px-4"
-                >Edit</a
-              >
-              <a
-                href="javascript:void(0);"
-                class="btn btn-danger rounded ml-2 btn-sm px-4"
-                >Delete</a
-              >
             </div>
           </div>
         </div>
@@ -188,7 +176,7 @@
           <span>&times;</span>
         </button>
       </div>
-      <div class="form-group" style="margin-inline: 1em">
+      <div class=" " style="margin-inline: 1em">
         <input
           class="form-control form-control-lg"
           type="text"
@@ -196,40 +184,37 @@
           [(ngModel)]="vehicleObj.vehicle_name"
         />
       </div>
-      <div class="form-group" style="margin-inline: 1em">
-        <input
-          class="form-control form-control-lg"
-          type="text"
-          placeholder="Vehicle Years Of Manufacturing"
-          [(ngModel)]="vehicleObj.YOM"
-          [disabled]="!!vehicleObj.YOM"
-        />
-        <!-- <div *ngIf="vehicleObj.YOM" class="input-group-append">
-          <span class="input-group-text">
-            <i class="fa-solid fa-eye-slash"></i>
-          </span>
-        </div> -->
+      
+      <div class="form-group">
+        <div class="calendar-container">
+          <p-calendar
+            [(ngModel)]="vehicleObj.YOM" 
+            dateFormat="dd.mm.yy"
+          ></p-calendar>
+        </div>
       </div>
+      
 
-      <div class="form-group" style="margin-inline: 1em">
+      <div class=" " style="margin-inline: 1em;  ">
         <select
           class="form-control form-control-lg"
           [(ngModel)]="vehicleObj.type"
           [ngModelOptions]="{ standalone: true }"
         >
-          <option value="petrol">Petrol</option>
+         
+          <option value="petrol" selected>Petrol</option>
           <option value="diesel">Diesel</option>
           <option value="EV">EV</option>
         </select>
       </div>
 
-      <div class="form-group" style="margin-inline: 1em">
+      <div class=" " style="margin: 1em" >
         <input
           class="form-control form-control-lg"
           type="text"
           placeholder="VIN"
           [(ngModel)]="vehicleObj.VIN"
-          [disabled]="!!vehicleObj.VIN"
+          [disabled]="!!vehicleObj.vehicle_id"
         />
       </div>
 

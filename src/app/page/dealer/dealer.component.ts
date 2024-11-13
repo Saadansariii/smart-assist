@@ -21,8 +21,7 @@ export class DealerComponent implements OnInit {
   masterSrv = inject(MasterService);
   dealerObj : dealers = new dealers(); 
   selectedRowCount = 3;
-  isLoading = false;
-  // newDistributorList: Distributors = new Distributors();
+  isLoading = false; 
   isModalVisible = false;
   isEditMode: boolean = false;
   
@@ -34,7 +33,7 @@ export class DealerComponent implements OnInit {
       : {              // Reset dealerObj for creating a new dealer
           dealer_id: '',
           dealer_name: '',
-          dealer_code: '',
+          dealer_code: 0,
           created_at: '',
           updated_at: '',
           corporate_id: '',
@@ -48,44 +47,14 @@ export class DealerComponent implements OnInit {
   }
   
   
+ 
 
-  rowOptions = [1, 2, 5, 10, 20, 30, 50];
-
-  ngOnInit(): void {
-    // this.fetchDealerData();
+  ngOnInit(): void { 
     this.getAllDealer();
 
   }
 
    
-  
-
-  // fetchDealerData() {
-  //   const token = sessionStorage.getItem('adminToken');
-  //   const apiUrl = 'https://dinosaur-cute-lightly.ngrok-free.app/api/superAdmin/distributors/all';
-  //   const headers = new HttpHeaders()
-  //     .set('authorization', `Bearer ${token}`)
-  //     .set('accept', 'application/json');
-  //     this.isLoading = true;
-
-  //     this.http.get<DistributorResponse>(apiUrl, { headers }).subscribe({
-  //       next: (response) => {
-  //         this.isLoading = false; // Set loading to false after data is fetched
-  //         if (response && response.distributors) {
-  //           this.users = response.distributors;
-  //           this.updateDisplayedUsers();
-  //           console.log('Dealer data fetched successfully:', this.users);
-  //         } else {
-  //         console.error('Unexpected response structure:', response);
-  //       }
-  //     },
-  //     error: (error) => {
-  //       // this.isLoading = false; // Set loading to false if there is an error
-  //       console.error('Error fetching dealer data:', error);
-  //     }
-  //   });
-  // }
-
   
 
   getAllDealer() {
@@ -100,17 +69,7 @@ export class DealerComponent implements OnInit {
     );
   }
 
-  // createNewDist() {
-  //   this.masterSrv.createDist(this.newDistributorList).subscribe(
-  //     (res: any) => {
-  //       alert('new Distributor Created');
-  //       this.newDistributorList = new Distributors();
-  //     },
-  //     (error) => {
-  //       alert('server Error');
-  //     }
-  //   );
-  // }
+ 
 
   createNewDealer() {
     this.getAllDealer();

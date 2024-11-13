@@ -4,9 +4,7 @@ export class Customers {
   cust_lname: string
   cust_email: string
   cust_phone: string
-  updated_by: string
-  created_at: string
-  updated_at: string
+  updated_by: string 
 
   constructor (){
   this.cust_id=''
@@ -14,8 +12,6 @@ export class Customers {
   this.cust_lname=''
   this.cust_email=''
   this.cust_phone=''
-  this.updated_by=''
-  this.created_at=''
-  this.updated_at=''
+  this.updated_by='' 
   }
 }

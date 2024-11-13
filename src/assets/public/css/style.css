@@ -2471,7 +2471,7 @@ fieldset:disabled a.btn {
 
 .btn-lg, .btn-group-lg > .btn {
   padding: 0.5rem 1rem;
-  font-size: 1.09375rem;
+  font-size: 14px;
   line-height: 1.5;
   border-radius: 0.3rem; }
 
@@ -9102,7 +9102,7 @@ a {
     display: none; }
   @media only screen and (max-width: 1600px) {
     .nav-header {
-      width: 17rem; } }
+      width: 14rem; } }
   @media only screen and (max-width: 1400px) {
     .nav-header {
       height: 5rem; } }
@@ -9145,10 +9145,10 @@ a {
   position: absolute;
   right: -5.0625rem;
   text-align: center;
-  top: 50%;
+  top: 40%;
   transform: translateY(-50%);
   z-index: 9999;
-  font-size: 1.4rem;
+  font-size: 12px;
   padding: 2px 0.5rem 0;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 6px; }
@@ -9161,7 +9161,7 @@ a {
   display: inline-block;
   left: 0px;
   position: relative;
-  top: 3px;
+  top: 2px;
   -webkit-transition: all 0.3s ease-in-out 0s;
   transition: all 0.3s ease-in-out 0s;
   width: 26px;
@@ -9284,7 +9284,7 @@ a {
       width: 100%; }
   @media only screen and (max-width: 1400px) {
     .header {
-      height: 5rem; } }
+      height: 4rem; } }
 
 /* pulse in SVG */
 svg.pulse-svg {
@@ -12142,13 +12142,13 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
       height: calc(100% - 80px); } }
   @media only screen and (max-width: 767px) {
     .deznav {
-      width: 18rem; } }
+      width: 13rem; } }
   .deznav .deznav-scroll {
     position: relative;
     height: 100%; }
   @media only screen and (max-width: 1600px) {
     .deznav {
-      width: 17rem; } }
+      width: 14rem; } }
   .deznav ul {
     padding: 0;
     margin: 0;
@@ -12156,7 +12156,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   .deznav .metismenu {
     display: flex;
     flex-direction: column;
-    padding-top: 15px; }
+     }
     .deznav .metismenu.fixed {
       position: fixed;
       top: 0;
@@ -12489,7 +12489,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li {
       padding: 0 15px; } }
   [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li > a {
-    font-size: 16px;
+    font-size: 14px;
     padding: 20px 20px 20px 80px;
     border-radius: 2rem;
     -webkit-transition: all 0.5s;
@@ -12497,7 +12497,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     transition: all 0.5s; }
     @media only screen and (max-width: 1600px) {
       [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li > a {
-        font-size: 15px;
+        font-size: 14px;
         padding: 14px 20px 14px 65px; } }
   [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li.mm-active > a {
     background: rgba(34, 47, 185, 0.1);
@@ -37417,7 +37417,7 @@ button {
 
 .btn-lg, .btn-group-lg > .btn {
   padding: 1.375rem 3rem;
-  font-size: 1.125rem !important; }
+  font-size: 14px !important; }
   @media only screen and (max-width: 575px) {
     .btn-lg, .btn-group-lg > .btn {
       padding: 0.75rem 1.25rem; } }

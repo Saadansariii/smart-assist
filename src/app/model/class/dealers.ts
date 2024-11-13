@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class dealers {
   dealer_id: string;
   dealer_name: string;
-  dealer_code: string;
+  dealer_code: number;
   created_at: string;
   updated_at: string;
   corporate_id: string;
@@ -14,7 +14,7 @@ export class dealers {
   constructor() {
     this.dealer_id = '';
     this.dealer_name = '';
-    this.dealer_code = '';
+    this.dealer_code = 0
     this.created_at = '';
     this.updated_at = '';
     this.corporate_id = '';

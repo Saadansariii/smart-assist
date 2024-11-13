@@ -10,33 +10,29 @@ export class UserList {
   account_id: string
   name: string
   email: string
-  phone: string
+  phone: number
   role: string
   password: string
-  otp_validated: boolean
-  otp: any
-  otp_expiration: any
-  dealer_code: string
-  created_at: string
-  updated_at: string
+  otp_validated: string
+  otp: string
+  otp_expiration: string
+  dealer_code: number 
   corporate_id: string
-  dealer_id: string
+  dealer_id: string 
+   
 
-  constructor(){
-
+  constructor(){ 
   this.user_id = '';
   this.account_id = '';
   this.name = '';
+  this.phone = 0;
   this.email = '';
-  this.phone = '';
   this.role = '';
   this.password = '';
-  this.otp_validated = false;
+  this.otp_validated = '';
   this.otp = '';
   this.otp_expiration = '';
-  this.dealer_code = '';
-  this.created_at = '';
-  this.updated_at = '';
+  this.dealer_code = 0; 
   this.corporate_id = '';
   this.dealer_id = '';
 

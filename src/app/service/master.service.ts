@@ -36,6 +36,8 @@ export class MasterService {
     return this.http.get<DealerResponse>(this.apiUrl + 'dealers/all', { headers });
   }
 
+ 
+
   getDealerById(id: string): Observable<SingleDealerResponse> {
     const headers = this.getAuthHeaders();
     return this.http.get<SingleDealerResponse>(`${this.apiUrl}dealers/${id}`, { headers });
@@ -109,7 +111,7 @@ export class MasterService {
 
   createNewUser(obj: UserList): Observable<MultiuserResponse> {
     const headers = this.getAuthHeaders();
-    return this.http.post<MultiuserResponse>(this.apiUrl + 'users/create', obj, { headers });
+    return this.http.post<MultiuserResponse>('http://192.168.1.13:4090/api/superAdmin/users/create', obj, { headers });
   }
 
   updateUser(obj: UserList): Observable<MultiuserResponse> {

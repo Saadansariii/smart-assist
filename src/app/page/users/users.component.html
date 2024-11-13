@@ -1,10 +1,10 @@
 <div class="content-body">
   <div class="row mb-5 align-items-center">
-    <div class="col-xl-3 mb-4 mb-xl-0">
+    <div class="col-xl-2 mb-4 mb-xl-0">
       <a
         (click)="openModal()"
         data-target="#exampleModalCenter"
-        data-toggle="modal" 
+        data-toggle="modal"
         class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
         >Add Users</a
       >
@@ -33,10 +33,12 @@
                 </span>
                 <div class="media-body ml-1">
                   <p class="mb-1 fs-14">Total Users</p>
-                  <h3 class="mb-0 text-black font-w600 fs-20">{{ totalUser() }}</h3>
+                  <h3 class="mb-0 text-black font-w600 fs-20">
+                    {{ totalUser() }}
+                  </h3>
                 </div>
               </div>
-            </div> 
+            </div>
           </div>
         </div>
       </div>
@@ -57,7 +59,7 @@
               <th>User Name</th>
               <th>Email</th>
               <th>Role</th>
-              <th>Dealer ID</th>
+              <th>Dealer Code</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -66,7 +68,7 @@
               <td>{{ user.name }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.role }}</td>
-              <td>{{ user.dealer_id }}</td>
+              <td>{{ user.dealer_code }}</td>
               <td class="d-flex">
                 <a
                   href="javascript:void(0);"
@@ -136,7 +138,7 @@
           class="modal-title"
           style="align-items: center; margin-inline: auto"
         >
-          {{ userObj.user_id ? 'Edit User' : 'Add New User' }}
+          {{ userObj.user_id ? "Edit User" : "Add New User" }}
         </h5>
         <button type="button" class="close" data-dismiss="modal">
           <span>&times;</span>
@@ -151,48 +153,60 @@
             [(ngModel)]="userObj.name"
           />
         </div>
+
         <div class="form-group" style="margin-inline: 1em">
           <input
             class="form-control form-control-lg"
             type="email"
-            placeholder="Email"
+            placeholder="G-mail"
             [(ngModel)]="userObj.email"
           />
         </div>
+
         <div class="form-group" style="margin-inline: 1em">
           <input
             class="form-control form-control-lg"
-            type="text"
-            placeholder="Role"
-            [(ngModel)]="userObj.role"
+            type="email"
+            placeholder="Account Id"
+            [(ngModel)]="userObj.account_id"
           />
         </div>
-        <div class="form-group" style="margin-inline: 1em">
-          <input
+
+        <div class=" " style="margin-inline: 1em">
+          <select
             class="form-control form-control-lg"
-            type="text"
-            placeholder="Dealer ID"
-            [(ngModel)]="userObj.dealer_id"
-          />
+            [(ngModel)]="userObj.role"
+            [ngModelOptions]="{ standalone: true }"
+          >
+            <option value="" disabled selected>Select Department</option>
+            <option value="admin" selected>admin</option>
+            <option value="sale-person">sale person</option>
+          </select>
+        </div>
+
+        <div class=" " style="margin-inline: 1em; margin-block: 1em">
+          <select
+            id="childDeptId"
+            class="form-select form-control form-control-lg"
+          >
+            <option value="" disabled selected>Select Department</option>
+            @for (dealer of dealerList(); track $index) {
+            <option [value]="dealer.dealer_id">{{ dealer.dealer_code }}</option>
+            }
+          </select>
         </div>
 
         <!-- Additional Fields -->
         <div class="form-group" style="margin-inline: 1em">
           <input
             class="form-control form-control-lg"
-            type="text"
+            type="tel" 
             placeholder="Phone"
             [(ngModel)]="userObj.phone"
+            (ngModelChange)="onPhoneInputChange($event)"  
           />
         </div>
-        <!-- <div class="form-group" style="margin-inline: 1em">
-          <input
-            class="form-control form-control-lg"
-            type="text"
-            placeholder="Address"
-            [(ngModel)]="userObj.email"
-          />
-        </div> -->
+        
       </div>
 
       <!-- Modal Footer Buttons -->
@@ -209,8 +223,9 @@
             (click)="userObj.user_id ? onUpdate() : createUser()"
             [disabled]="!userObj.name || !userObj.email"
             style="cursor: pointer"
-            >{{ userObj.user_id ? 'Update' : 'Save' }}</button
           >
+            {{ userObj.user_id ? "Update" : "Save" }}
+          </button>
         </ng-template>
       </div>
     </div>

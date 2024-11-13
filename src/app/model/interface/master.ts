@@ -10,8 +10,8 @@ import { Vehicles } from '../class/vehicle';
 
 export interface DealerResponse {
   dealer: {
-    count: number;          // Total dealers count
-    rows: dealers[];        // Array of dealer objects
+    count: number;         
+    rows: dealers[];        
   };
   ids: string[];
   leads: Lead[];

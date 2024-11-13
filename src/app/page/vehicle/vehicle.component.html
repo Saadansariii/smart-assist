@@ -1,12 +1,12 @@
 <div class="content-body">
   <div class="row mb-5 align-items-center">
-    <div class="col-xl-3 mb-4 mb-xl-0">
+    <div class="col-xl-2 mb-4 mb-xl-0">
       <a
         (click)="openModal()"
         data-target="#exampleModalCenter"
         data-toggle="modal"
         class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
-        >Add New Vehicle</a
+        >Add Vehicle</a
       >
     </div>
     <div class="col-xl-9">
@@ -201,7 +201,7 @@
           [(ngModel)]="vehicleObj.type"
           [ngModelOptions]="{ standalone: true }"
         >
-         
+        <option value="" disabled selected>Select Type</option>
           <option value="petrol" selected>Petrol</option>
           <option value="diesel">Diesel</option>
           <option value="EV">EV</option>

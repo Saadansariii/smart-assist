@@ -9269,6 +9269,9 @@ a {
     align-items: center;
     display: flex; }
     @media only screen and (max-width: 1600px) {
+      .header { 
+        height: 5rem;
+      }
       .header .header-content {
         right: -5.0625rem; } }
     @media only screen and (max-width: 767px) {
@@ -9398,10 +9401,13 @@ svg.pulse-svg {
   top: 0;
   width: 100%; }
 [data-header-position="fixed"] .content-body {
-  padding-top: 7.5rem; }
+  padding-top: 0.5rem; }
   @media only screen and (max-width: 1400px) {
     [data-header-position="fixed"] .content-body {
       padding-top: 2rem; } }
+
+     
+
 [data-header-position="fixed"] .deznav {
   margin-top: 0; }
 
@@ -11874,7 +11880,8 @@ svg.pulse-svg {
     right: 4px;
     left: auto; }
   [direction="rtl"] .rightside-event {
-    margin-left: 380px !important; }
+    /* margin-left: 380px !important; */
+   }
   [direction="rtl"] .event-sidebar {
     right: auto;
     border-left: 0;
@@ -11963,7 +11970,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   top: 0.625rem; }
 
 .content-body {
-  margin-left: 21.563rem;
+  margin-left: 3.5rem;
   z-index: 0;
   transition: all .2s ease; }
   @media only screen and (max-width: 1600px) {
@@ -12752,7 +12759,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
         padding: 19px 10px; } }
 @media only screen and (min-width: 768px) {
   [data-sidebar-style="mini"] .content-body {
-    margin-left: 7.5rem; } }
+    margin-left: 2rem; } }
   @media only screen and (min-width: 768px) and (max-width: 1400px) {
     [data-sidebar-style="mini"] .content-body {
       margin-left: 5rem; } }
@@ -42997,7 +43004,8 @@ span#counter {
     right: 4px;
     left: auto; }
   [direction="rtl"] .rightside-event {
-    margin-left: 380px !important; }
+    /* margin-left: 380px !important;  */
+  }
   [direction="rtl"] .event-sidebar {
     right: auto;
     border-left: 0;

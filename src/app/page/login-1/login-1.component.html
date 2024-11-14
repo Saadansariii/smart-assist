@@ -46,12 +46,55 @@
             name="password"
             required
           />
+          
         </div>
       </div>
 
-      <!-- <a class="forgot-password">Forgot Password?</a> -->
+      <a  style="cursor: pointer;" (click)="openModal()" data-target="#exampleModalCenter"
+      data-toggle="modal" class="forgot-password">Forgot Password?</a>
 
       <input (click)="onLoginBtn()" type="submit" class="btn" value="Login" />
     </form>
   </div>
+ 
+</div> 
+
+<div class="modal fade" id="exampleModalCenter" style="margin-block: 2em">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          style="align-items: center; margin-inline: auto; margin-top: 2em;"
+        >
+          Forget Password
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" style="margin-bottom: 2em !important;">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="form-group" style="margin: 1em">
+        <input
+          class="form-control form-control-lg"
+          type="text"
+          placeholder="  E-Mail" 
+          [(ngModel)]="loginObj.email"
+        />
+      </div>
+       
+      <div class="modal-footer"> 
+        <button
+        style="margin-inline: 2em;"
+          type="button"
+          class="btn "
+          data-dismiss="modal"
+          (click)="forgetPwd(loginObj)" 
+        >
+          Send OTP
+        </button> 
+      </div>
+    </div>
+  </div>
 </div>
+
+ 

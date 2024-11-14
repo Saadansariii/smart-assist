@@ -2,10 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule } from '@angular/forms';
-import {
-  DealerResponse,
-  MultiuserResponse,
-} from '../../model/interface/master';
+import { DealerResponse, MultiuserResponse } from '../../model/interface/master';
 import { MasterService } from '../../service/master.service';
 import { UserList } from '../../model/class/multiuser';
 import { dealers } from '../../model/class/dealers';
@@ -21,7 +18,6 @@ import { DealerResolver } from '../../service/dealar-resolver.service';
 export class UsersComponent implements OnInit {
   totalUser = signal<number>(0);
   userList = signal<UserList[]>([]);
-  // dealerList = signal<dealers[]>([]);
   masterSrv = inject(MasterService);
   userObj: UserList = new UserList();
   dealerObj: dealers = new dealers();
@@ -38,7 +34,7 @@ export class UsersComponent implements OnInit {
     // Convert input value to a number and store it in userObj.phone
     this.userObj.phone = Number(value) || 0; // Default to 0 if input is invalid
   }
-  
+
   openModal(user?: UserList) {
     this.isModalVisible = true;
     this.userObj = user
@@ -56,13 +52,25 @@ export class UsersComponent implements OnInit {
           otp_expiration: '',
           dealer_code: 0,
           corporate_id: '',
-          dealer_id: '',
+          dealer_id: '', // Ensure dealer_id is part of the user object
         };
+    // If userObj.dealer_id is set, find the corresponding dealer code
+    if (this.userObj.dealer_id) {
+      const selectedDealer = this.dealerList().find(dealer => dealer.dealer_id === this.userObj.dealer_id);
+      if (selectedDealer) {
+        this.userObj.dealer_code = selectedDealer.dealer_code; // Bind dealer_code
+      }
+    }
   }
-  
 
   closeModal() {
     this.isModalVisible = false;
+  }
+
+  getDealerCode(dealerId: string): string {
+    const dealer = this.dealerList().find(dealer => dealer.dealer_id === dealerId);
+    console.log(this.dealerList);
+    return dealer ? dealer.dealer_code.toString() : 'N/A';
   }
 
   getAllDealer() {
@@ -75,6 +83,14 @@ export class UsersComponent implements OnInit {
         alert(error.message);
       }
     );
+  }
+
+  onDealerChange() {
+    const selectedDealer = this.dealerList().find(dealer => dealer.dealer_id === this.userObj.dealer_id);
+    console.log('Selected Dealer:', selectedDealer); 
+    if (selectedDealer) {
+      this.userObj.dealer_code = selectedDealer.dealer_code;
+    }
   }
 
   displayAllUser() {
@@ -90,25 +106,18 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  // createUser() {
-  //   this.masterSrv.createNewUser(this.userObj).subscribe({
-  //     next: () => {
-  //       alert('User created successfully!');
-  //       this.isModalVisible = false;
-  //       this.displayAllUser();
-  //     },
-  //     error: (err) => {
-  //       alert('Error creating user: ' + err.message);
-  //     },
-  //   });
-  // }
-
   createUser() {
+    // Validate phone number and dealer_id before creating the user
     if (!this.userObj.phone || isNaN(this.userObj.phone) || this.userObj.phone <= 0) {
       alert('Please enter a valid phone number!');
       return;
     }
-  
+
+    if (!this.userObj.dealer_id) {
+      alert('Please select a dealer!');
+      return;
+    }
+
     this.masterSrv.createNewUser(this.userObj).subscribe({
       next: () => {
         alert('User created successfully!');
@@ -120,8 +129,6 @@ export class UsersComponent implements OnInit {
       },
     });
   }
-  
-  
 
   deleteUserId(id: string) {
     if (confirm('Are you sure you want to delete this user?')) {
@@ -138,6 +145,12 @@ export class UsersComponent implements OnInit {
   }
 
   onUpdate() {
+    // Validate dealer_id before updating the user
+    if (!this.userObj.dealer_id) {
+      alert('Please select a dealer!');
+      return;
+    }
+
     this.masterSrv.updateUser(this.userObj).subscribe({
       next: () => {
         alert('User updated successfully!');

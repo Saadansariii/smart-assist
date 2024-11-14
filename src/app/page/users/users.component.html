@@ -184,17 +184,26 @@
           </select>
         </div>
 
-        <div class=" " style="margin-inline: 1em; margin-block: 1em">
+        <div class="form-group" style="margin-inline: 1em; margin-block: 1em">
           <select
-            id="childDeptId"
+            id="dealerSelect"
             class="form-select form-control form-control-lg"
+            [(ngModel)]="userObj.dealer_id"
+            [ngModelOptions]="{ standalone: true }"
+            (change)="onDealerChange()"
           >
-            <option value="" disabled selected>Select Department</option>
-            @for (dealer of dealerList(); track $index) {
-            <option [value]="dealer.dealer_id">{{ dealer.dealer_code }}</option>
-            }
+            <option value="" disabled>Select Dealer</option>
+            <option *ngFor="let dealer of dealerList()" [value]="dealer.dealer_id">
+              {{ dealer.dealer_code }} 
+            </option>
           </select>
         </div>
+        
+        
+        
+        
+        
+        
 
         <!-- Additional Fields -->
         <div class="form-group" style="margin-inline: 1em">

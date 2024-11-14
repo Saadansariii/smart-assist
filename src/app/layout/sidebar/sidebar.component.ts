@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
-import {  Router, RouterLink } from '@angular/router';
+import { Component,ChangeDetectionStrategy  } from '@angular/core';
+import {  Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
   imports: [],
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+  styleUrls: ['./sidebar.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 export class SidebarComponent {
 

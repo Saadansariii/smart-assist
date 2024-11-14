@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { StorageService } from './storage.service';
 import {
-  CustomerResponse,
+  AccountsResponse, 
   DealerResponse,
   MultiuserResponse,
   ProfileResponse,
@@ -13,14 +13,15 @@ import {
 } from '../model/interface/master';
 import { Vehicles } from '../model/class/vehicle';
 import { dealers } from '../model/class/dealers';
-import { UserList } from '../model/class/multiuser';
-import { Customers } from '../model/class/customer';
+import { UserList } from '../model/class/multiuser'; 
+import { Accounts } from '../model/class/customer';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MasterService {
-  apiUrl: string = 'http://192.168.1.13:4090/api/superAdmin/';
+  
+  apiUrl: string = 'https://api.smartassistapp.in/api/superAdmin/';
 
   constructor(private http: HttpClient, private storageService: StorageService) {}
 
@@ -132,28 +133,29 @@ export class MasterService {
 
   // Customer API's
 
-  getCustomer(): Observable<CustomerResponse> {
+  getCustomer(): Observable<AccountsResponse> {
     const headers = this.getAuthHeaders();
-    return this.http.get<CustomerResponse>(this.apiUrl + 'customers/all', { headers });
+    return this.http.get<AccountsResponse>(this.apiUrl + 'accounts/all', { headers });
   }
 
-  createCustomer(obj: Customers): Observable<CustomerResponse> {
+  createCustomer(obj: Accounts): Observable<AccountsResponse> {
     const headers = this.getAuthHeaders();
-    return this.http.post<CustomerResponse>(this.apiUrl + 'customers/create', obj, { headers });
+    return this.http.post<AccountsResponse>(this.apiUrl + 'accounts/create', obj, { headers });
   }
 
-  updateCustomer(obj: Customers): Observable<CustomerResponse> {
+  updateCustomer(obj: Accounts): Observable<AccountsResponse> {
     const headers = this.getAuthHeaders();
-    return this.http.put<CustomerResponse>(
-      `${this.apiUrl}users/${obj.cust_id}/update`,
+    return this.http.put<AccountsResponse>(
+      `${this.apiUrl}accounts/${obj.account_id}/update`,
       obj,
       { headers }
     );
   }
+  // 
 
-  deleteCustomer(id: string): Observable<CustomerResponse> {
+  deleteCustomer(account_id: string): Observable<AccountsResponse> {
     const headers = this.getAuthHeaders();
-    return this.http.delete<CustomerResponse>(`${this.apiUrl}users/${id}/delete`, { headers });
+    return this.http.delete<AccountsResponse>(`${this.apiUrl}accounts/${account_id}/delete`, { headers });
   }
 
   // Profile Page

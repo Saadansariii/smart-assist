@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, ChangeDetectionStrategy , Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import {
   ActivatedRoute,
   NavigationEnd,
@@ -15,6 +15,7 @@ import { filter, map } from 'rxjs';
   imports: [RouterLink],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'], // corrected `styleUrl` to `styleUrls`
+  changeDetection: ChangeDetectionStrategy.OnPush,  
 })
 export class HeaderComponent implements OnInit {
   guestDetails: any;

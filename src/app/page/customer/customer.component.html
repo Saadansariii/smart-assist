@@ -55,21 +55,8 @@
           class="table display mb-4 table-responsive-xl dataTablesCard fs-14"
         >
           <thead>
-            <tr>
-              <!-- <th>
-                <div class="checkbox mr-0 align-self-center">
-                  <div class="custom-control custom-checkbox checkbox-info">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="checkAll"
-                      required=""
-                    />
-                    <label class="custom-control-label" for="checkAll"></label>
-                  </div>
-                </div>
-              </th> -->
-              <th>First Name</th>
+            <tr> 
+              <th>Account Name</th>
               <th>Last Name</th>
               <th>E-mail</th>
               <th>Phone</th>
@@ -79,10 +66,10 @@
           <tbody>
             @for (customer of customerList(); track $index) {
             <tr> 
-              <td>{{ customer.cust_fname }}</td>
-              <td>{{ customer.cust_lname }}</td>
-              <td>{{ customer.cust_email }}</td>
-              <td>{{ customer.cust_phone }}</td>
+              <td>{{ customer.fname }}</td>
+              <td>{{ customer.lname }}</td>
+              <td>{{ customer.email }}</td>
+              <td>{{ customer.phone }}</td>
               <td class="d-flex">
                 <a
                   href="javascript:void(0);"
@@ -109,7 +96,7 @@
                 <a
                   href="javascript:void(0);"
                   class="ml-4"
-                  (click)="deleteCustomerId(customer.cust_id)"
+                  (click)="deleteCustomerId(customer.account_id)"
                 >
                   <svg
                     width="25"
@@ -153,7 +140,7 @@
           class="modal-title"
           style="align-items: center; margin-inline: auto"
         >
-          Add New Vehicle
+          Add New Customers
         </h5>
         <button type="button" class="close" data-dismiss="modal">
           <span>&times;</span>
@@ -164,7 +151,7 @@
           class="form-control form-control-lg"
           type="text"
           placeholder="First Name"
-          [(ngModel)]="customerObj.cust_fname"
+          [(ngModel)]="customerObj.fname"
         />
       </div>
 
@@ -173,7 +160,7 @@
           class="form-control form-control-lg"
           type="text"
           placeholder="Last Name"
-          [(ngModel)]="customerObj.cust_lname"
+          [(ngModel)]="customerObj.lname"
         />
       </div>
       
@@ -184,7 +171,7 @@
           class="form-control form-control-lg"
           type="text"
           placeholder="E-mail"
-          [(ngModel)]="customerObj.cust_email"
+          [(ngModel)]="customerObj.email"
           
         />
       </div>
@@ -194,13 +181,22 @@
           class="form-control form-control-lg"
           type="text"
           placeholder="Phone"
-          [(ngModel)]="customerObj.cust_phone"
+          [(ngModel)]="customerObj.phone"
+        />
+      </div>
+
+      <div class=" " style="margin-inline: 1em; margin-top: 1em;">
+        <input
+          class="form-control form-control-lg"
+          type="text"
+          placeholder="Phone"
+          [(ngModel)]="customerObj.mobile"
         />
       </div>
 
       <!-- model footer buttons  -->
       <div class="modal-footer">
-        <ng-container *ngIf="customerObj.cust_id; else saveButton">
+        <ng-container *ngIf="customerObj.account_id; else saveButton">
           <button type="button" class="btn btn-primary" (click)="onUpdate()">
             Edit
           </button>

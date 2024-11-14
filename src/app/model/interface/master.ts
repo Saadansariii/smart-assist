@@ -1,4 +1,4 @@
- import { Customers } from '../class/customer';
+ import { Accounts } from '../class/customer';
 import { dealers } from '../class/dealers';
 import { SingleDealer } from '../class/dealerSingle';
 import { Leads } from '../class/leads'; 
@@ -49,12 +49,14 @@ export interface MultiuserResponse{
   users: UserList [];
 }
 
-export interface CustomerResponse{
-  totalCustomers: number;
+export interface AccountsResponse{
+  totalAccounts: number;
   totalPages: number;
   currentPage: number ;
-  customers: Customers[];
+  accounts: Accounts[];
 }
+
+
 
 export interface ProfileResponse{
   corporate_id: string
@@ -63,5 +65,10 @@ export interface ProfileResponse{
   role: string
   password: string
 }
+
+export interface  ForgotPasswordRequest {
+  email: string; 
+}
+
 
  

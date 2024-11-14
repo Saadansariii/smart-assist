@@ -1,17 +1,75 @@
-export class Customers {
-  cust_id: string
-  cust_fname: string
-  cust_lname: string
-  cust_email: string
-  cust_phone: string
-  updated_by: string 
+export class Accounts {
+  account_id : string;
+  account_type: string;
+  salutation: string;
+  fname: string;
+  lname: string;
+  language: string;
+  employment_status: string;
+  lead_source: string;
+  gender: string;
+  industry: string;
+  occupation: string;
+  cust_journey_stage: string;
+  national_id: string;
+  phone: number;
+  mobile: number;
+  billing_street: string;
+  billing_city: string;
+  billing_state: string;
+  billing_zip_code: string;
+  billing_country: string;
+  account_name: string;
+  parent_account: string;
+  company_fleet_size: string;
+  website: string;
+  account_owner: string;
+  corporate_program_code: string;
+  type: string;
+  annual_revenue: string;
+  email: string;
+  household_income: string;
+  birthdate: string;
+  dealer_code: string;
+  marital_status: string;
+  children: string;
+  no_of_people: string;
 
-  constructor (){
-  this.cust_id=''
-  this.cust_fname=''
-  this.cust_lname=''
-  this.cust_email=''
-  this.cust_phone=''
-  this.updated_by='' 
+  constructor() {
+    this.account_id = '';
+    this.account_type = '';
+    this.salutation = '';
+    this.fname = '';
+    this.lname = '';
+    this.language = '';
+    this.employment_status = '';
+    this.lead_source = '';
+    this.gender = '';
+    this.industry = '';
+    this.occupation = '';
+    this.cust_journey_stage = '';
+    this.national_id = '';
+    this.phone = 0;
+    this.mobile = 0;
+    this.billing_street = '';
+    this.billing_city = '';
+    this.billing_state = '';
+    this.billing_zip_code = '';
+    this.billing_country = '';
+    this.account_name = '';
+    this.parent_account = '';
+    this.company_fleet_size = '';
+    this.website = '';
+    this.account_owner = '';
+    this.corporate_program_code = '';
+    this.type = '';
+    this.annual_revenue = '';
+    this.email = '';
+    this.household_income = '';
+    this.birthdate = '';
+    this.dealer_code = '';
+    this.marital_status = '';
+    this.children = '';
+    this.no_of_people = '';
   }
 }

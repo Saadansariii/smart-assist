@@ -1,107 +1,108 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Customers } from '../../model/class/customer';
+import { Accounts } from '../../model/class/customer';
 import { MasterService } from '../../service/master.service';
-import { CustomerResponse } from '../../model/interface/master';
-import { CommonModule } from '@angular/common'; 
-import { SharedModule } from '../../shared/shared.module'; 
-import { FormsModule } from '@angular/forms';  
+import {  AccountsResponse } from '../../model/interface/master';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../shared/shared.module';
+import { FormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
-import {  ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 
 @Component({
   selector: 'app-customer',
   standalone: true,
-  imports: [CommonModule,
-    SharedModule, 
-    FormsModule ,MatDatepickerModule,
+  imports: [
+    CommonModule,
+    SharedModule,
+    FormsModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
-    MatNativeDateModule,ReactiveFormsModule, CalendarModule],
+    MatNativeDateModule,
+    ReactiveFormsModule,
+    CalendarModule,
+  ],
   templateUrl: './customer.component.html',
-  styleUrl: './customer.component.css'
+  styleUrl: './customer.component.css',
 })
-export class CustomerComponent  implements OnInit{
+export class CustomerComponent implements OnInit {
   totalCustomer = signal<number>(0);
-  customerList = signal<Customers[]>([]);
+  customerList = signal<Accounts[]>([]);
   masterSrv = inject(MasterService);
-  customerObj: Customers = new Customers();
+  customerObj: Accounts = new Accounts();
 
- 
-  items: any;
-
- 
  
 
   date: Date | undefined;
 
   ngOnInit(): void {
-    this.displayAllCustomer(); 
-    
+    this.displayAllCustomer();
   }
 
   isModalVisible = false;
 
-  openModal( customer?: Customers) {
+  openModal(customer?: Accounts) {
     this.isModalVisible = true;
     this.customerObj = customer
-      ? { ...customer }
-      : {
-        cust_id: '',
-        cust_fname: '',
-        cust_lname: '',
-        cust_email: '',
-        cust_phone: '',
-        updated_by: '', 
-        };
+      ? {
+          ...customer,
+          phone: customer.phone ? Number(customer.phone) : 0,
+          mobile: customer.mobile ? Number(customer.mobile) : 0,
+        }
+      : new Accounts();  
   }
+  
 
   closeModal() {
     this.isModalVisible = false;
   }
 
-  
-
   displayAllCustomer() {
-    this.masterSrv.getCustomer().subscribe((res: CustomerResponse) => {
-      this.totalCustomer.set(res.totalCustomers);
-      this.customerList.set(res.customers);
+    this.masterSrv.getCustomer().subscribe((res: AccountsResponse) => {
+      this.totalCustomer.set(res.totalAccounts);
+      this.customerList.set(res.accounts);
     });
   }
 
-  createCustomer() {
+  createCustomer() { 
+    this.customerObj.phone = Number(this.customerObj.phone);
+    this.customerObj.mobile = Number(this.customerObj.mobile);
     this.masterSrv.createCustomer(this.customerObj).subscribe(
-      (res: CustomerResponse) => {
-        alert('new vehicle created');
-        this.displayAllCustomer();  
+      (res: AccountsResponse) => {
+        alert('new Customer created');
+        this.displayAllCustomer();
         this.isModalVisible = false;
       },
       (error) => {
-        alert('something was wrong');
+        alert('something went wrong');
       }
     );
   }
 
-  deleteCustomerId(id: string) {
-    alert('r u ok ');
-    this.masterSrv.deleteCustomer(id).subscribe(
+  deleteCustomerId(account_id: string) {
+    alert('Are you sure you want to delete this customer?');
+    this.masterSrv.deleteCustomer(account_id).subscribe(
       (res) => {
-        alert('delete successful');
-        this.displayAllCustomer();
+        alert('Delete successful');
+        this.displayAllCustomer(); // Refresh the customer list
       },
       (error) => {
-        alert(error.message);
+        console.error('Delete failed:', error); // Log the error for debugging
+        alert('Failed to delete customer. Please try again.');
       }
     );
   }
+  
+
 
   onUpdate() {
     this.displayAllCustomer();
     this.masterSrv.updateCustomer(this.customerObj).subscribe(
-      (res: CustomerResponse) => {
+      (res: AccountsResponse) => {
         alert('update successfully');
         this.isModalVisible = false;
         this.displayAllCustomer();
@@ -111,14 +112,10 @@ export class CustomerComponent  implements OnInit{
       }
     );
   }
-  // displayAllCustomer() {
-  //   throw new Error('Method not implemented.');
-  // }
 
-  onEdit(data: Customers) {
+  onEdit(data: Accounts) {
     this.isModalVisible = true;
     this.customerObj = data;
     console.log(this.customerObj, 'trueeee----');
   }
-
 }

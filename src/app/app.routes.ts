@@ -11,11 +11,12 @@ import { Login1Component } from './page/login-1/login-1.component';
 import { AlertComponent } from './component/utils/alert/alert.component';
 import { ProfileComponent } from './page/profile/profile.component';
 import { DealerResolver } from './service/dealar-resolver.service';
-import { UsersComponent } from './page/users/users.component';
+import { UsersComponent } from './page/users/users.component'; 
 
 export const routes: Routes = [ 
   { path: '', component: Login1Component, pathMatch: 'full' },
   { path: 'login', component: Login1Component },
+  // {path : 'forget-password' , component : ForgetPageComponent},
   {
     path: 'Admin',
     component: OverviewComponent,

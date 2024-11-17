@@ -9,7 +9,7 @@
         >Add Vehicle</a
       >
     </div>
-    <div class="col-xl-9">
+    <div class="col-xl-10">
       <div class="card m-0">
         <div class="card-body py-3 py-md-2">
           <div class="row align-items-center">
@@ -101,12 +101,19 @@
               <td>{{ vehicle.type }}</td>
               <td>{{ vehicle.VIN }}</td>
               <td class="d-flex">
-                <a
+                <a 
+                  href="javascript:void(0);"
+                  data-target="#exampleModalCenter"
+                  data-toggle="modal"
+                  (click)="openModal(vehicle)"
+                  class="btn btn-primary shadow btn-xs sharp mr-1"><i class="fa fa-pencil"></i></a>
+                <!-- <a
                   href="javascript:void(0);"
                   data-target="#exampleModalCenter"
                   data-toggle="modal"
                   (click)="openModal(vehicle)"
                 >
+                
                   <svg
                     width="25"
                     height="24"
@@ -122,8 +129,10 @@
                       stroke-linejoin="round"
                     />
                   </svg>
-                </a>
-                <a
+                </a> -->
+
+                <a (click)="deleteVehicleId(vehicle.vehicle_id)" href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                <!-- <a
                   href="javascript:void(0);"
                   class="ml-4"
                   (click)="deleteVehicleId(vehicle.vehicle_id)"
@@ -150,7 +159,7 @@
                       stroke-linejoin="round"
                     />
                   </svg>
-                </a>
+                </a> -->
               </td>
             </tr>
             }

@@ -13,6 +13,8 @@ interface LoginResponse {
 interface LoginData {
   email: string;
   password: string;
+  otp: number | null;
+  confirmPassword?: string;
 }
 
 @Component({
@@ -32,21 +34,26 @@ export class Login1Component {
   loginObj: LoginData = {
     email: '',
     password: '',
+    otp: 0,
+    confirmPassword: ''
   };
 
-  isModalVisible = false;
-  private readonly API_BASE_URL = 'https://api.smartassistapp.in/api-docs/';
-  private readonly SESSION_TIMEOUT = 6 * 1000000; // 6 minutes in milliseconds
+  // View control flags
+  currentStep: 'login' | 'verifyEmail' | 'verifyOtp' | 'newPassword' = 'login';
+  showPassword = false;
+  showConfirmPassword = false;
+  countdown = 0;
+  private countdownInterval: any;
 
-  // Use inject() for all dependencies
+  private readonly API_BASE_URL = 'https://api.smartassistapp.in/api/';
+  private readonly SESSION_TIMEOUT = 6 * 1000000;
+
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   private readonly toastr = inject(ToastrService);
   private readonly renderer = inject(Renderer2);
- 
-  constructor() {}
 
-  showPassword : boolean = false;
+  constructor() {}
 
   ngAfterViewInit() {
     if (this.inputElements) {
@@ -57,27 +64,87 @@ export class Login1Component {
     }
   }
 
-  addClass(event: FocusEvent): void {
-    const parent = (event.target as HTMLElement).parentNode?.parentNode as Element;
-    if (parent) {
-      parent.classList.add('focus');
+  // Navigation methods
+  showVerifyEmail() {
+    this.currentStep = 'verifyEmail';
+    this.resetFormExceptEmail();
+  }
+
+  showVerifyOtp() {
+    this.currentStep = 'verifyOtp';
+  }
+
+  showNewPassword() {
+    this.currentStep = 'newPassword';
+  }
+
+  backToLogin() {
+    this.currentStep = 'login';
+    this.resetForm();
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
     }
   }
 
-  removeClass(event: FocusEvent): void {
-    const parent = (event.target as HTMLElement).parentNode?.parentNode as Element;
-    if (parent && (event.target as HTMLInputElement).value === '') {
-      parent.classList.remove('focus');
+  private resetForm() {
+    this.loginObj = {
+      email: '',
+      password: '',
+      otp: null,
+      confirmPassword: ''
+    };
+  }
+
+  private resetFormExceptEmail() {
+    const email = this.loginObj.email;
+    this.resetForm();
+    this.loginObj.email = email;
+  }
+
+  // Password visibility toggles
+  togglePassword(field: 'password' | 'confirmPassword') {
+    if (field === 'password') {
+      this.showPassword = !this.showPassword;
+    } else {
+      this.showConfirmPassword = !this.showConfirmPassword;
     }
   }
 
-  onLoginBtn() {
-    if (!this.validateLoginInput()) {
-      return;
+  // Form validation methods
+  private validateLoginInput(): boolean {
+    if (!this.loginObj.email || !this.loginObj.password) {
+      this.toastr.error('Please enter both email and password', 'Validation Error');
+      return false;
     }
+    if (!this.isValidEmail(this.loginObj.email)) {
+      this.toastr.error('Please enter a valid email address', 'Validation Error');
+      return false;
+    }
+    return true;
+  }
 
-    this.http
-      .post<LoginResponse>('https://api.smartassistapp.in/api/login/super-admin', this.loginObj)
+  private validateNewPassword(): boolean {
+    if (!this.loginObj.password || !this.loginObj.confirmPassword) {
+      this.toastr.error('Please enter both passwords', 'Validation Error');
+      return false;
+    }
+    if (this.loginObj.password !== this.loginObj.confirmPassword) {
+      this.toastr.error('Passwords do not match', 'Validation Error');
+      return false;
+    }
+    return true;
+  }
+
+  private isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  // API interaction methods
+  onLogin() {
+    if (!this.validateLoginInput()) return;
+
+    this.http.post<LoginResponse>(`${this.API_BASE_URL}login/super-admin`, this.loginObj)
       .subscribe({
         next: (response) => {
           if (response.token) {
@@ -94,22 +161,119 @@ export class Login1Component {
       });
   }
 
-  private validateLoginInput(): boolean {
-    if (!this.loginObj.email || !this.loginObj.password) {
-      this.toastr.error('Please enter both email and password', 'Validation Error');
-      return false;
-    }
-    if (!this.isValidEmail(this.loginObj.email)) {
+  onVerifyEmail() {
+    if (!this.loginObj.email || !this.isValidEmail(this.loginObj.email)) {
       this.toastr.error('Please enter a valid email address', 'Validation Error');
-      return false;
+      return;
     }
-    return true;
+
+    this.http.post(`${this.API_BASE_URL}login/s-admin/forgot-pwd/verify-email`, { email: this.loginObj.email })
+      .subscribe({
+        next: () => {
+          this.toastr.success('OTP sent to your email', 'Success');
+          this.showVerifyOtp();
+          this.startCountdown();
+        },
+        error: (error) => {
+          console.error('Email verification error:', error);
+          const errorMessage = error.error?.message || 'Failed to send OTP';
+          this.toastr.error(errorMessage, 'Error');
+        }
+      });
   }
 
-  private isValidEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  onVerifyOtp() {
+    if (this.loginObj.otp === null || isNaN(Number(this.loginObj.otp))) {
+      this.toastr.error('Please enter a valid OTP', 'Validation Error');
+      return;
+    }
+
+    const otpPayload = {
+      otp: Number(this.loginObj.otp),
+      email: this.loginObj.email
+    };
+
+    this.http.post(`${this.API_BASE_URL}login/s-admin/forgot-pwd/verify-otp`, otpPayload)
+    .subscribe({
+      next: () => {
+        this.toastr.success('OTP verified successfully', 'Success');
+        this.showNewPassword();
+      },
+      error: (error) => {
+        console.error('OTP verification error:', error);
+        const errorMessage = error.error?.message || 'Invalid OTP';
+        this.toastr.error(errorMessage, 'Error');
+      }
+    });
   }
+
+  onOtpInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    // Remove any non-numeric characters
+    const numericValue = input.value.replace(/[^0-9]/g, '');
+    
+    // Update the loginObj with the numeric value
+    this.loginObj.otp = numericValue ? Number(numericValue) : 0;
+    
+    // Update the input value to show only numbers
+    input.value = numericValue;
+  }
+
+  // onSetNewPassword() {
+  //   if (!this.validateNewPassword()) return;
+
+  //   this.http.put(`${this.API_BASE_URL}login/s-admin/forgot-pwd/new-pwd`, {
+  //     email: this.loginObj.email,
+  //     password: this.loginObj.password,
+  //     confirmPwd: this.loginObj.confirmPassword
+  //   }).subscribe({
+  //     next: () => {
+  //       this.toastr.success('Password reset successfully', 'Success');
+  //       this.backToLogin();
+  //     },
+  //     error: (error) => {
+  //       console.error('Password reset error:', error);
+  //       const errorMessage = error.error?.message || 'Failed to reset password';
+  //       this.toastr.error(errorMessage, 'Error');
+  //     }
+  //   });
+  // }
+
+  onSetNewPassword() {
+    if (!this.validateNewPassword()) return;
+
+    // Create the request payload
+    const resetPasswordData = {
+      email: this.loginObj.email,
+      password: this.loginObj.password,
+      confirmPwd: this.loginObj.confirmPassword
+    };
+
+    this.http.put<any>(`${this.API_BASE_URL}login/s-admin/forgot-pwd/new-pwd`, resetPasswordData)
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('Password reset successfully', 'Success');
+          this.backToLogin();
+        },
+        error: (error) => {
+          console.error('Password reset error:', error);
+          // More detailed error handling
+          if (error.status === 400) {
+            this.toastr.error('Invalid request. Please check your inputs.', 'Error');
+          } else if (error.status === 404) {
+            this.toastr.error('User not found', 'Error');
+          } else {
+            const errorMessage = error.error?.message || 'Failed to reset password';
+            this.toastr.error(errorMessage, 'Error');
+          }
+        },
+        complete: () => {
+          // Optionally clear sensitive data
+          this.loginObj.password = '';
+          this.loginObj.confirmPassword = '';
+        }
+      });
+}
 
   private handleSuccessfulLogin(token: string): void {
     this.toastr.success('Login Successful', 'Success');
@@ -138,32 +302,31 @@ export class Login1Component {
     }, this.SESSION_TIMEOUT);
   }
 
-  openModal() {
-    this.isModalVisible = true;
-  }
-
-  closeModal() {
-    this.isModalVisible = false;
-  }
-
-  forgetPwd(loginObj: LoginData) {
-    if (!loginObj.email || !this.isValidEmail(loginObj.email)) {
-      this.toastr.error('Please enter a valid email address', 'Validation Error');
-      return;
+  private startCountdown() {
+    this.countdown = 5 * 60;
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
     }
+    this.countdownInterval = setInterval(() => {
+      this.countdown--;
+      if (this.countdown === 0) {
+        clearInterval(this.countdownInterval);
+      }
+    }, 1000);
+  }
 
-    this.http
-      .post('https://api.smartassistapp.in/api/superAdmin/create', { email: loginObj.email })
-      .subscribe({
-        next: () => {
-          this.toastr.success('Password reset email sent', 'Success');
-          this.closeModal();
-        },
-        error: (error) => {
-          console.error('Password reset error:', error);
-          const errorMessage = error.error?.message || 'Failed to send password reset email';
-          this.toastr.error(errorMessage, 'Error');
-        }
-      });
+  // Utility methods for input styling
+  addClass(event: FocusEvent): void {
+    const parent = (event.target as HTMLElement).parentNode?.parentNode as Element;
+    if (parent) {
+      parent.classList.add('focus');
+    }
+  }
+
+  removeClass(event: FocusEvent): void {
+    const parent = (event.target as HTMLElement).parentNode?.parentNode as Element;
+    if (parent && (event.target as HTMLInputElement).value === '') {
+      parent.classList.remove('focus');
+    }
   }
 }

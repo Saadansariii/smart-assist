@@ -143,6 +143,35 @@ form{
     font-family: 'poppins', sans-serif;
 }
 
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 10;
+}
+
+.width-input{
+    /* border: 2px solid black !important; */
+    width: 90% !important;
+}
+.icon11{
+    /* border: 2px solid black; */
+    /* text-align: end; */
+    margin-left: 18em   ;
+    margin-top: .7em;
+    
+}
+.password-toggle i {
+    color: #999;
+    font-size: 16px;
+}
+
+.password-toggle:hover i {
+    color: #666;
+}
+
 .input-div.pass{ 
     margin-bottom: 4px;
 }

@@ -325,7 +325,7 @@ img {
 svg {
   overflow: hidden;
   vertical-align: middle; 
-  margin-top: 1em;
+  /* margin-top: 1em; */
 }
 
 table {
@@ -9108,7 +9108,7 @@ a {
       height: 5rem; } }
   .nav-header .brand-logo {
     display: flex;
-    height: 100%;
+    /* height: 100%; */
     width: 100%;
     justify-content: flex-start;
     align-items: center;
@@ -9145,7 +9145,7 @@ a {
   position: absolute;
   right: -5.0625rem;
   text-align: center;
-  top: 40%;
+  top: 26%;
   transform: translateY(-50%);
   z-index: 9999;
   font-size: 12px;
@@ -9270,7 +9270,7 @@ a {
     display: flex; }
     @media only screen and (max-width: 1600px) {
       .header { 
-        height: 5rem;
+        height: 4rem;
       }
       .header .header-content {
         right: -5.0625rem; } }
@@ -9401,7 +9401,7 @@ svg.pulse-svg {
   top: 0;
   width: 100%; }
 [data-header-position="fixed"] .content-body {
-  padding-top: 0.5rem; }
+  padding-top: 2rem; }
   @media only screen and (max-width: 1400px) {
     [data-header-position="fixed"] .content-body {
       padding-top: 2rem; } }
@@ -11975,7 +11975,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   transition: all .2s ease; }
   @media only screen and (max-width: 1600px) {
     .content-body {
-      margin-left: 8rem; } }
+      margin-left: 7rem; } }
 
 .bell img {
   -webkit-animation: ring 8s .7s ease-in-out infinite;
@@ -12491,10 +12491,10 @@ The smaller device rules always should write below the bigger device rules
 Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Component
 */
 [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li {
-  padding: 0 30px; }
+  padding: 2px 30px; }
   @media only screen and (max-width: 1600px) {
     [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li {
-      padding: 0 15px; } }
+      padding: 2px 15px; } }
   [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li > a {
     font-size: 14px;
     padding: 20px 20px 20px 80px;
@@ -12645,7 +12645,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
       [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu li a {
         padding: 19px 10px; } }
 [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .content-body {
-  margin-left: 7.5rem; }
+  margin-left: 3.5rem; }
   [direction="rtl"][data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .content-body {
     margin-right: 7.5rem;
     margin-left: auto;
@@ -40292,7 +40292,8 @@ table.dataTable thead .sorting {
     justify-content: center; } }
 
 .rightside-event {
-  margin-right: 380px; }
+  /* margin-right: 380px; */
+ }
   @media only screen and (max-width: 1400px) {
     .rightside-event {
       margin-right: 0; } }

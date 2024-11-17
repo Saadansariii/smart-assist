@@ -86,6 +86,8 @@ a {
     color: inherit;
 }
 
+
+
 /* Estilos para el pie de página en pantallas con un ancho máximo de 1000px */
 @media screen and (max-width: 1000px) {
     .col {

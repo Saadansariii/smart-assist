@@ -5,9 +5,13 @@ import { StorageService } from './storage.service';
 import {
   AccountsResponse, 
   DealerResponse,
+  EventResponse,
+  LeadResponse,
   MultiuserResponse,
+  OppResponse,
   ProfileResponse,
   SingleDealerResponse,
+  TaskResponse,
   UserResponse,
   VehicleResponse,
 } from '../model/interface/master';
@@ -15,6 +19,10 @@ import { Vehicles } from '../model/class/vehicle';
 import { dealers } from '../model/class/dealers';
 import { UserList } from '../model/class/multiuser'; 
 import { Accounts } from '../model/class/customer';
+import { Leads } from '../model/class/leads';
+import { Tasks } from '../model/class/tasks';
+import { Events } from '../model/class/event';
+import { Opportunities } from '../model/class/opportunities';
 
 @Injectable({
   providedIn: 'root',
@@ -49,14 +57,24 @@ export class MasterService {
     return this.http.get<UserResponse[]>(`${this.apiUrl}dealers/${id}/users/all`, { headers });
   }
 
-  getAllLead(id: string): Observable<UserResponse[]> {
+  getAllLead(id: string): Observable<LeadResponse[]> {
     const headers = this.getAuthHeaders();
-    return this.http.get<UserResponse[]>(`${this.apiUrl}dealers/${id}/leads/all`, { headers });
+    return this.http.get<LeadResponse[]>(`${this.apiUrl}dealers/${id}/leads/all`, { headers });
   }
 
-  getAllOpportunities(id: string): Observable<UserResponse[]> {
+  getAllTask(id: string): Observable<TaskResponse[]> {
     const headers = this.getAuthHeaders();
-    return this.http.get<UserResponse[]>(`${this.apiUrl}dealers/${id}/opportunities/all`, {
+    return this.http.get<TaskResponse[]>(`${this.apiUrl}dealers/${id}/tasks/all`, { headers });
+  }
+
+  getEventsAll(id: string): Observable<EventResponse[]> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<EventResponse[]>(`${this.apiUrl}dealers/${id}/events/all`, { headers });
+  }
+
+  getAllOpportunities(id: string): Observable<OppResponse[]> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<OppResponse[]>(`${this.apiUrl}dealers/${id}/opportunities/all`, {
       headers,
     });
   }

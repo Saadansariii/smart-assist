@@ -2,14 +2,23 @@
   <div class="row mb-5 align-items-center">
     <div class="col-xl-2 mb-4 mb-xl-0">
       <a
+      style="cursor: pointer; color: white !important;" 
         (click)="openModal()"
         data-target="#exampleModalCenter"
         data-toggle="modal"
         class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
-        >Add Vehicle</a
+        ><i class="fa fa-plus"></i>Add Vehicle</a
       >
     </div>
-    <div class="col-xl-10">
+    <div class="col-xl-2 mb-4 mb-xl-0">
+      <div class="media-body ml-1">
+        <p class="mb-1 fs-14 text-center">Total Vehicle</p>
+        <h3 class="mb-0 text-black font-w600 fs-20 text-center">
+          {{ totalVehicle() }}
+        </h3>
+      </div>
+    </div>
+    <!-- <div class="col-xl-10">
       <div class="card m-0">
         <div class="card-body py-3 py-md-2">
           <div class="row align-items-center">
@@ -42,7 +51,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <!-- Api integration work start here -->

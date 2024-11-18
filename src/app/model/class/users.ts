@@ -1,4 +1,5 @@
 export class Users {
+  user_id : string
      account_id: string
       name: string
       email: string
@@ -7,6 +8,7 @@ export class Users {
       dealer_code: string
     
         constructor(){ 
+          this.user_id= '',
             this.account_id= ''
             this.name= ''
             this.email= ''

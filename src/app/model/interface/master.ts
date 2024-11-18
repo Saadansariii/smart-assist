@@ -1,8 +1,11 @@
  import { Accounts } from '../class/customer';
 import { dealers } from '../class/dealers';
 import { SingleDealer } from '../class/dealerSingle';
+import { Events } from '../class/event';
 import { Leads } from '../class/leads'; 
 import { UserList } from '../class/multiuser';
+import { Opportunities } from '../class/opportunities';
+import { Tasks } from '../class/tasks';
 import { Users } from '../class/users';
 import { Vehicles } from '../class/vehicle';
 
@@ -34,9 +37,28 @@ export interface SingleDealerResponse {
   dealer: SingleDealer;
   users: number;
   leads: number;
+  opportunities : number;
+  tasks: number;
+  events: number;
 }
 
 export interface UserResponse extends Users {
+   
+}
+
+export interface LeadResponse extends Leads {
+   
+}
+
+export interface TaskResponse extends Tasks {
+   
+}
+
+export interface EventResponse extends Events {
+   
+}
+
+export interface OppResponse extends Opportunities {
    
 }
 

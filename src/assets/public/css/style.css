@@ -37142,9 +37142,10 @@ button {
     .light.btn-info:hover g [fill] {
       fill: #fff; }
 .light.btn-primary {
-  background-color: #eeeffc;
+  background-color: #0276Fe;
   border-color: #eeeffc;
-  color: #0276FE; }
+  color: white;
+ }
   .light.btn-primary g [fill] {
     fill: #0276FE; }
   [data-theme-version="dark"] .light.btn-primary {

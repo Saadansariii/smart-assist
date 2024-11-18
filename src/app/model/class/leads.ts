@@ -14,8 +14,15 @@ export class Leads{
     lead_owner: string
     owner_acc_id: string
     enquiry_type: string 
+    phone: null
+    email:  string 
 
     constructor (){
+    this.phone= null
+    this.email=  ''
+    this.lead_owner=  ''
+    this.owner_acc_id= '' 
+    this.enquiry_type= ''
     this.lead_code = ''
     this.dealer_name = ''
     this.dealer_code = ''

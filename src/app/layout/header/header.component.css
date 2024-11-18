@@ -12,6 +12,12 @@
 .menu-toggle .brand-title{
     display: none;
 }
+
+@media (max-width:1600px ){
+    .nav-control{
+        top: 40% !important;
+    } 
+}
 @media (max-width: 767px){
 .brand-title {
     display: none !important;

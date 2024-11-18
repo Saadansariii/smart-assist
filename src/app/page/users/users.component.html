@@ -175,7 +175,7 @@
             class="form-control form-control-lg"
             type="email"
             placeholder="Account Id"
-            [(ngModel)]="userObj.account_id"
+            [(ngModel)]="userObj.account_id" 
           />
         </div>
 
@@ -198,10 +198,12 @@
             [(ngModel)]="userObj.dealer_id"
             [ngModelOptions]="{ standalone: true }"
             (change)="onDealerChange()"
+            [disabled]="!!userObj.user_id"
           >
             <option value="" disabled>Select Dealer</option>
             <option *ngFor="let dealer of dealerList()" [value]="dealer.dealer_id">
               {{ dealer.dealer_code }} 
+              
             </option>
           </select>
         </div>

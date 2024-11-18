@@ -1,3 +1,6 @@
+
+
+
 *{
     padding: 0;
     margin: 0;
@@ -209,6 +212,8 @@ a:hover{
 .btn:hover{
     background-position: right;
 }
+
+
 
 @media screen and (max-width: 1050px){
     .container{

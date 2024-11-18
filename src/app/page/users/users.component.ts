@@ -32,18 +32,18 @@ export class UsersComponent implements OnInit {
 
   onPhoneInputChange(value: string) {
     // Convert input value to a number and store it in userObj.phone
-    this.userObj.phone = Number(value) || 0; // Default to 0 if input is invalid
+    this.userObj.phone = Number(value) || null; // Default to 0 if input is invalid
   }
 
   openModal(user?: UserList) {
     this.isModalVisible = true;
     this.userObj = user
-      ? { ...user, phone: user.phone ? Number(user.phone) : 0 }
+      ? { ...user, phone: user.phone ? Number(user.phone) : null }
       : {
           user_id: '',
           account_id: '',
           name: '',
-          phone: 0,
+          phone: null,
           email: '',
           role: '',
           password: '',

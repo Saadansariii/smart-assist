@@ -29,6 +29,7 @@ interface LoginData {
   styleUrls: ['./login-1.component.css'],
 })
 export class Login1Component {
+  
   @ViewChildren('inputElement') inputElements: QueryList<ElementRef> | undefined;
 
   loginObj: LoginData = {

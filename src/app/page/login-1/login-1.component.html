@@ -1,7 +1,10 @@
 <img class="wave" src="assets/admin-img/Untitled-1.png" alt="Wave Image" />
 <div class="container">
   <div class="img">
-    <img src="../../../assets/admin-img/smart assist-Recovered (1).png" alt="Background Image" />
+    <img
+      src="../../../assets/admin-img/smart assist-Recovered (1).png"
+      alt="Background Image"
+    />
   </div>
   <div class="login-content">
     <!-- Login Form -->
@@ -14,42 +17,76 @@
       <h2 class="title">Super Admin</h2>
 
       <div class="input-div one">
-        <div class="i">
+        <div class="i mr-3">
           <i class="fas fa-user"></i>
         </div>
-        <div class="div relative">
+        <!-- <div class="div relative">
           <h5 class="absolute left-2 top-1 text-gray-500 text-sm">Username</h5>
           <input
             [(ngModel)]="loginObj.email"
             #inputElement
             type="text"
-            class="focus:outline-none focus:border-none border-transparent focus:ring-0 w-full py-2 px-4 bg-transparent text-gray-800"
             name="username"
             required
+            class="focus:outline-none focus:border-none border-transparent focus:ring-0 w-full py-2 px-4 bg-transparent text-gray-800"
           />
+        </div> -->
+        <div class="relative z-0 w-full mb-1 group flex flex-col">
+          <input
+            type="email"
+            name="username"
+            required="true"
+            [(ngModel)]="loginObj.email"
+            id="floating_email"
+            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=" "
+            required
+          />
+          <label
+            for="floating_email"
+            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >Email address</label
+          >
         </div>
       </div>
 
       <div class="input-div pass">
-        <div class="i">
+        <div class="i mr-3">
           <i class="fas fa-lock"></i>
         </div>
-        <div class="div relative">
-          <h5>Password</h5>
+        <div class="relative z-0 w-full mb-1 group flex flex-col">
           <input
-            [(ngModel)]="loginObj.password"
-            #inputElement
-            [type]="showPassword ? 'text' : 'password'"
-            class="width-input focus:outline-none focus:border-none border-transparent focus:ring-0 py-2 px-4 bg-transparent text-gray-800"
-            name="password"
+          [(ngModel)]="loginObj.password"
+          [type]="showPassword ? 'text' : 'password'"
+          name="password"
+          required
+            id="floating_email"
+            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=" "
             required
           />
+          <label
+            for="floating_email"
+            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            > Password</label
+          >
           <i
             [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"
             class="icon11 absolute right-8 top-1/2 transform -translate-y-1/2 cursor-pointer"
             (click)="togglePassword('password')"
           ></i>
         </div>
+        <!-- <div class="div relative">
+          <h5>Password</h5>
+          <input
+            [(ngModel)]="loginObj.password"
+            [type]="showPassword ? 'text' : 'password'"
+            name="password"
+            required
+            class="width-input focus:outline-none focus:border-none border-transparent focus:ring-0 py-2 px-4 bg-transparent text-gray-800"
+            #inputElement
+          />
+        </div> -->
       </div>
 
       <a
@@ -63,12 +100,16 @@
 
     <!-- Verify Email Form -->
     <form *ngIf="currentStep === 'verifyEmail'">
+      <div class="flex justify-center">
+
+        <img src="../../../assets/admin-img/avatar (1).png" alt="" />
+      </div>
       <h2 class="title">Verify Email</h2>
       <div class="input-div one">
-        <div class="i">
+        <div class="i mr-3">
           <i class="fas fa-envelope"></i>
         </div>
-        <div class="div relative">
+        <!-- <div class="div relative">
           <h5 class="absolute left-2 top-1 text-gray-500 text-sm">Email</h5>
           <input
             [(ngModel)]="loginObj.email"
@@ -78,6 +119,25 @@
             name="email"
             required
           />
+        </div> -->
+
+        <div class="relative z-0 w-full mb-1 group flex flex-col">
+          <input
+            [(ngModel)]="loginObj.email"
+            type="email"
+            name="email"
+            required
+            name="floating_email"
+            id="floating_email"
+            class="block py-2 px-0 w-full text-sm text-gray-900 border-b bg-transparent border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=" "
+            required
+          />
+          <label
+            for="floating_email"
+            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >Email address</label
+          >
         </div>
       </div>
 
@@ -94,33 +154,54 @@
 
     <!-- Verify OTP Form -->
     <form *ngIf="currentStep === 'verifyOtp'">
-      <img src="../../../assets/admin-img/avatar (1).png" alt="" />
+      <div class="flex justify-center">
+
+        <img src="../../../assets/admin-img/avatar (1).png" alt="" />
+      </div>
       <h2 class="title">Verify OTP</h2>
       <div *ngIf="countdown > 0" class="text-center mb-4">
         Time remaining: {{ countdown }}s
       </div>
 
       <div class="input-div one">
-        <div class="i">
+        <div class="i mr-3">
           <i class="fas fa-key"></i>
         </div>
-        <div class="div relative">
-          <h5 class="absolute left-2 top-1 text-gray-500 text-sm">OTP</h5>
+        <div class="relative z-0 w-full mb-1 group flex flex-col">
           <input
           (input)="onOtpInput($event)"
-          type="number"
-          [(ngModel)]="loginObj.otp"
-            class="focus:outline-none focus:border-none border-transparent focus:ring-0 w-full py-2 px-4 bg-transparent text-gray-800"
+            type="text"
+            [(ngModel)]="loginObj.otp"
             name="otp"
             required
+            id="floating_email"
+            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=" "
+            required
           />
-          <!-- min="6"
-            step="1"
-            pattern="\d*" -->
+          <label
+            for="floating_email"
+            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            > OTP</label
+          > 
         </div>
+        <!-- <div class="div relative">
+          <h5 class="absolute left-2 top-1 text-gray-500 text-sm">OTP</h5>
+          <input
+            (input)="onOtpInput($event)"
+            type="number"
+            [(ngModel)]="loginObj.otp"
+            name="otp"
+            required
+            class="focus:outline-none focus:border-none border-transparent focus:ring-0 w-full py-2 px-4 bg-transparent text-gray-800"
+          />
+          min="6"
+            step="1"
+            pattern="\d*"
+        </div> -->
       </div>
 
-      <div class="flex justify-between w-full">
+      <div class="flex justify-end text-end w-full">
         <a style="cursor: pointer" class="back-to-login" (click)="backToLogin()"
           >Back to Login</a
         >
@@ -145,7 +226,7 @@
       <h2 class="title">Set New Password</h2>
 
       <div class="input-div pass">
-        <div class="i">
+        <div class="i mr-3">
           <i class="fas fa-lock"></i>
         </div>
         <div class="div relative">
@@ -202,3 +283,6 @@
     </form>
   </div>
 </div>
+<!-- <script src="https://cdn.tailwindcss.com"></script> -->
+
+

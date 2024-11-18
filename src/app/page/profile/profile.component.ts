@@ -1,30 +1,33 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Import CommonModule
 import { ProfileResponse } from '../../model/interface/master';
 import { MasterService } from '../../service/master.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [],
+  imports: [CommonModule], // Add CommonModule here
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css'
+  styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
   masterSrv = inject(MasterService);
   profileList = signal<ProfileResponse[]>([]);
-  ngOnInit(): void {
-    // this.fetchDealerData();
-    this.getProfileData();
 
+  ngOnInit(): void {
+    this.getProfileData();
   }
 
-  getProfileData(){
-    this.masterSrv.getProfileData().subscribe(
-      (res: ProfileResponse) => { 
+  getProfileData() {
+    this.masterSrv.getProfileData().subscribe({
+      next: (res: ProfileResponse) => {
+        console.log('Fetched Profile Data:', res);
+        this.profileList.set([res]); // Wrap single object in array if needed
       },
-      (error) => {
-        alert(error.message);
-      }
-    );
+      error: (err) => {
+        console.error('Error fetching profile data:', err);
+        alert('Failed to fetch profile data.');
+      },
+    });
   }
 }

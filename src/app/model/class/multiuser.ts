@@ -10,7 +10,7 @@ export class UserList {
   account_id: string
   name: string
   email: string
-  phone: number
+  phone: number | null
   role: string
   password: string
   otp_validated: string
@@ -25,7 +25,7 @@ export class UserList {
   this.user_id = '';
   this.account_id = '';
   this.name = '';
-  this.phone = 0;
+  this.phone = null;
   this.email = '';
   this.role = '';
   this.password = '';

@@ -119,6 +119,37 @@ export class MasterService {
       { headers }
     );
   }
+ 
+
+  // single By Id 
+
+  eventById(id: string): Observable<EventResponse> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<EventResponse>(`${this.apiUrl}events/${id}`, { headers });
+  }
+
+
+  leadById(id: string): Observable<LeadResponse> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<LeadResponse>(`${this.apiUrl}leads/${id}`, { headers });
+  }
+
+  userById(id: string): Observable<UserResponse> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<UserResponse>(`${this.apiUrl}users/${id}`, { headers });
+  }
+
+  oppById(id: string): Observable<OppResponse> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<OppResponse>(`${this.apiUrl}opportunities/${id}`, { headers });
+  }
+
+  taskById(id: string): Observable<TaskResponse> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<TaskResponse>(`${this.apiUrl}tasks/${id}`, { headers });
+  }
+   
+
 
 
   // Multiuser Page Api's

@@ -1,7 +1,6 @@
- 
 import { OverviewComponent } from './page/overview/overview.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
-import { LoginComponent } from './page/login/login.component'; 
+import { LoginComponent } from './page/login/login.component';
 import { Routes } from '@angular/router';
 import { DealerComponent } from './page/dealer/dealer.component';
 import { VehicleComponent } from './page/vehicle/vehicle.component';
@@ -11,9 +10,19 @@ import { Login1Component } from './page/login-1/login-1.component';
 import { AlertComponent } from './component/utils/alert/alert.component';
 import { ProfileComponent } from './page/profile/profile.component';
 import { DealerResolver } from './service/dealar-resolver.service';
-import { UsersComponent } from './page/users/users.component'; 
+import { UsersComponent } from './page/users/users.component';
+import { SingleEventComponent } from './page/single-event/single-event.component';
+import { SingleLeadComponent } from './page/single-lead/single-lead.component'; 
+import { LeadResolver } from './service/lead-resolver.service';
+import { EventResolver } from './service/event-resolver.service';
+import { UserResolver } from './service/user-resolver.service';
+import { SingleUserComponent } from './page/single-user/single-user.component';
+import { TaskResolver } from './service/task-resolver.service';
+import { SingleTaskComponent } from './page/single-task/single-task.component';
+import { SingleOppComponent } from './page/single-opp/single-opp.component';
+import { OpportunitiesResolver } from './service/opportunities-resolver.service';
 
-export const routes: Routes = [ 
+export const routes: Routes = [
   { path: '', component: Login1Component, pathMatch: 'full' },
   { path: 'login', component: Login1Component },
   // {path : 'forget-password' , component : ForgetPageComponent},
@@ -22,22 +31,78 @@ export const routes: Routes = [
     component: OverviewComponent,
     // canActivate: [AuthGuard], // Uncomment if AuthGuard is needed
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'overview', component: OverviewComponent },
-      { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard' } },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        data: { title: 'Dashboard' },
+      },
       { path: 'dealer', component: DealerComponent, data: { title: 'Dealer' } },
       // { path: 'users', component: DealerComponent, data: { title: 'Dealer' } },
-      { path: 'vehicle', component: VehicleComponent, data: { title: 'Vehicle' } },
-      { path: 'user-all', component: UsersComponent, data: { title: 'Users-All' } },
-      { path: 'customer', component: CustomerComponent, data: { title: 'Customer' } },
-      { path: 'user', component: SingleDealerComponent, data: { title: 'User' } },
-      { path: 'profile', component: ProfileComponent, data: { title: 'Profile' } },
+      {
+        path: 'vehicle',
+        component: VehicleComponent,
+        data: { title: 'Vehicle' },
+      },
+      {
+        path: 'user-all',
+        component: UsersComponent,
+        data: { title: 'Users-All' },
+      },
+      {
+        path: 'customer',
+        component: CustomerComponent,
+        data: { title: 'Customer' },
+      },
+      {
+        path: 'user',
+        component: SingleDealerComponent,
+        data: { title: 'User' },
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        data: { title: 'Profile' },
+      },
       { path: 'alert', component: AlertComponent },
-      { 
-        path: 'singleUser/:id', 
-        component: SingleDealerComponent, 
-        resolve: { dealerData: DealerResolver }  // Use the DealerResolver to load data before component initializes
-      }
-    ]
-  }
-      ]; 
+      {
+        path: 'singleUser/:id',
+        component: SingleDealerComponent,
+        resolve: { dealerData: DealerResolver },
+        data: { title: 'Multiple' }, 
+      },
+      {
+        path: 'single-events/:eventId',
+        component: SingleEventComponent,
+        data: { title: 'Single events' },
+        resolve: { eventData:  EventResolver}
+       
+      },
+      {
+        path: 'single-lead/:leadId',
+        component: SingleLeadComponent,
+        data: { title: 'Single Lead Data' },
+        resolve: { leadData:  LeadResolver}   
+      },
+      {
+        path: 'single-user/:userId',
+        component: SingleUserComponent,
+        data: { title: 'Single user Data' },
+        resolve: { userData:  UserResolver}   
+      },
+      {
+        path: 'single-task/:taskId',
+        component: SingleTaskComponent,
+        data: { title: 'Single Lead Data' },
+        resolve: { taskData:  TaskResolver}   
+      },
+      {
+        path: 'single-oppotunities/:oppId',
+        component: SingleOppComponent,
+        data: { title: 'Single Lead Data' },
+        resolve: { oppData:  OpportunitiesResolver}   
+      },
+    ],
+  },
+];

@@ -1,4 +1,5 @@
 export class Opportunities{ 
+    opportunity_id: string
         opportunity_name : string
         stage : string
         opportunity_record_type: string
@@ -18,6 +19,7 @@ export class Opportunities{
         enquiry_type : string
 
     constructor (){ 
+        this.opportunity_id = ''
         this.stage= ''
         this.opportunity_name = ''
         this.opportunity_record_type= ''

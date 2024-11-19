@@ -178,10 +178,11 @@
                   {{ user.dealer_code }}
                 </td>
                 <td>
-                  <a
+                  <a [routerLink]="['/Admin/single-user', user.user_id]">
+                  <!-- <a
                     href="javascript:void(0);"
                     class="btn btn-success shadow btn-xs sharp"
-                  >
+                  > -->
                     <span class="">
                       <i class="fa fa-eye"></i>
                     </span>
@@ -240,10 +241,7 @@
                 <td>{{ lead.email }}</td>
                 <td>{{ lead.lead_owner }}</td>
                 <td>
-                  <a
-                    href="javascript:void(0);"
-                    class="btn btn-success shadow btn-xs sharp"
-                  >
+                  <a [routerLink]="['/Admin/single-lead', lead.lead_id]">
                     <span class="">
                       <i class="fa fa-eye"></i>
                     </span>
@@ -260,7 +258,7 @@
       <div class="col-lg-12">
         <div
           class="table-responsive"
-          *ngIf="selectedOption === 'Opportunities'"
+          *ngIf="selectedOption === 'opportunities'"
         >
           <table
             id="example5"
@@ -338,10 +336,11 @@
                   {{ opp.enquiry_type }}
                 </td>
                 <td>
-                  <a
+                  <a [routerLink]="['/Admin/single-oppotunities', opp.opportunity_id]">
+                  <!-- <a
                     href="javascript:void(0);"
                     class="btn btn-success shadow btn-xs sharp"
-                  >
+                  > -->
                     <span class="">
                       <i class="fa fa-eye"></i>
                     </span>
@@ -358,7 +357,7 @@
 
     <div class="row">
       <div class="col-lg-12">
-        <div class="table-responsive" *ngIf="selectedOption === 'Tasks'">
+        <div class="table-responsive" *ngIf="selectedOption === 'tasks'">
           <table
             id="example5"
             class="table display mb-4 table-responsive-xl dataTablesCard fs-14"
@@ -407,10 +406,11 @@
                   {{ task.lead_code }}
                 </td>
                 <td>
-                  <a
+                  <a [routerLink]="['/Admin/single-task', task.task_id]">
+                  <!-- <a
                     href="javascript:void(0);"
                     class="btn btn-success shadow btn-xs sharp"
-                  >
+                  > -->
                     <span class="">
                       <i class="fa fa-eye"></i>
                     </span>
@@ -427,7 +427,7 @@
 
     <div class="row">
       <div class="col-lg-12">
-        <div class="table-responsive" *ngIf="selectedOption === 'Events'">
+        <div class="table-responsive" *ngIf="selectedOption === 'events'">
           <table
             id="example5"
             class="table display mb-4 table-responsive-xl dataTablesCard fs-14"
@@ -495,10 +495,7 @@
                   {{ event.lead_email }}
                 </td>
                 <td>
-                  <a
-                    href="javascript:void(0);"
-                    class="btn btn-success shadow btn-xs sharp"
-                  >
+                  <a [routerLink]="['/Admin/single-events', event.event_id]">
                     <span class="">
                       <i class="fa fa-eye"></i>
                     </span>

@@ -14,8 +14,11 @@ interface LoginData {
   email: string;
   password: string;
   otp: number | null;
-  confirmPassword?: string;
+  confirmPassword: string;
+  newPwd: string;
 }
+
+ 
 
 @Component({
   selector: 'app-login-1',
@@ -36,7 +39,8 @@ export class Login1Component {
     email: '',
     password: '',
     otp: 0,
-    confirmPassword: ''
+    confirmPassword: '',
+    newPwd: '',
   };
 
   // View control flags
@@ -90,9 +94,10 @@ export class Login1Component {
   private resetForm() {
     this.loginObj = {
       email: '',
-      password: '',
+      newPwd: '',
       otp: null,
-      confirmPassword: ''
+      confirmPassword: '',
+      password: ''
     };
   }
 
@@ -125,11 +130,11 @@ export class Login1Component {
   }
 
   private validateNewPassword(): boolean {
-    if (!this.loginObj.password || !this.loginObj.confirmPassword) {
+    if (!this.loginObj.newPwd || !this.loginObj.confirmPassword) {
       this.toastr.error('Please enter both passwords', 'Validation Error');
       return false;
     }
-    if (this.loginObj.password !== this.loginObj.confirmPassword) {
+    if (this.loginObj.newPwd !== this.loginObj.confirmPassword) {
       this.toastr.error('Passwords do not match', 'Validation Error');
       return false;
     }
@@ -220,60 +225,73 @@ export class Login1Component {
     input.value = numericValue;
   }
 
-  // onSetNewPassword() {
-  //   if (!this.validateNewPassword()) return;
+ 
 
-  //   this.http.put(`${this.API_BASE_URL}login/s-admin/forgot-pwd/new-pwd`, {
-  //     email: this.loginObj.email,
-  //     password: this.loginObj.password,
-  //     confirmPwd: this.loginObj.confirmPassword
-  //   }).subscribe({
-  //     next: () => {
-  //       this.toastr.success('Password reset successfully', 'Success');
-  //       this.backToLogin();
-  //     },
-  //     error: (error) => {
-  //       console.error('Password reset error:', error);
-  //       const errorMessage = error.error?.message || 'Failed to reset password';
-  //       this.toastr.error(errorMessage, 'Error');
-  //     }
-  //   });
-  // }
+//   onSetNewPassword() {
+//     if (!this.validateNewPassword()) return;
+ 
+//     const resetPasswordData = {
+//       email: this.loginObj.email,
+//       newPassword: this.loginObj.newPwd,
+//       confirmPwd: this.loginObj.confirmPassword
+//     };
 
-  onSetNewPassword() {
-    if (!this.validateNewPassword()) return;
+//     this.http.put<any>(`${this.API_BASE_URL}login/s-admin/forgot-pwd/new-pwd`, resetPasswordData)
+//       .subscribe({
+//         next: (response) => {
+//           this.toastr.success('Password reset successfully', 'Success');
+//           this.backToLogin();
+//         },
+//         error: (error) => {
+//           console.error('Password reset error:', error); 
+//           if (error.status === 400) {
+//             this.toastr.error('Invalid request. Please check your inputs.', 'Error');
+//           } else if (error.status === 404) {
+//             this.toastr.error('User not found', 'Error');
+//           } else {
+//             const errorMessage = error.error?.message || 'Failed to reset password';
+//             this.toastr.error(errorMessage, 'Error');
+//           }
+//         },
+//         complete: () => { 
+//           this.loginObj.newPwd = '';
+//           this.loginObj.confirmPassword = '';
+//         }
+//       });
+// }
 
-    // Create the request payload
-    const resetPasswordData = {
-      email: this.loginObj.email,
-      password: this.loginObj.password,
-      confirmPwd: this.loginObj.confirmPassword
-    };
+onSetNewPassword() { 
+  if (!this.validateNewPassword()) return;
 
-    this.http.put<any>(`${this.API_BASE_URL}login/s-admin/forgot-pwd/new-pwd`, resetPasswordData)
-      .subscribe({
-        next: (response) => {
-          this.toastr.success('Password reset successfully', 'Success');
-          this.backToLogin();
-        },
-        error: (error) => {
-          console.error('Password reset error:', error);
-          // More detailed error handling
-          if (error.status === 400) {
-            this.toastr.error('Invalid request. Please check your inputs.', 'Error');
-          } else if (error.status === 404) {
-            this.toastr.error('User not found', 'Error');
-          } else {
-            const errorMessage = error.error?.message || 'Failed to reset password';
-            this.toastr.error(errorMessage, 'Error');
-          }
-        },
-        complete: () => {
-          // Optionally clear sensitive data
-          this.loginObj.password = '';
-          this.loginObj.confirmPassword = '';
+  const resetPasswordData = {
+    email: this.loginObj.email,
+    newPwd: this.loginObj.newPwd,
+    confirmPwd: this.loginObj.confirmPassword
+  };
+
+  this.http.put<any>(`${this.API_BASE_URL}login/s-admin/forgot-pwd/new-pwd`, resetPasswordData)
+    .subscribe({
+      next: (response) => {
+        this.toastr.success('Password reset successfully', 'Success');
+        this.backToLogin();
+      },
+      error: (error) => {
+        console.error('Password reset error:', error);
+        if (error.status === 400) {
+          this.toastr.error('Invalid request. Please check your inputs.', 'Error');
+        } else if (error.status === 404) {
+          this.toastr.error('User not found', 'Error');
+        } else {
+          const errorMessage = error.error?.message || 'Failed to reset password';
+          this.toastr.error(errorMessage, 'Error');
         }
-      });
+      },
+      complete: () => {
+        // Clear sensitive data
+        this.loginObj.newPwd = '';
+        this.loginObj.confirmPassword = '';
+      }
+    });
 }
 
   private handleSuccessfulLogin(token: string): void {

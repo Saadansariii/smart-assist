@@ -1,4 +1,5 @@
 export class Leads{ 
+    lead_id: string
     lead_code: string
     dealer_name: string
     dealer_code: string
@@ -18,6 +19,7 @@ export class Leads{
     email:  string 
 
     constructor (){
+    this.lead_id = ''
     this.phone= null
     this.email=  ''
     this.lead_owner=  ''

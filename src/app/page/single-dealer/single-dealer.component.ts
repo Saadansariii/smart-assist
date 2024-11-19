@@ -4,7 +4,7 @@ import {
   SingleDealerResponse,
   UserResponse,
 } from '../../model/interface/master';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
@@ -19,7 +19,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-single-dealer',
   standalone: true,
-  imports: [FormsModule, CommonModule, SharedModule],
+  imports: [FormsModule, CommonModule, SharedModule , RouterLink],
   templateUrl: './single-dealer.component.html',
   styleUrls: ['./single-dealer.component.css'],
 })

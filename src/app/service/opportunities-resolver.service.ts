@@ -24,9 +24,9 @@ export class OpportunitiesResolver implements Resolve<OppResponse | null>  {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<OppResponse | null> {
-    const leadId = route.paramMap.get('id');
-    if (leadId) {
-      return this.masterSrv.oppById(leadId); // Fetches dealer data by ID
+    const oppId = route.paramMap.get('id');
+    if (oppId) {
+      return this.masterSrv.oppById(oppId); // Fetches dealer data by ID
     } else {
       return of(null); // Returns null if no ID is provided
     }

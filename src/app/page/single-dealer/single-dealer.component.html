@@ -47,7 +47,7 @@
         >
           <p class="mb-0 fs-12">Total Opportunities</p>
           <h4 class="mb-0 text-black font-w600 fs-22">
-            {{ dealerData.opportunities}} Opportunities
+            {{ dealerData.opportunities }} Opportunities
           </h4>
         </div>
       </div>
@@ -130,7 +130,7 @@
           (change)="handleSelectionChange($event)"
         >
           <option selected value="users">Users</option>
-          <option value="leads">Leads</option> 
+          <option value="leads">Leads</option>
           <option value="opportunities">Opportunities</option>
           <option value="tasks">Tasks</option>
           <option value="events">Events</option>
@@ -179,7 +179,7 @@
                 </td>
                 <td>
                   <a [routerLink]="['/Admin/single-user', user.user_id]">
-                  <!-- <a
+                    <!-- <a
                     href="javascript:void(0);"
                     class="btn btn-success shadow btn-xs sharp"
                   > -->
@@ -286,7 +286,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr  *ngFor="let opp of OpportunityList(); let i = index">
+              <tr *ngFor="let opp of OpportunityList(); let i = index">
                 <td>
                   {{ opp.opportunity_name }}
                 </td>
@@ -336,8 +336,13 @@
                   {{ opp.enquiry_type }}
                 </td>
                 <td>
-                  <a [routerLink]="['/Admin/single-oppotunities', opp.opportunity_id]">
-                  <!-- <a
+                  <a
+                    [routerLink]="[
+                      '/Admin/single-oppotunities',
+                      opp.opportunity_id
+                    ]"
+                  >
+                    <!-- <a
                     href="javascript:void(0);"
                     class="btn btn-success shadow btn-xs sharp"
                   > -->
@@ -407,7 +412,7 @@
                 </td>
                 <td>
                   <a [routerLink]="['/Admin/single-task', task.task_id]">
-                  <!-- <a
+                    <!-- <a
                     href="javascript:void(0);"
                     class="btn btn-success shadow btn-xs sharp"
                   > -->

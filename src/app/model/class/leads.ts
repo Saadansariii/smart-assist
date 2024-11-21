@@ -17,8 +17,10 @@ export class Leads{
     enquiry_type: string 
     phone: null
     email:  string 
+    flag : string 
 
-    constructor (){
+    constructor (){ 
+        this.flag = ''
     this.lead_id = ''
     this.phone= null
     this.email=  ''

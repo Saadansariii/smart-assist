@@ -1,4 +1,5 @@
 export class Events{
+  flag : string
   event_id: string
   subject: string
   assigned_to: string
@@ -26,6 +27,7 @@ export class Events{
   created_at: string
   updated_at: string
     constructor(){
+      this.flag = ''
   this.event_id= ''
   this.subject= ''
   this.assigned_to= ''

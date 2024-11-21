@@ -94,13 +94,13 @@ export const routes: Routes = [
       {
         path: 'single-task/:taskId',
         component: SingleTaskComponent,
-        data: { title: 'Single Lead Data' },
+        data: { title: 'Single Task Data' },
         resolve: { taskData:  TaskResolver}   
       },
       {
         path: 'single-oppotunities/:oppId',
         component: SingleOppComponent,
-        data: { title: 'Single Lead Data' },
+        data: { title: 'Single Opportunities Data' },
         resolve: { oppData:  OpportunitiesResolver}   
       },
     ],

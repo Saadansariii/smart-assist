@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <div class="col-lg-12">
       <div
         class="table-responsive" 
@@ -83,5 +83,106 @@
           </tbody>
         </table>
       </div>
+    </div>
+  </div> -->
+
+  <div class="container-fluid" style="width: 100% !important;">
+    <div class="content-body">
+       
+      <div class="card" style="border-radius: 12px; overflow: hidden; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
+        <div class="card-header text-center" style="background-color: #0276FE; color: white; padding: 15px;">
+          <h5 class="card-title m-0 " style="color: white !important;">User Details</h5>
+        </div>
+        <div  *ngIf="oppList()" class="card-body" style="background-color: #f9f9f9; padding: 20px;">
+          <!-- First section: Basic Information -->
+          <div class="row mb-4 text-center">
+            <div class="col-md-3 mb-3">
+              <h4  class="text-muted">Opportunity Name</h4>
+              <h5 class="mb-0">{{ oppList()?.opportunity_name }}</h5>
+            </div>
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">stage</h4>
+              <h5 class="mb-0">{{ oppList()?.stage }}</h5>
+            </div>
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">Opportunities Record</h4>
+              <h5 class="mb-0">{{ oppList()?.opportunity_record_type }}</h5>
+            </div>
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">account Name</h4>
+              <h5 class="mb-0">{{ oppList()?.account_name }}</h5>
+            </div>
+          </div>
+      
+           
+      
+          <!-- Third section: Additional Information -->
+          <div class="row mb-4 text-center">
+            <div class="col-md-3  mb-3">
+              <h4 class="text-muted">close Date</h4>
+              <h5 class="mb-0">{{ oppList()?.close_date }}</h5>
+            </div>
+            <div class="col-md-3  mb-3">
+              <h4 class="text-muted">Opportunity Currency</h4>
+              <h5 class="mb-0">{{ oppList()?.opportunity_currency }}</h5>
+            </div>
+            <div class="col-md-3  mb-3">
+              <h4 class="text-muted">VIN</h4>
+              <h5 class="mb-0"> {{ oppList()?.purchase_type }}</h5>
+            </div>
+            <div class="col-md-3  mb-3">
+              <h4 class="text-muted">Purchase Type</h4>
+              <h5 class="mb-0"> {{ oppList()?.type }}</h5>
+            </div> 
+          </div>
+
+          <div class="row mb-4 text-center  ">
+          </div>
+          
+          <div class="row mb-4 text-center">
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">Sub Type</h4>
+              <h5 class="mb-0">{{ oppList()?.sub_type }}</h5>
+            </div> 
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">Brand</h4>
+              <h5 class="mb-0">{{ oppList()?.brand }}</h5>
+            </div>
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">PMI</h4>
+              <h5 class="mb-0">{{ oppList()?.PMI }}</h5>
+            </div>
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">Description</h4>
+              <h5 class="mb-0"> {{ oppList()?.description }}</h5>
+            </div>
+          </div>
+
+          <div class="row mb-4 text-center">
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">Mobile</h4>
+              <h5 class="mb-0">{{ oppList()?.mobile }}</h5>
+            </div>
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">Phone</h4>
+              <h5 class="mb-0"> {{ oppList()?.phone }}</h5>
+            </div>
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">E-mail</h4>
+              <h5 class="mb-0">{{ oppList()?.email }}</h5>
+            </div>
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">Enquiry Type</h4>
+              <h5 class="mb-0">{{ oppList()?.enquiry_type }}</h5>
+            </div>
+          </div>
+ 
+  
+          <div class="text-center"> <a href="/Admin/dealer" class="btn btn-primary light btn-card" style="background-color: #0276FE !important;">Go
+            Back</a></div>
+        </div>
+      </div>
+      
+  
     </div>
   </div>

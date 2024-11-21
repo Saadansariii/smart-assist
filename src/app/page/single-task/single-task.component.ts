@@ -29,7 +29,7 @@ export class SingleTaskComponent implements OnInit {
         console.warn('Lead data not available from resolver.');
       }
     });
-
+    
     // Handle any route params for leadId
     this.route.paramMap.subscribe((params) => {
       const taskId = params.get('taskId');

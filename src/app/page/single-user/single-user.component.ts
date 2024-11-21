@@ -46,7 +46,7 @@ export class SingleUserComponent implements OnInit{
     console.log('Fetching lead data for leadId:', userId);
     this.masterSrv.userById(userId).subscribe({
       next: (res: UserResponse) => {
-        this.userList.set(res);  // Set the single LeadResponse object to the signal
+        this.userList.set(res);  
         console.log('Lead data fetched:', res);
       },
       error: (err: any) => {

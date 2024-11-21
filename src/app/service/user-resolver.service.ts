@@ -24,9 +24,9 @@ export class UserResolver implements Resolve<UserResponse | null>  {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<UserResponse | null> {
-    const leadId = route.paramMap.get('id');
-    if (leadId) {
-      return this.masterSrv.userById(leadId); // Fetches dealer data by ID
+    const userId = route.paramMap.get('id');
+    if (userId) {
+      return this.masterSrv.userById(userId); // Fetches dealer data by ID
     } else {
       return of(null); // Returns null if no ID is provided
     }

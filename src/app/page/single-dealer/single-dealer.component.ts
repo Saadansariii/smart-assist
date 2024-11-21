@@ -4,7 +4,7 @@ import {
   SingleDealerResponse,
   UserResponse,
 } from '../../model/interface/master';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
@@ -15,11 +15,12 @@ import { Events } from '../../model/class/event';
 import { Leads } from '../../model/class/leads';
 import { Opportunities } from '../../model/class/opportunities';
 import { HttpClient } from '@angular/common/http';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-single-dealer',
   standalone: true,
-  imports: [FormsModule, CommonModule, SharedModule , RouterLink],
+  imports: [FormsModule, CommonModule, SharedModule, RouterLink],
   templateUrl: './single-dealer.component.html',
   styleUrls: ['./single-dealer.component.css'],
 })
@@ -38,9 +39,17 @@ export class SingleDealerComponent implements OnInit {
   showTaskTable: boolean = false;
   showEventTable: boolean = false;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private location: Location
+  ) {}
 
   selectedOption: string = 'users';
+
+  reload(): void {
+    window.location.reload();
+  }
 
   handleSelectionChange(event: Event) {
     const option = (event.target as HTMLSelectElement).value;
@@ -209,6 +218,16 @@ export class SingleDealerComponent implements OnInit {
       error: (err) => {
         alert(err.message || 'An error occurred while fetching leads.');
       },
+    });
+  }
+
+  // refresh
+
+  router = inject(Router);
+
+  navigateWithReload(path: string) {
+    this.router.navigateByUrl(path).then(() => {
+      window.location.reload();
     });
   }
 }

@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <div class="col-lg-12">
       <div class="table-responsive"  >
         <table
@@ -24,60 +24,144 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let event of EventList(); let i = index">
+            <tr *ngIf="eventList()">
               <td>
-                {{ event.subject }}
+                {{ eventList()?.subject }}
               </td>
               <td>
-                {{ event.assigned_to }}
+                {{ eventList()?.assigned_to }}
               </td>
               <td>
-                {{ event.description }}
+                {{ eventList()?.description }}
               </td>
               <td>
-                {{ event.name }}
+                {{ eventList()?.name }}
               </td>
               <td>
-                {{ event.start_date }}
+                {{ eventList()?.start_date }}
               </td>
               <td>
-                {{ event.end_date }}
+                {{ eventList()?.end_date }}
               </td>
               <td>
-                {{ event.VIN }}
+                {{ eventList()?.VIN }}
               </td>
               <td>
-                {{ event.t_drive_status }}
+                {{ eventList()?.t_drive_status }}
               </td>
               <td>
-                {{ event.name }}
+                {{ eventList()?.name }}
               </td>
               <td>
-                {{ event.related_to }}
+                {{ eventList()?.related_to }}
               </td>
               <td>
-                {{ event.location }}
+                {{ eventList()?.location }}
               </td>
               <td>
-                {{ event.lead_name }}
+                {{ eventList()?.lead_name }}
               </td>
               <td>
-                {{ event.lead_code }}
+                {{ eventList()?.lead_code }}
               </td>
               <td>
-                {{ event.lead_email }}
+                {{ eventList()?.lead_email }}
               </td>
-              <!-- <td>
+              <td>
                 <a [routerLink]="['/Admin/single-events', event.event_id]">
                   <span class="">
                     <i class="fa fa-eye"></i>
                   </span>
                 </a>
-              </td> -->
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
+    </div>
+  </div> -->
+
+  <div class="container-fluid" style="width: 100% !important;">
+    <div class="content-body">
+       
+      <div class="card" style="border-radius: 12px; overflow: hidden; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
+        <div class="card-header text-center" style="background-color: #0276FE; color: white; padding: 15px;">
+          <h5 class="card-title m-0 " style="color: white !important;">User Details</h5>
+        </div>
+        <div  *ngIf="eventList()" class="card-body" style="background-color: #f9f9f9; padding: 20px;">
+          <!-- First section: Basic Information -->
+          <div class="row mb-4 text-center">
+            <div class="col-md-3 mb-3">
+              <h4  class="text-muted">Subject</h4>
+              <h5 class="mb-0"> {{ eventList()?.subject }}</h5>
+            </div>
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">Assigned</h4>
+              <h5 class="mb-0">{{ eventList()?.assigned_to }}</h5>
+            </div>
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">Description</h4>
+              <h5 class="mb-0">{{ eventList()?.description }}</h5>
+            </div>
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">account Name</h4>
+              <h5 class="mb-0">{{ eventList()?.name }}</h5>
+            </div>
+          </div>
+      
+           
+      
+          <!-- Third section: Additional Information -->
+          <div class="row mb-4 text-center">
+            <div class="col-md-3  mb-3">
+              <h4 class="text-muted">start Date</h4>
+              <h5 class="mb-0"> {{ eventList()?.start_date }}</h5>
+            </div>
+            <div class="col-md-3  mb-3">
+              <h4 class="text-muted">End Date</h4>
+              <h5 class="mb-0"> {{ eventList()?.end_date }}</h5>
+            </div>
+            <div class="col-md-3  mb-3">
+              <h4 class="text-muted">Name</h4>
+              <h5 class="mb-0"> {{ eventList()?.name }}</h5>
+            </div>
+            <div class="col-md-3  mb-3">
+              <h4 class="text-muted">Related</h4>
+              <h5 class="mb-0">{{ eventList()?.related_to }}</h5>
+            </div> 
+          </div>
+
+          <div class="row mb-4 text-center  ">
+          </div>
+          
+          <div class="row mb-4 text-center">
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">Lead Name</h4>
+              <h5 class="mb-0">{{ eventList()?.lead_name }}</h5>
+            </div> 
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">Lead Code</h4>
+              <h5 class="mb-0">{{ eventList()?.lead_code }}</h5>
+            </div>
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">Lead Email</h4>
+              <h5 class="mb-0"> {{ eventList()?.lead_email }}</h5>
+            </div>
+            <div class="col-md-3 mb-3">
+              <h4 class="text-muted">Flag</h4>
+              <h5 class="mb-0"> {{ eventList()?.flag }}</h5>
+            </div>
+          </div>
+
+           
+ 
+  
+          <div class="text-center"> <a href="/Admin/dealer" class="btn btn-primary light btn-card" style="background-color: #0276FE !important;">Go
+            Back</a></div>
+        </div>
+      </div>
+      
+  
     </div>
   </div>
  

@@ -2,12 +2,12 @@
   <div class="row mb-5 align-items-center">
     <div class="col-xl-2 mb-4 mb-xl-0">
       <a
-      style="cursor: pointer; color: white !important;"
+        style="cursor: pointer; color: white !important"
         (click)="openModal()"
         data-target="#exampleModalCenter"
         data-toggle="modal"
         class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
-        ><i class="fa fa-plus"></i>Add Account</a
+        ><i class="fa fa-plus mr-1"></i>Add Account</a
       >
     </div>
     <div class="col-xl-2 mb-4 mb-xl-0">
@@ -64,7 +64,7 @@
           class="table display mb-4 table-responsive-xl dataTablesCard fs-14"
         >
           <thead>
-            <tr> 
+            <tr>
               <th>Sr No</th>
               <th>Account Name</th>
               <th>Last Name</th>
@@ -75,14 +75,22 @@
           </thead>
           <tbody>
             @for (customer of customerList(); track $index) {
-            <tr> 
-              <td>{{$index+1}}</td>
+            <tr>
+              <td>{{ $index + 1 }}</td>
               <td>{{ customer.fname }}</td>
               <td>{{ customer.lname }}</td>
               <td>{{ customer.email }}</td>
               <td>{{ customer.phone }}</td>
               <td class="d-flex">
                 <a
+                  href="javascript:void(0);"
+                  data-target="#exampleModalCenter"
+                  data-toggle="modal"
+                  (click)="openModal(customer)"
+                  class="btn btn-primary shadow btn-xs sharp mr-1"
+                  ><i class="fa fa-pencil"></i
+                ></a>
+                <!-- <a
                   href="javascript:void(0);"
                   data-target="#exampleModalCenter"
                   data-toggle="modal"
@@ -103,8 +111,14 @@
                       stroke-linejoin="round"
                     />
                   </svg>
-                </a>
+                </a> -->
                 <a
+                  (click)="deleteCustomerId(customer.account_id || '')"
+                  href="javascript:void(0);"
+                  class="btn btn-danger shadow btn-xs sharp"
+                  ><i class="fa fa-trash"></i
+                ></a>
+                <!-- <a
                   href="javascript:void(0);"
                   class="ml-4"
                   (click)="deleteCustomerId(customer.account_id)"
@@ -131,7 +145,7 @@
                       stroke-linejoin="round"
                     />
                   </svg>
-                </a>
+                </a> -->
               </td>
             </tr>
             }
@@ -166,7 +180,7 @@
         />
       </div>
 
-      <div class=" " style="margin-inline: 1em; margin-top: 1em;">
+      <div class=" " style="margin-inline: 1em; margin-top: 1em">
         <input
           class="form-control form-control-lg"
           type="text"
@@ -174,16 +188,26 @@
           [(ngModel)]="customerObj.lname"
         />
       </div>
-      
-       
 
-      <div class=" " style="margin: 1em" >
+      <div class=" " style="margin-inline: 1em; margin-top: 1em">
+        <select
+          class="form-control form-control-lg"
+          [(ngModel)]="customerObj.account_type"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          <option value="" disabled selected>Select Type</option>
+          <option value="Individual" selected>Individual</option>
+          <option value="Corporate">Corporate</option>
+          <option value="Retailer">Retailer</option>
+        </select>
+      </div>
+
+      <div class=" " style="margin: 1em">
         <input
           class="form-control form-control-lg"
           type="text"
           placeholder="E-mail"
           [(ngModel)]="customerObj.email"
-          
         />
       </div>
 
@@ -196,11 +220,11 @@
         />
       </div>
 
-      <div class=" " style="margin-inline: 1em; margin-top: 1em;">
+      <div class=" " style="margin-inline: 1em; margin-top: 1em">
         <input
           class="form-control form-control-lg"
           type="text"
-          placeholder="Phone"
+          placeholder="Mobile"
           [(ngModel)]="customerObj.mobile"
         />
       </div>
@@ -208,13 +232,17 @@
       <!-- model footer buttons  -->
       <div class="modal-footer">
         <ng-container *ngIf="customerObj.account_id; else saveButton">
-          <button type="button" class="btn btn-primary" (click)="onUpdate()">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            (click)="onUpdate()"
+          >
             Edit
           </button>
         </ng-container>
         <button
           type="button"
-          class="btn btn-danger light"
+          class="btn btn-outline-danger"
           data-dismiss="modal"
           (click)="closeModal()"
         >
@@ -223,9 +251,8 @@
         <ng-template #saveButton>
           <button
             type="button"
-            class="btn btn-primary"
+            class="btn btn-outline-primary"
             (click)="createCustomer()"
-            
           >
             save
           </button>

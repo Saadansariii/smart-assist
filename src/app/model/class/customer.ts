@@ -1,5 +1,5 @@
 export class Accounts {
-  account_id : string;
+  account_id ?: string ;
   account_type: string;
   salutation: string;
   fname: string;
@@ -12,8 +12,8 @@ export class Accounts {
   occupation: string;
   cust_journey_stage: string;
   national_id: string;
-  phone: number;
-  mobile: number;
+  phone: number | null;
+  mobile: number | null;
   billing_street: string;
   billing_city: string;
   billing_state: string;
@@ -49,8 +49,8 @@ export class Accounts {
     this.occupation = '';
     this.cust_journey_stage = '';
     this.national_id = '';
-    this.phone = 0;
-    this.mobile = 0;
+    this.phone = null;
+    this.mobile = null;
     this.billing_street = '';
     this.billing_city = '';
     this.billing_state = '';

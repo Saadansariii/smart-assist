@@ -16,7 +16,7 @@ export class UserList {
   otp_validated: string
   otp: string
   otp_expiration: string
-  dealer_code: number 
+  dealer_code: number | null 
   corporate_id: string
   dealer_id: string 
    
@@ -32,7 +32,7 @@ export class UserList {
   this.otp_validated = '';
   this.otp = '';
   this.otp_expiration = '';
-  this.dealer_code = 0; 
+  this.dealer_code = null; 
   this.corporate_id = '';
   this.dealer_id = '';
 

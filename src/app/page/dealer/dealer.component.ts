@@ -33,7 +33,7 @@ export class DealerComponent implements OnInit {
       : {              // Reset dealerObj for creating a new dealer
           dealer_id: '',
           dealer_name: '',
-          dealer_code: 0,
+          dealer_code: null,
           created_at: '',
           updated_at: '',
           corporate_id: '',
@@ -91,6 +91,7 @@ export class DealerComponent implements OnInit {
       (res: dealers) => {
         alert('update successfully');
         this.isModalVisible = false; 
+        this.getAllDealer();
       },
       (error) => {
         alert('something happn ');

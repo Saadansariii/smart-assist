@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-customer',
@@ -25,6 +27,8 @@ import { CalendarModule } from 'primeng/calendar';
     MatNativeDateModule,
     ReactiveFormsModule,
     CalendarModule,
+    BreadcrumbModule,
+    RouterModule
   ],
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css',
@@ -34,10 +38,8 @@ export class CustomerComponent implements OnInit {
   customerList = signal<Accounts[]>([]);
   masterSrv = inject(MasterService);
   customerObj: Accounts = new Accounts();
-
- 
-
   date: Date | undefined;
+  
 
   ngOnInit(): void {
     this.displayAllCustomer();
@@ -50,8 +52,8 @@ export class CustomerComponent implements OnInit {
     this.customerObj = customer
       ? {
           ...customer,
-          phone: customer.phone ? Number(customer.phone) : 0,
-          mobile: customer.mobile ? Number(customer.mobile) : 0,
+          phone: customer.phone ? Number(customer.phone) : null,
+          mobile: customer.mobile ? Number(customer.mobile) : null,
         }
       : new Accounts();  
   }

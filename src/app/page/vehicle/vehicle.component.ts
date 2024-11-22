@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import {   FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -37,7 +38,7 @@ export class VehicleComponent implements OnInit {
   vehicleList = signal<Vehicles[]>([]);
   masterSrv = inject(MasterService);
   vehicleObj: Vehicles = new Vehicles();
-
+  private readonly toastr = inject(ToastrService);
   dtOptions: Config = {};
   items: any;
 
@@ -86,12 +87,12 @@ export class VehicleComponent implements OnInit {
   createVehicle() {
     this.masterSrv.createNewVehicle(this.vehicleObj).subscribe(
       (res: VehicleResponse) => {
-        alert('new vehicle created');
+        this.toastr.success('new vehicle created!', 'Success'); 
         this.isModalVisible = false;
         this.displayAllVehicle();  
       },
       (error) => {
-        alert('something was wrong');
+        console.error('something was wrong:', error); 
       }
     );
   }
@@ -100,7 +101,7 @@ export class VehicleComponent implements OnInit {
     alert('r u ok ');
     this.masterSrv.deleteVehicle(id).subscribe(
       (res) => {
-        alert(res.message);
+        this.toastr.success(res.message, 'Success'); 
         this.displayAllVehicle();
       },
       (error) => {
@@ -113,12 +114,12 @@ export class VehicleComponent implements OnInit {
     this.displayAllVehicle();
     this.masterSrv.updateVehicle(this.vehicleObj).subscribe(
       (res: VehicleResponse) => {
-        alert('update successfully');
+        this.toastr.success('update successfully!', 'Success'); 
         this.isModalVisible = false;
         this.displayAllVehicle();
       },
-      (error) => {
-        alert('something happn ');
+      (error) => { 
+        console.error(error.message, 'error');
       }
     );
   }

@@ -6,7 +6,8 @@ import { DealerResponse, MultiuserResponse } from '../../model/interface/master'
 import { MasterService } from '../../service/master.service';
 import { UserList } from '../../model/class/multiuser';
 import { dealers } from '../../model/class/dealers';
-import { DealerResolver } from '../../service/dealar-resolver.service';
+import { ToastrService } from 'ngx-toastr';
+import { DealerResolver } from '../../service/dealar-resolver.service'; 
 
 @Component({
   selector: 'app-users',
@@ -25,6 +26,8 @@ export class UsersComponent implements OnInit {
   totalDealer = signal<number>(0);
   isModalVisible = false;
 
+  private readonly toastr = inject(ToastrService);
+
   ngOnInit() {
     this.displayAllUser();
     this.getAllDealer();
@@ -38,7 +41,7 @@ export class UsersComponent implements OnInit {
   openModal(user?: UserList) {
     this.isModalVisible = true;
     this.userObj = user
-      ? { ...user, phone: user.phone ? Number(user.phone) : null }
+      ? { ...user, phone: user.phone ? Number(user.phone) : null  }
       : {
           user_id: '',
           account_id: '',
@@ -50,7 +53,7 @@ export class UsersComponent implements OnInit {
           otp_validated: '',
           otp: '',
           otp_expiration: '',
-          dealer_code: 0,
+          dealer_code: null,
           corporate_id: '',
           dealer_id: '', // Ensure dealer_id is part of the user object
         };
@@ -70,7 +73,7 @@ export class UsersComponent implements OnInit {
   getDealerCode(dealerId: string): string {
     const dealer = this.dealerList().find(dealer => dealer.dealer_id === dealerId);
     console.log(this.dealerList);
-    return dealer ? dealer.dealer_code.toString() : 'N/A';
+    return dealer?.dealer_code?.toString() ?? 'N/A';
   }
 
   getAllDealer() {
@@ -109,6 +112,7 @@ export class UsersComponent implements OnInit {
   createUser() {
     // Validate phone number and dealer_id before creating the user
     if (!this.userObj.phone || isNaN(this.userObj.phone) || this.userObj.phone <= 0) {
+      
       alert('Please enter a valid phone number!');
       return;
     }
@@ -120,12 +124,14 @@ export class UsersComponent implements OnInit {
 
     this.masterSrv.createNewUser(this.userObj).subscribe({
       next: () => {
-        alert('User created successfully!');
+        // alert('');
+        this.toastr.success('User created successfully!', 'Success');
         this.isModalVisible = false;
         this.displayAllUser();
       },
       error: (err) => {
-        alert('Error creating user: ' + err.message);
+        console.error('Email verification error:', err);
+        // alert('Error creating user: ' + err.message);
       },
     });
   }
@@ -134,10 +140,12 @@ export class UsersComponent implements OnInit {
     if (confirm('Are you sure you want to delete this user?')) {
       this.masterSrv.deleteUser(id).subscribe({
         next: (res) => {
+          this.toastr.success('User deleted successfully!', 'Success');
           alert(res.message || 'User deleted successfully');
           this.displayAllUser();
         },
         error: (err) => {
+          console.error('Error deleting user:' + err.message);
           alert('Error deleting user: ' + err.message);
         },
       });
@@ -153,6 +161,7 @@ export class UsersComponent implements OnInit {
 
     this.masterSrv.updateUser(this.userObj).subscribe({
       next: () => {
+        this.toastr.success('User updated Successfully!' , 'Success')
         alert('User updated successfully!');
         this.isModalVisible = false;
         this.displayAllUser();

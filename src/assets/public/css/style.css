@@ -2470,7 +2470,7 @@ fieldset:disabled a.btn {
     pointer-events: none; }
 
 .btn-lg, .btn-group-lg > .btn {
-  padding: 0.5rem 1rem;
+  /* padding: 0.5rem 1rem; */
   font-size: 14px;
   line-height: 1.5;
   border-radius: 0.3rem; }
@@ -12598,7 +12598,9 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu li:hover > ul {
       display: block;
       height: auto;
-      overflow: visible; }
+      overflow: visible;
+    margin-left: .5em;
+    }
   [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu > li {
     transition: all 0.4s ease-in-out;
     padding: 0 25px; }
@@ -12644,6 +12646,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
       [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu li > ul {
         left: 5rem; }
       [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu li a {
+        margin-block: .2em;
         padding: 19px 10px; } }
 [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .content-body {
   margin-left: 3.5rem; }
@@ -37010,8 +37013,8 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
 .page-titles {
   background: #fff;
   padding: 20px 40px;
-  margin-bottom: 40px;
-  margin-left: -40px;
+  /* margin-left: 12px; */
+  margin-left: -20px;
   margin-right: -40px;
   margin-top: -40px;
   border-bottom: 1px solid #f4f4f4; }
@@ -37425,7 +37428,7 @@ button {
   padding: 0.875rem 1.25rem; }
 
 .btn-lg, .btn-group-lg > .btn {
-  padding: 1.375rem 3rem;
+  /* padding: 1.375rem 3rem; */
   font-size: 14px !important; }
   @media only screen and (max-width: 575px) {
     .btn-lg, .btn-group-lg > .btn {
@@ -40513,7 +40516,7 @@ table.dataTable thead .sorting {
       color: #fff; }
 
 .rounded {
-  border-radius: 1.75rem !important; }
+  border-radius: .5rem !important; }
 
 .left350 {
   left: -350px; }

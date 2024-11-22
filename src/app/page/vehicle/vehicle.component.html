@@ -224,13 +224,13 @@
       <!-- model footer buttons  -->
       <div class="modal-footer">
         <ng-container *ngIf="vehicleObj.vehicle_id; else saveButton">
-          <button type="button" class="btn btn-primary" (click)="onUpdate()">
+          <button type="button" class="btn btn-outline-primary" (click)="onUpdate()">
             Edit
           </button>
         </ng-container>
         <button
           type="button"
-          class="btn btn-danger light"
+          class="btn btn-outline-danger"
           data-dismiss="modal"
           (click)="closeModal()"
         >
@@ -239,7 +239,7 @@
         <ng-template #saveButton>
           <button
             type="button"
-            class="btn btn-primary"
+            class="btn btn-outline-primary"
             (click)="createVehicle()"
           >
             save

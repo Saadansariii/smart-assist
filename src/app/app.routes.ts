@@ -6,8 +6,7 @@ import { DealerComponent } from './page/dealer/dealer.component';
 import { VehicleComponent } from './page/vehicle/vehicle.component';
 import { CustomerComponent } from './page/customer/customer.component';
 import { SingleDealerComponent } from './page/single-dealer/single-dealer.component';
-import { Login1Component } from './page/login-1/login-1.component';
-import { AlertComponent } from './component/utils/alert/alert.component';
+import { Login1Component } from './page/login-1/login-1.component'; 
 import { ProfileComponent } from './page/profile/profile.component';
 import { DealerResolver } from './service/dealar-resolver.service';
 import { UsersComponent } from './page/users/users.component';
@@ -21,14 +20,15 @@ import { TaskResolver } from './service/task-resolver.service';
 import { SingleTaskComponent } from './page/single-task/single-task.component';
 import { SingleOppComponent } from './page/single-opp/single-opp.component';
 import { OpportunitiesResolver } from './service/opportunities-resolver.service';
+import { AuthGuard } from './component/guard/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: Login1Component, pathMatch: 'full' },
-  { path: 'login', component: Login1Component },
-  // {path : 'forget-password' , component : ForgetPageComponent},
+  { path: 'login', component: Login1Component }, 
   {
     path: 'Admin',
     component: OverviewComponent,
+    // canActivate: [AuthGuard],
     // canActivate: [AuthGuard], // Uncomment if AuthGuard is needed
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -64,8 +64,7 @@ export const routes: Routes = [
         path: 'profile',
         component: ProfileComponent,
         data: { title: 'Profile' },
-      },
-      { path: 'alert', component: AlertComponent },
+      }, 
       {
         path: 'singleUser/:id',
         component: SingleDealerComponent,

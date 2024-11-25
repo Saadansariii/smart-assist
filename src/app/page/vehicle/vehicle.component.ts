@@ -14,6 +14,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {   FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { ToastrService } from 'ngx-toastr';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @Component({
@@ -26,7 +27,7 @@ import { ToastrService } from 'ngx-toastr';
     FormsModule ,MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
-    MatNativeDateModule,ReactiveFormsModule, CalendarModule
+    MatNativeDateModule,ReactiveFormsModule, CalendarModule,SweetAlert2Module
      
   ],
   templateUrl: './vehicle.component.html',
@@ -88,6 +89,7 @@ export class VehicleComponent implements OnInit {
     this.masterSrv.createNewVehicle(this.vehicleObj).subscribe(
       (res: VehicleResponse) => {
         this.toastr.success('new vehicle created!', 'Success'); 
+        window.location.reload();
         this.isModalVisible = false;
         this.displayAllVehicle();  
       },
@@ -115,6 +117,7 @@ export class VehicleComponent implements OnInit {
     this.masterSrv.updateVehicle(this.vehicleObj).subscribe(
       (res: VehicleResponse) => {
         this.toastr.success('update successfully!', 'Success'); 
+        window.location.reload();
         this.isModalVisible = false;
         this.displayAllVehicle();
       },

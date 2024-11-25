@@ -7,12 +7,15 @@ import { MasterService } from '../../service/master.service';
 import { UserList } from '../../model/class/multiuser';
 import { dealers } from '../../model/class/dealers';
 import { ToastrService } from 'ngx-toastr';
-import { DealerResolver } from '../../service/dealar-resolver.service'; 
+import { DealerResolver } from '../../service/dealar-resolver.service';  
+import { Alert } from '../../constant.component';
+import { AleartSrvService } from '../../service/aleart-srv.service';
+
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, SharedModule, FormsModule],
+  imports: [CommonModule, SharedModule, FormsModule  ],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css'],
 })
@@ -25,6 +28,8 @@ export class UsersComponent implements OnInit {
   dealerList = signal<dealers[]>([]);
   totalDealer = signal<number>(0);
   isModalVisible = false;
+
+  constructor (private aleartsrv : AleartSrvService){}
 
   private readonly toastr = inject(ToastrService);
 
@@ -123,9 +128,9 @@ export class UsersComponent implements OnInit {
     }
 
     this.masterSrv.createNewUser(this.userObj).subscribe({
-      next: () => {
-        // alert('');
+      next: () => { 
         this.toastr.success('User created successfully!', 'Success');
+        window.location.reload();
         this.isModalVisible = false;
         this.displayAllUser();
       },
@@ -137,11 +142,11 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUserId(id: string) {
-    if (confirm('Are you sure you want to delete this user?')) {
+    
       this.masterSrv.deleteUser(id).subscribe({
-        next: (res) => {
+        next: (res) => { 
           this.toastr.success('User deleted successfully!', 'Success');
-          alert(res.message || 'User deleted successfully');
+          window.location.reload();
           this.displayAllUser();
         },
         error: (err) => {
@@ -149,7 +154,7 @@ export class UsersComponent implements OnInit {
           alert('Error deleting user: ' + err.message);
         },
       });
-    }
+    
   }
 
   onUpdate() {
@@ -163,6 +168,7 @@ export class UsersComponent implements OnInit {
       next: () => {
         this.toastr.success('User updated Successfully!' , 'Success')
         alert('User updated successfully!');
+        window.location.reload();
         this.isModalVisible = false;
         this.displayAllUser();
       },

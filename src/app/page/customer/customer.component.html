@@ -112,12 +112,52 @@
                     />
                   </svg>
                 </a> -->
-                <a
+                <!-- <a
                   (click)="deleteCustomerId(customer.account_id || '')"
                   href="javascript:void(0);"
                   class="btn btn-danger shadow btn-xs sharp"
                   ><i class="fa fa-trash"></i
+                ></a> -->
+                <a
+                  href="javascript:void(0);"
+                  type="button"
+                  class="btn btn-primary mr-2"
+                  data-toggle="modal"
+                  data-target=".bd-example-modal-sm"
+                  class="btn btn-danger shadow btn-xs sharp"
+                  ><i class="fa fa-trash"></i
                 ></a>
+                <div
+                  class="modal fade bd-example-modal-sm"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog modal-sm" >
+                    <div class="modal-content">
+                      <div class="modal-header text-center" style=" margin-inline: auto;">
+                        <h5 class="modal-title text-center"  >Delete User</h5>
+                      </div>
+                      <div class="modal-body">HEY ARE YOU OKAY..!</div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-outline-danger"
+                          data-dismiss="modal"
+                        >
+                          Cancle
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-outline-primary"
+                          (click)="deleteCustomerId(customer.account_id || '')"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <!-- <a
                   href="javascript:void(0);"
                   class="ml-4"

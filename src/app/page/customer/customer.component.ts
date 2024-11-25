@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-customer',
@@ -40,7 +41,7 @@ export class CustomerComponent implements OnInit {
   customerObj: Accounts = new Accounts();
   date: Date | undefined;
   
-
+  private readonly toastr = inject(ToastrService);
   ngOnInit(): void {
     this.displayAllCustomer();
   }
@@ -75,9 +76,10 @@ export class CustomerComponent implements OnInit {
     this.customerObj.mobile = Number(this.customerObj.mobile);
     this.masterSrv.createCustomer(this.customerObj).subscribe(
       (res: AccountsResponse) => {
-        alert('new Customer created');
+        this.toastr.success('Account created successfully!', 'Success'); 
         this.displayAllCustomer();
         this.isModalVisible = false;
+        window.location.reload();
       },
       (error) => {
         alert('something went wrong');
@@ -89,8 +91,10 @@ export class CustomerComponent implements OnInit {
     alert('Are you sure you want to delete this customer?');
     this.masterSrv.deleteCustomer(account_id).subscribe(
       (res) => {
-        alert('Delete successful');
+        this.toastr.success('Account Delete successfully!', 'Success');
+        // alert('Delete successful');
         this.displayAllCustomer(); // Refresh the customer list
+
       },
       (error) => {
         console.error('Delete failed:', error); // Log the error for debugging
@@ -105,9 +109,11 @@ export class CustomerComponent implements OnInit {
     this.displayAllCustomer();
     this.masterSrv.updateCustomer(this.customerObj).subscribe(
       (res: AccountsResponse) => {
-        alert('update successfully');
+        this.toastr.success('Account Update successfully!', 'Success');
+        // alert('update successfully');
         this.isModalVisible = false;
         this.displayAllCustomer();
+        window.location.reload()
       },
       (error) => {
         alert('something happn ');

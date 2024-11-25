@@ -2,7 +2,7 @@
   <div class="row mb-5 align-items-center">
     <div class="col-xl-2 mb-4 mb-xl-0">
       <a
-      style="cursor: pointer; color: white !important;" 
+        style="cursor: pointer; color: white !important"
         (click)="openModal()"
         data-target="#exampleModalCenter"
         data-toggle="modal"
@@ -79,12 +79,14 @@
               <td>{{ user.role }}</td>
               <td>{{ user.dealer_code }}</td>
               <td class="d-flex">
-                <a 
+                <a
                   href="javascript:void(0);"
                   data-target="#exampleModalCenter"
                   data-toggle="modal"
                   (click)="openModal(user)"
-                  class="btn btn-primary shadow btn-xs sharp mr-1"><i class="fa fa-pencil"></i></a>
+                  class="btn btn-primary shadow btn-xs sharp mr-1"
+                  ><i class="fa fa-pencil"></i
+                ></a>
                 <!-- <a
                   href="javascript:void(0);"
                   data-target="#exampleModalCenter"
@@ -107,7 +109,46 @@
                     />
                   </svg>
                 </a> -->
-                <a (click)="deleteUserId(user.user_id)" href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                <a
+                  href="javascript:void(0);"
+                  type="button"
+                  class="btn btn-primary mb-2"
+                  data-toggle="modal"
+                  data-target=".bd-example-modal-sm"
+                  class="btn btn-danger shadow btn-xs sharp"
+                  ><i class="fa fa-trash"></i
+                ></a>
+                <div
+                  class="modal fade bd-example-modal-sm"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog modal-sm" >
+                    <div class="modal-content">
+                      <div class="modal-header text-center" style=" margin-inline: auto;">
+                        <h5 class="modal-title text-center"  >Delete User</h5>
+                      </div>
+                      <div class="modal-body">HEY ARE YOU OKAY..!</div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-outline-danger"
+                          data-dismiss="modal"
+                        >
+                          Cancle
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-outline-primary"
+                          (click)="deleteUserId(user.user_id)"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <!-- <a
                   href="javascript:void(0);"
                   class="ml-4"
@@ -184,7 +225,7 @@
             class="form-control form-control-lg"
             type="email"
             placeholder="Account Id"
-            [(ngModel)]="userObj.account_id" 
+            [(ngModel)]="userObj.account_id"
           />
         </div>
 
@@ -210,36 +251,35 @@
             [disabled]="!!userObj.user_id"
           >
             <option value="" disabled>Select Dealer</option>
-            <option *ngFor="let dealer of dealerList()" [value]="dealer.dealer_id">
-              {{ dealer.dealer_code }} 
-              
+            <option
+              *ngFor="let dealer of dealerList()"
+              [value]="dealer.dealer_id"
+            >
+              {{ dealer.dealer_code }}
             </option>
           </select>
         </div>
-        
-        
-        
-        
-        
-        
 
         <!-- Additional Fields -->
         <div class="form-group" style="margin-inline: 1em">
           <input
             class="form-control form-control-lg"
-            type="tel" 
+            type="tel"
             placeholder="Phone"
             [(ngModel)]="userObj.phone"
-            (ngModelChange)="onPhoneInputChange($event)"  
+            (ngModelChange)="onPhoneInputChange($event)"
           />
         </div>
-        
       </div>
 
       <!-- Modal Footer Buttons -->
       <div class="modal-footer">
         <ng-container *ngIf="userObj.user_id; else saveButton">
-          <button type="button" class="btn btn-outline-primary" (click)="onUpdate()">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            (click)="onUpdate()"
+          >
             Edit
           </button>
         </ng-container>
@@ -262,6 +302,39 @@
             {{ userObj.user_id ? "Update" : "Save" }}
           </button>
         </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  type="button"
+  class="btn btn-primary mb-2"
+  data-toggle="modal"
+  data-target=".bd-example-modal-sm"
+>
+  Small modal
+</button>
+<div
+  class="modal fade bd-example-modal-sm"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">Modal body text goes here.</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger light" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>

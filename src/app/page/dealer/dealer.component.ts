@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { MasterService } from '../../service/master.service';  
 import { DealerResponse } from '../../model/interface/master'; 
 import { dealers } from '../../model/class/dealers';
+import { ToastrService } from 'ngx-toastr';
  
 @Component({
   selector: 'app-dealer',
@@ -25,6 +26,7 @@ export class DealerComponent implements OnInit {
   isModalVisible = false;
   isEditMode: boolean = false;
   
+  private readonly toastr = inject(ToastrService);
 
   openModal(dealer?: dealers) {
     this.isModalVisible = true;
@@ -75,12 +77,13 @@ export class DealerComponent implements OnInit {
     this.getAllDealer();
     this.masterSrv.createDealer(this.dealerObj).subscribe(
       (res: dealers) => {
-        alert('Create New Dealer successfully');
+        this.toastr.success('Dealer created successfully!', 'Success');
+        window.location.reload();
         this.isModalVisible = false; 
         this.getAllDealer(); 
       },
       (error) => {
-        alert('something happn ');
+        alert('API Have Sone Issue');
       }
     );
   }
@@ -89,7 +92,8 @@ export class DealerComponent implements OnInit {
     this.getAllDealer();
     this.masterSrv.updateDealer(this.dealerObj).subscribe(
       (res: dealers) => {
-        alert('update successfully');
+        this.toastr.success('Dealer Edit successfully!', 'Success');
+        window.location.reload();
         this.isModalVisible = false; 
         this.getAllDealer();
       },
@@ -106,10 +110,12 @@ export class DealerComponent implements OnInit {
   }
 
   deleteDealerId(id: string) { 
-    alert('are u sure')
+    // alert('are u sure')
     this.masterSrv.deleteDealer(id).subscribe(
       (res) => {
-        alert(res.message);
+        this.toastr.success('Dealer deleted successfully!', 'Success');
+        window.location.reload()
+        // alert(res.message);
         this.getAllDealer();
       },
       (error) => {

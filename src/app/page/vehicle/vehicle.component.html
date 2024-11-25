@@ -124,7 +124,47 @@
                   </svg>
                 </a> -->
 
-                <a (click)="deleteVehicleId(vehicle.vehicle_id)" href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                <!-- <a (click)="deleteVehicleId(vehicle.vehicle_id)" href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a> -->
+                <a
+                  href="javascript:void(0);"
+                  type="button"
+                  class="btn btn-primary mb-2"
+                  data-toggle="modal"
+                  data-target=".bd-example-modal-sm"
+                  class="btn btn-danger shadow btn-xs sharp"
+                  ><i class="fa fa-trash"></i
+                ></a>
+                <div
+                  class="modal fade bd-example-modal-sm"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog modal-sm" >
+                    <div class="modal-content">
+                      <div class="modal-header text-center" style=" margin-inline: auto;">
+                        <h5 class="modal-title text-center"  >Delete Vehicle</h5>
+                      </div>
+                      <div class="modal-body">HEY ARE YOU OKAY..!</div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-outline-danger"
+                          data-dismiss="modal"
+                        >
+                          Cancle
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-outline-primary"
+                          (click)="deleteVehicleId(vehicle.vehicle_id)"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <!-- <a
                   href="javascript:void(0);"
                   class="ml-4"
@@ -167,12 +207,12 @@
 <div class="modal fade" id="exampleModalCenter" style="margin-block: 2em">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header"> 
         <h5
           class="modal-title"
           style="align-items: center; margin-inline: auto"
         >
-          Add New Vehicle
+          {{ vehicleObj.vehicle_id ? "Edit Vehicle" : "Add New Vehicle" }}
         </h5>
         <button type="button" class="close" data-dismiss="modal">
           <span>&times;</span>
@@ -248,4 +288,18 @@
       </div>
     </div>
   </div>
+</div>
+<div class="col-lg-3">
+  <div class="card">
+      <div class="card-body">
+          <h4 class="card-title">Sweet Confirm Or Cancel</h4>
+          <div class="card-content">
+              <div class="sweetalert mt-5">
+                  <button class="btn btn-warning btn sweet-success-cancel">Sweet Confirm Or
+                      Cancel</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- /# card -->
 </div>

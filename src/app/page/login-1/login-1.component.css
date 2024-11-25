@@ -179,6 +179,10 @@ form{
     margin-bottom: 4px;
 }
 
+.input-div.verify{ 
+    margin-bottom: 4px;
+}
+
 a{
     display: block;
     text-align: right;

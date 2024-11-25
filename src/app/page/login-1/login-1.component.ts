@@ -3,6 +3,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, ViewChildren, QueryList, ElementRef, Renderer2, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { verify } from 'crypto';
 import { ToastrService } from 'ngx-toastr';
 
 interface LoginResponse {
@@ -16,6 +17,10 @@ interface LoginData {
   otp: number | null;
   confirmPassword: string;
   newPwd: string;
+}
+
+interface verifyData{
+  email : string;
 }
 
  
@@ -42,6 +47,12 @@ export class Login1Component {
     confirmPassword: '',
     newPwd: '',
   };
+
+  verifyObj : verifyData = {
+    email: '',
+  }
+
+  
 
   // View control flags
   currentStep: 'login' | 'verifyEmail' | 'verifyOtp' | 'newPassword' = 'login';
@@ -72,7 +83,7 @@ export class Login1Component {
   // Navigation methods
   showVerifyEmail() {
     this.currentStep = 'verifyEmail';
-    this.resetFormExceptEmail();
+    this.resetFormExceptEmail(); 
   }
 
   showVerifyOtp() {
@@ -85,6 +96,7 @@ export class Login1Component {
 
   backToLogin() {
     this.currentStep = 'login';
+    window.location.reload()
     this.resetForm();
     if (this.countdownInterval) {
       clearInterval(this.countdownInterval);
@@ -168,12 +180,12 @@ export class Login1Component {
   }
 
   onVerifyEmail() {
-    if (!this.loginObj.email || !this.isValidEmail(this.loginObj.email)) {
+    if (!this.verifyObj.email || !this.isValidEmail(this.verifyObj.email)) {
       this.toastr.error('Please enter a valid email address', 'Validation Error');
       return;
     }
 
-    this.http.post(`${this.API_BASE_URL}login/s-admin/forgot-pwd/verify-email`, { email: this.loginObj.email })
+    this.http.post(`${this.API_BASE_URL}login/s-admin/forgot-pwd/verify-email`, { email: this.verifyObj.email })
       .subscribe({
         next: () => {
           this.toastr.success('OTP sent to your email', 'Success');
@@ -196,7 +208,7 @@ export class Login1Component {
 
     const otpPayload = {
       otp: Number(this.loginObj.otp),
-      email: this.loginObj.email
+      email: this.verifyObj.email
     };
 
     this.http.post(`${this.API_BASE_URL}login/s-admin/forgot-pwd/verify-otp`, otpPayload)
@@ -264,7 +276,7 @@ onSetNewPassword() {
   if (!this.validateNewPassword()) return;
 
   const resetPasswordData = {
-    email: this.loginObj.email,
+    email: this.verifyObj.email,
     newPwd: this.loginObj.newPwd,
     confirmPwd: this.loginObj.confirmPassword
   };
@@ -273,6 +285,7 @@ onSetNewPassword() {
     .subscribe({
       next: (response) => {
         this.toastr.success('Password reset successfully', 'Success');
+        window.location.reload()
         this.backToLogin();
       },
       error: (error) => {

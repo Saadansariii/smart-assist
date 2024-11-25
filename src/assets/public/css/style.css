@@ -43643,3 +43643,18 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
       color: #fff; }
 
 /*# sourceMappingURL=style.css.map */
+@media only screen and (min-width: 1401px) and (max-width: 2400px) {
+  .header {
+      height: 4rem;
+  }
+  .nav-header {
+    height: 8.5rem;
+  }
+  [data-sidebar-position=fixed][data-layout=vertical] .nav-header {
+    padding-top: 1rem;
+  }
+
+  .nav-control[_ngcontent-ng-c1382468177] {
+    top: 25% !important;
+}
+}

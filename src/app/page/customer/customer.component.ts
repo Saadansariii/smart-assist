@@ -82,7 +82,8 @@ export class CustomerComponent implements OnInit {
         window.location.reload();
       },
       (error) => {
-        alert('something went wrong');
+        this.toastr.error(error.message, 'Error');
+        // alert('something went wrong');
       }
     );
   }
@@ -94,7 +95,8 @@ export class CustomerComponent implements OnInit {
         this.toastr.success('Account Delete successfully!', 'Success');
         // alert('Delete successful');
         this.displayAllCustomer(); // Refresh the customer list
-
+        this.closeModal();
+        
       },
       (error) => {
         console.error('Delete failed:', error); // Log the error for debugging
@@ -116,7 +118,8 @@ export class CustomerComponent implements OnInit {
         window.location.reload()
       },
       (error) => {
-        alert('something happn ');
+        this.toastr.error(error.message, 'Error');
+        // alert('something happn ');
       }
     );
   }

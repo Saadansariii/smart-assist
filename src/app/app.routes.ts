@@ -20,88 +20,182 @@ import { TaskResolver } from './service/task-resolver.service';
 import { SingleTaskComponent } from './page/single-task/single-task.component';
 import { SingleOppComponent } from './page/single-opp/single-opp.component';
 import { OpportunitiesResolver } from './service/opportunities-resolver.service';
-import { AuthGuard } from './component/guard/auth.guard';
+import { AuthGuard } from './component/guard/auth.guard'; 
+
+// export const routes: Routes = [
+//   { path: '', component: Login1Component, pathMatch: 'full' },
+//   { path: 'login', component: Login1Component }, 
+//   {
+//     path: 'Admin',
+//     component: OverviewComponent,
+//     // canActivate: [AuthGuard],
+//     // canActivate: [AuthGuard], // Uncomment if AuthGuard is needed
+//     children: [
+//       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+//       { path: 'overview', component: OverviewComponent },
+//       {
+//         path: 'dashboard',
+//         component: DashboardComponent,
+//         data: { title: 'Dashboard' },
+       
+//       },
+//       { path: 'dealer', component: DealerComponent, data: { title: 'Dealer' } },
+      
+//       // { path: 'users', component: DealerComponent, data: { title: 'Dealer' } },
+//       {
+//         path: 'vehicle',
+//         component: VehicleComponent,
+//         data: { title: 'Vehicle' },
+//       }, 
+//       {
+//         path: 'user-all',
+//         component: UsersComponent,
+//         data: { title: 'Users-All' },
+//       },
+//       {
+//         path: 'customer',
+//         component: CustomerComponent,
+//         data: { title: 'Customer' },
+//       },
+//       {
+//         path: 'user',
+//         component: SingleDealerComponent,
+//         data: { title: 'User' },
+//       },
+//       {
+//         path: 'profile',
+//         component: ProfileComponent,
+//         data: { title: 'Profile' },
+//       }, 
+//       {
+//         path: 'singleUser/:id',
+//         component: SingleDealerComponent,
+//         resolve: { dealerData: DealerResolver },
+//         data: { title: 'Multiple' }, 
+//       },
+//       {
+//         path: 'single-events/:eventId',
+//         component: SingleEventComponent,
+//         data: { title: 'Single events' },
+//         resolve: { eventData:  EventResolver}
+       
+//       },
+//       {
+//         path: 'single-lead/:leadId',
+//         component: SingleLeadComponent,
+//         data: { title: 'Single Lead Data' },
+//         resolve: { leadData:  LeadResolver}   
+//       },
+//       {
+//         path: 'single-user/:userId',
+//         component: SingleUserComponent,
+//         data: { title: 'Single user Data' },
+//         resolve: { userData:  UserResolver}   
+//       },
+//       {
+//         path: 'single-task/:taskId',
+//         component: SingleTaskComponent,
+//         data: { title: 'Single Task Data' },
+//         resolve: { taskData:  TaskResolver}   
+//       },
+//       {
+//         path: 'single-oppotunities/:oppId',
+//         component: SingleOppComponent,
+//         data: { title: 'Single Opportunities Data' },
+//         resolve: { oppData:  OpportunitiesResolver}   
+//       },
+//     ],
+//   },
+// ];
 
 export const routes: Routes = [
   { path: '', component: Login1Component, pathMatch: 'full' },
-  { path: 'login', component: Login1Component }, 
+  { path: 'login', component: Login1Component },
   {
     path: 'Admin',
     component: OverviewComponent,
-    // canActivate: [AuthGuard],
-    // canActivate: [AuthGuard], // Uncomment if AuthGuard is needed
+    canActivate: [AuthGuard],  
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'overview', component: OverviewComponent },
       {
         path: 'dashboard',
         component: DashboardComponent,
         data: { title: 'Dashboard' },
+        canActivate: [AuthGuard],
       },
-      { path: 'dealer', component: DealerComponent, data: { title: 'Dealer' } },
-      // { path: 'users', component: DealerComponent, data: { title: 'Dealer' } },
+      {
+        path: 'dealer',
+        component: DealerComponent,
+        data: { title: 'Dealer' },
+        canActivate: [AuthGuard],
+      },
       {
         path: 'vehicle',
         component: VehicleComponent,
         data: { title: 'Vehicle' },
+        canActivate: [AuthGuard],
       },
       {
         path: 'user-all',
         component: UsersComponent,
         data: { title: 'Users-All' },
+        canActivate: [AuthGuard],
       },
       {
         path: 'customer',
         component: CustomerComponent,
         data: { title: 'Customer' },
-      },
-      {
-        path: 'user',
-        component: SingleDealerComponent,
-        data: { title: 'User' },
+        canActivate: [AuthGuard],
       },
       {
         path: 'profile',
         component: ProfileComponent,
         data: { title: 'Profile' },
-      }, 
+        canActivate: [AuthGuard],
+      },
       {
         path: 'singleUser/:id',
         component: SingleDealerComponent,
         resolve: { dealerData: DealerResolver },
-        data: { title: 'Multiple' }, 
+        data: { title: 'Multiple' },
+        canActivate: [AuthGuard],
       },
       {
         path: 'single-events/:eventId',
         component: SingleEventComponent,
+        resolve: { eventData: EventResolver },
         data: { title: 'Single events' },
-        resolve: { eventData:  EventResolver}
-       
+        canActivate: [AuthGuard],
       },
       {
         path: 'single-lead/:leadId',
         component: SingleLeadComponent,
+        resolve: { leadData: LeadResolver },
         data: { title: 'Single Lead Data' },
-        resolve: { leadData:  LeadResolver}   
+        canActivate: [AuthGuard],
       },
       {
         path: 'single-user/:userId',
         component: SingleUserComponent,
+        resolve: { userData: UserResolver },
         data: { title: 'Single user Data' },
-        resolve: { userData:  UserResolver}   
+        canActivate: [AuthGuard],
       },
       {
         path: 'single-task/:taskId',
         component: SingleTaskComponent,
+        resolve: { taskData: TaskResolver },
         data: { title: 'Single Task Data' },
-        resolve: { taskData:  TaskResolver}   
+        canActivate: [AuthGuard],
       },
       {
-        path: 'single-oppotunities/:oppId',
+        path: 'single-opportunities/:oppId',
         component: SingleOppComponent,
+        resolve: { oppData: OpportunitiesResolver },
         data: { title: 'Single Opportunities Data' },
-        resolve: { oppData:  OpportunitiesResolver}   
+        canActivate: [AuthGuard],
       },
     ],
   },
 ];
+

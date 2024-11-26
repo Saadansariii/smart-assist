@@ -34,7 +34,7 @@ export class MasterService {
   constructor(private http: HttpClient, private storageService: StorageService) {}
 
   private getAuthHeaders(): HttpHeaders {
-    const token = this.storageService.getItem('adminToken');
+    const token = this.storageService.getItem('token');
     return new HttpHeaders()
       .set('authorization', `Bearer ${token}`)
       .set('accept', 'application/json');

@@ -1,9 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, ViewChildren, QueryList, ElementRef, Renderer2, inject } from '@angular/core';
+import {
+  Component,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+  Renderer2,
+  inject,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { verify } from 'crypto';
+// import { verify } from 'crypto';
 import { ToastrService } from 'ngx-toastr';
 
 interface LoginResponse {
@@ -19,26 +26,21 @@ interface LoginData {
   newPwd: string;
 }
 
-interface verifyData{
-  email : string;
+interface verifyData {
+  email: string;
 }
-
- 
 
 @Component({
   selector: 'app-login-1',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
-  ],
+  imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './login-1.component.html',
   styleUrls: ['./login-1.component.css'],
 })
 export class Login1Component {
-  
-  @ViewChildren('inputElement') inputElements: QueryList<ElementRef> | undefined;
+  @ViewChildren('inputElement') inputElements:
+    | QueryList<ElementRef>
+    | undefined;
 
   loginObj: LoginData = {
     email: '',
@@ -48,11 +50,9 @@ export class Login1Component {
     newPwd: '',
   };
 
-  verifyObj : verifyData = {
+  verifyObj: verifyData = {
     email: '',
-  }
-
-  
+  };
 
   // View control flags
   currentStep: 'login' | 'verifyEmail' | 'verifyOtp' | 'newPassword' = 'login';
@@ -62,7 +62,7 @@ export class Login1Component {
   private countdownInterval: any;
 
   private readonly API_BASE_URL = 'https://api.smartassistapp.in/api/';
-  private readonly SESSION_TIMEOUT = 6 * 1000000;
+  private readonly SESSION_TIMEOUT = 60 * 60 * 1000;
 
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
@@ -74,8 +74,16 @@ export class Login1Component {
   ngAfterViewInit() {
     if (this.inputElements) {
       this.inputElements.toArray().forEach((input) => {
-        this.renderer.listen(input.nativeElement, 'focus', this.addClass.bind(this));
-        this.renderer.listen(input.nativeElement, 'blur', this.removeClass.bind(this));
+        this.renderer.listen(
+          input.nativeElement,
+          'focus',
+          this.addClass.bind(this)
+        );
+        this.renderer.listen(
+          input.nativeElement,
+          'blur',
+          this.removeClass.bind(this)
+        );
       });
     }
   }
@@ -83,7 +91,7 @@ export class Login1Component {
   // Navigation methods
   showVerifyEmail() {
     this.currentStep = 'verifyEmail';
-    this.resetFormExceptEmail(); 
+    this.resetFormExceptEmail();
   }
 
   showVerifyOtp() {
@@ -96,7 +104,7 @@ export class Login1Component {
 
   backToLogin() {
     this.currentStep = 'login';
-    window.location.reload()
+    window.location.reload();
     this.resetForm();
     if (this.countdownInterval) {
       clearInterval(this.countdownInterval);
@@ -109,7 +117,7 @@ export class Login1Component {
       newPwd: '',
       otp: null,
       confirmPassword: '',
-      password: ''
+      password: '',
     };
   }
 
@@ -131,11 +139,17 @@ export class Login1Component {
   // Form validation methods
   private validateLoginInput(): boolean {
     if (!this.loginObj.email || !this.loginObj.password) {
-      this.toastr.error('Please enter both email and password', 'Validation Error');
+      this.toastr.error(
+        'Please enter both email and password',
+        'Validation Error'
+      );
       return false;
     }
     if (!this.isValidEmail(this.loginObj.email)) {
-      this.toastr.error('Please enter a valid email address', 'Validation Error');
+      this.toastr.error(
+        'Please enter a valid email address',
+        'Validation Error'
+      );
       return false;
     }
     return true;
@@ -162,7 +176,11 @@ export class Login1Component {
   onLogin() {
     if (!this.validateLoginInput()) return;
 
-    this.http.post<LoginResponse>(`${this.API_BASE_URL}login/super-admin`, this.loginObj)
+    this.http
+      .post<LoginResponse>(
+        `${this.API_BASE_URL}login/super-admin`,
+        this.loginObj
+      )
       .subscribe({
         next: (response) => {
           if (response.token) {
@@ -175,17 +193,23 @@ export class Login1Component {
           console.error('Login error:', error);
           const errorMessage = error.error?.message || 'Failed to login';
           this.toastr.error(errorMessage, 'Error');
-        }
+        },
       });
   }
 
   onVerifyEmail() {
     if (!this.verifyObj.email || !this.isValidEmail(this.verifyObj.email)) {
-      this.toastr.error('Please enter a valid email address', 'Validation Error');
+      this.toastr.error(
+        'Please enter a valid email address',
+        'Validation Error'
+      );
       return;
     }
 
-    this.http.post(`${this.API_BASE_URL}login/s-admin/forgot-pwd/verify-email`, { email: this.verifyObj.email })
+    this.http
+      .post(`${this.API_BASE_URL}login/s-admin/forgot-pwd/verify-email`, {
+        email: this.verifyObj.email,
+      })
       .subscribe({
         next: () => {
           this.toastr.success('OTP sent to your email', 'Success');
@@ -196,7 +220,7 @@ export class Login1Component {
           console.error('Email verification error:', error);
           const errorMessage = error.error?.message || 'Failed to send OTP';
           this.toastr.error(errorMessage, 'Error');
-        }
+        },
       });
   }
 
@@ -208,112 +232,142 @@ export class Login1Component {
 
     const otpPayload = {
       otp: Number(this.loginObj.otp),
-      email: this.verifyObj.email
+      email: this.verifyObj.email,
     };
 
-    this.http.post(`${this.API_BASE_URL}login/s-admin/forgot-pwd/verify-otp`, otpPayload)
-    .subscribe({
-      next: () => {
-        this.toastr.success('OTP verified successfully', 'Success');
-        this.showNewPassword();
-      },
-      error: (error) => {
-        console.error('OTP verification error:', error);
-        const errorMessage = error.error?.message || 'Invalid OTP';
-        this.toastr.error(errorMessage, 'Error');
-      }
-    });
+    this.http
+      .post(
+        `${this.API_BASE_URL}login/s-admin/forgot-pwd/verify-otp`,
+        otpPayload
+      )
+      .subscribe({
+        next: () => {
+          this.toastr.success('OTP verified successfully', 'Success');
+          this.showNewPassword();
+        },
+        error: (error) => {
+          console.error('OTP verification error:', error);
+          const errorMessage = error.error?.message || 'Invalid OTP';
+          this.toastr.error(errorMessage, 'Error');
+        },
+      });
   }
 
   onOtpInput(event: Event) {
     const input = event.target as HTMLInputElement;
     // Remove any non-numeric characters
     const numericValue = input.value.replace(/[^0-9]/g, '');
-    
+
     // Update the loginObj with the numeric value
     this.loginObj.otp = numericValue ? Number(numericValue) : 0;
-    
+
     // Update the input value to show only numbers
     input.value = numericValue;
   }
 
- 
+  //   onSetNewPassword() {
+  //     if (!this.validateNewPassword()) return;
 
-//   onSetNewPassword() {
-//     if (!this.validateNewPassword()) return;
- 
-//     const resetPasswordData = {
-//       email: this.loginObj.email,
-//       newPassword: this.loginObj.newPwd,
-//       confirmPwd: this.loginObj.confirmPassword
-//     };
+  //     const resetPasswordData = {
+  //       email: this.loginObj.email,
+  //       newPassword: this.loginObj.newPwd,
+  //       confirmPwd: this.loginObj.confirmPassword
+  //     };
 
-//     this.http.put<any>(`${this.API_BASE_URL}login/s-admin/forgot-pwd/new-pwd`, resetPasswordData)
-//       .subscribe({
-//         next: (response) => {
-//           this.toastr.success('Password reset successfully', 'Success');
-//           this.backToLogin();
-//         },
-//         error: (error) => {
-//           console.error('Password reset error:', error); 
-//           if (error.status === 400) {
-//             this.toastr.error('Invalid request. Please check your inputs.', 'Error');
-//           } else if (error.status === 404) {
-//             this.toastr.error('User not found', 'Error');
-//           } else {
-//             const errorMessage = error.error?.message || 'Failed to reset password';
-//             this.toastr.error(errorMessage, 'Error');
-//           }
-//         },
-//         complete: () => { 
-//           this.loginObj.newPwd = '';
-//           this.loginObj.confirmPassword = '';
-//         }
-//       });
-// }
+  //     this.http.put<any>(`${this.API_BASE_URL}login/s-admin/forgot-pwd/new-pwd`, resetPasswordData)
+  //       .subscribe({
+  //         next: (response) => {
+  //           this.toastr.success('Password reset successfully', 'Success');
+  //           this.backToLogin();
+  //         },
+  //         error: (error) => {
+  //           console.error('Password reset error:', error);
+  //           if (error.status === 400) {
+  //             this.toastr.error('Invalid request. Please check your inputs.', 'Error');
+  //           } else if (error.status === 404) {
+  //             this.toastr.error('User not found', 'Error');
+  //           } else {
+  //             const errorMessage = error.error?.message || 'Failed to reset password';
+  //             this.toastr.error(errorMessage, 'Error');
+  //           }
+  //         },
+  //         complete: () => {
+  //           this.loginObj.newPwd = '';
+  //           this.loginObj.confirmPassword = '';
+  //         }
+  //       });
+  // }
 
-onSetNewPassword() { 
-  if (!this.validateNewPassword()) return;
+  onSetNewPassword() {
+    if (!this.validateNewPassword()) return;
 
-  const resetPasswordData = {
-    email: this.verifyObj.email,
-    newPwd: this.loginObj.newPwd,
-    confirmPwd: this.loginObj.confirmPassword
-  };
+    const resetPasswordData = {
+      email: this.verifyObj.email,
+      newPwd: this.loginObj.newPwd,
+      confirmPwd: this.loginObj.confirmPassword,
+    };
 
-  this.http.put<any>(`${this.API_BASE_URL}login/s-admin/forgot-pwd/new-pwd`, resetPasswordData)
-    .subscribe({
-      next: (response) => {
-        this.toastr.success('Password reset successfully', 'Success');
-        window.location.reload()
-        this.backToLogin();
-      },
-      error: (error) => {
-        console.error('Password reset error:', error);
-        if (error.status === 400) {
-          this.toastr.error('Invalid request. Please check your inputs.', 'Error');
-        } else if (error.status === 404) {
-          this.toastr.error('User not found', 'Error');
-        } else {
-          const errorMessage = error.error?.message || 'Failed to reset password';
-          this.toastr.error(errorMessage, 'Error');
-        }
-      },
-      complete: () => {
-        // Clear sensitive data
-        this.loginObj.newPwd = '';
-        this.loginObj.confirmPassword = '';
-      }
-    });
-}
+    this.http
+      .put<any>(
+        `${this.API_BASE_URL}login/s-admin/forgot-pwd/new-pwd`,
+        resetPasswordData
+      )
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('Password reset successfully', 'Success');
+          window.location.reload();
+          this.backToLogin();
+        },
+        error: (error) => {
+          console.error('Password reset error:', error);
+          if (error.status === 400) {
+            this.toastr.error(
+              'Invalid request. Please check your inputs.',
+              'Error'
+            );
+          } else if (error.status === 404) {
+            this.toastr.error('User not found', 'Error');
+          } else {
+            const errorMessage =
+              error.error?.message || 'Failed to reset password';
+            this.toastr.error(errorMessage, 'Error');
+          }
+        },
+        complete: () => {
+          // Clear sensitive data
+          this.loginObj.newPwd = '';
+          this.loginObj.confirmPassword = '';
+        },
+      });
+  }
+
+  // private handleSuccessfulLogin(token: string): void {
+  //   this.toastr.success('Login Successful', 'Success');
+  //   sessionStorage.setItem('adminToken', token);
+
+  //   this.router
+  //     .navigate(['/Admin/dashboard'])
+  //     .then(() => window.location.reload())
+  //     .catch((error) => {
+  //       console.error('Navigation error:', error);
+  //       this.toastr.error('Failed to navigate to dashboard', 'Error');
+  //     });
+
+  //   this.setupAutoLogout();
+  // }
 
   private handleSuccessfulLogin(token: string): void {
-    this.toastr.success('Login Successful', 'Success');
-    sessionStorage.setItem('adminToken', token);
-    
-    this.router.navigate(['/Admin/dashboard'])
-      .then(() => window.location.reload())
-      .catch(error => {
+    // Store token in localStorage instead of sessionStorage
+    sessionStorage.setItem('token', token);
+
+    // Navigate to dashboard using router without page reload
+    this.router
+      .navigate(['/Admin/dashboard'])
+      .then(() => {
+        this.toastr.success('Login Successful', 'Success');
+        window.location.reload();
+      })
+      .catch((error) => {
         console.error('Navigation error:', error);
         this.toastr.error('Failed to navigate to dashboard', 'Error');
       });
@@ -321,14 +375,36 @@ onSetNewPassword() {
     this.setupAutoLogout();
   }
 
+  // private setupAutoLogout(): void {
+  //   setTimeout(() => {
+  //     sessionStorage.removeItem('adminToken');
+  //     this.router
+  //       .navigateByUrl('/login')
+  //       .then(() => {
+  //         this.toastr.info(
+  //           'Session expired. Please log in again.',
+  //           'Session Expired'
+  //         );
+  //       })
+  //       .catch((error) => {
+  //         console.error('Logout navigation error:', error);
+  //       });
+  //   }, this.SESSION_TIMEOUT);
+  // }
+
   private setupAutoLogout(): void {
+    // Use localStorage timeout instead of sessionStorage
     setTimeout(() => {
-      sessionStorage.removeItem('adminToken');
-      this.router.navigateByUrl('/login')
+      sessionStorage.removeItem('token');
+      this.router
+        .navigateByUrl('/login')
         .then(() => {
-          this.toastr.info('Session expired. Please log in again.', 'Session Expired');
+          this.toastr.info(
+            'Session expired. Please log in again.',
+            'Session Expired'
+          );
         })
-        .catch(error => {
+        .catch((error) => {
           console.error('Logout navigation error:', error);
         });
     }, this.SESSION_TIMEOUT);
@@ -349,14 +425,16 @@ onSetNewPassword() {
 
   // Utility methods for input styling
   addClass(event: FocusEvent): void {
-    const parent = (event.target as HTMLElement).parentNode?.parentNode as Element;
+    const parent = (event.target as HTMLElement).parentNode
+      ?.parentNode as Element;
     if (parent) {
       parent.classList.add('focus');
     }
   }
 
   removeClass(event: FocusEvent): void {
-    const parent = (event.target as HTMLElement).parentNode?.parentNode as Element;
+    const parent = (event.target as HTMLElement).parentNode
+      ?.parentNode as Element;
     if (parent && (event.target as HTMLInputElement).value === '') {
       parent.classList.remove('focus');
     }

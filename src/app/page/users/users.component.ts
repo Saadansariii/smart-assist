@@ -7,9 +7,9 @@ import { MasterService } from '../../service/master.service';
 import { UserList } from '../../model/class/multiuser';
 import { dealers } from '../../model/class/dealers';
 import { ToastrService } from 'ngx-toastr';
-import { DealerResolver } from '../../service/dealar-resolver.service';  
-import { Alert } from '../../constant.component';
+import { DealerResolver } from '../../service/dealar-resolver.service';   
 import { AleartSrvService } from '../../service/aleart-srv.service';
+import { error } from 'console';
 
 
 @Component({
@@ -86,12 +86,32 @@ export class UsersComponent implements OnInit {
       (res: DealerResponse) => {
         this.dealerList.set(res.dealer.rows);
         this.totalDealer.set(res.dealer.count);
+        console.log(res)
       },
       (error) => {
-        alert(error.message);
+        // this.toastr.error(error, 'Error 123');
+        // alert(error.message);
       }
     );
   }
+
+  
+  // getAllDealer() {
+  //   this.masterSrv.getAllDealer().subscribe({
+  //     next: (res: DealerResponse) => {
+  //       this.dealerList.set(res.dealer.rows);
+  //       this.totalDealer.set(res.dealer.count); 
+  //       console.log('Dealers fetched successfully', res);
+  //     },
+  //     error: (error) => {
+
+  //       console.error('Error fetching dealers', error);
+  //       this.toastr.error(error, ' Error Fetch Dealer');
+  //       //  alert(error)
+  //       this.dealerList.set([]);
+  //       this.totalDealer.set(0);
+  //     }
+  //   });}
 
   onDealerChange() {
     const selectedDealer = this.dealerList().find(dealer => dealer.dealer_id === this.userObj.dealer_id);
@@ -106,10 +126,11 @@ export class UsersComponent implements OnInit {
       next: (res: MultiuserResponse) => {
         this.totalUser.set(res.totalUsers);
         this.userList.set(res.users);
+        console.log(res)
       },
       error: (err) => {
         console.error('Error fetching users:', err);
-        alert('Failed to fetch users. Please try again later.');
+        this.toastr.error(err, 'user Error'); 
       },
     });
   }
@@ -135,7 +156,7 @@ export class UsersComponent implements OnInit {
         this.displayAllUser();
       },
       error: (err) => {
-        console.error('Email verification error:', err);
+        this.toastr.error('Please Enter The Valid Response', 'Validation Error'); 
         // alert('Error creating user: ' + err.message);
       },
     });
@@ -150,8 +171,9 @@ export class UsersComponent implements OnInit {
           this.displayAllUser();
         },
         error: (err) => {
+          this.toastr.error(err, 'Server Error');
           console.error('Error deleting user:' + err.message);
-          alert('Error deleting user: ' + err.message);
+          // alert('Error deleting user: ' + err.message);
         },
       });
     
@@ -173,7 +195,8 @@ export class UsersComponent implements OnInit {
         this.displayAllUser();
       },
       error: (err) => {
-        alert('Error updating user: ' + err.message);
+        this.toastr.error(err, 'Server Error');
+        // alert('Error updating user: ' + err.message);
       },
     });
   }

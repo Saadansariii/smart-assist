@@ -17,11 +17,27 @@ export interface DealerResponse {
     rows: dealers[];        
   };
   ids: string[];
-  leads: Lead[];
+  leadsCounts: Lead[];
+  opportunityCounts: opp[];
+  taskCounts : task[];
+  eventCounts: event[];
 }
 
 
 export interface Lead {
+  dealer_id: string;
+  count: number;
+}
+
+export interface opp {
+  dealer_id: string;
+  count: number;
+}
+export interface task {
+  dealer_id: string;
+  count: number;
+}
+export interface event {
   dealer_id: string;
   count: number;
 }
@@ -42,13 +58,21 @@ export interface SingleDealerResponse {
   events: number;
 }
 
-export interface UserResponse extends Users {
-   
+export interface singleUserResponse{
+  totalUsers: number;
+  totalPages: number;
+  currentPage: number;
+  users : UserList[];
 }
 
+export interface UserResponse extends Users {
+  
+}
+ 
 export interface LeadResponse extends Leads {
    
 }
+
 
 export interface TaskResponse extends Tasks {
    

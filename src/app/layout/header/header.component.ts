@@ -62,8 +62,8 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     // if (isPlatformBrowser(this.platformId)) {
-    // }
-    sessionStorage.removeItem('adminToken');
+    // } 
+    sessionStorage.removeItem('token');
     this.guestDetails = null;
   }
 }

@@ -33,6 +33,6 @@ export class AleartSrvService {
     setTimeout(() => {
       alertDiv.classList.remove('show');
       alertDiv.remove();
-    }, 3000);
+    }, 1000);
   }
 }

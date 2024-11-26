@@ -66,7 +66,8 @@ export class DealerComponent implements OnInit {
         this.totalDealer.set(res.dealer.count);
       },
       (error) => {
-        alert(error.message);
+        this.toastr.error(error, 'Unauthorized Error');
+        // alert(error.message);
       }
     );
   }
@@ -83,7 +84,8 @@ export class DealerComponent implements OnInit {
         this.getAllDealer(); 
       },
       (error) => {
-        alert('API Have Sone Issue');
+        // this.toastr.error(error.message, 'Unauthorized Error');
+        // alert('API Have Sone Issue');
       }
     );
   }
@@ -98,7 +100,8 @@ export class DealerComponent implements OnInit {
         this.getAllDealer();
       },
       (error) => {
-        alert('something happn ');
+        // this.toastr.error(error.message, 'Unauthorized Error');
+        // alert('something happn ');
       }
     );
   }
@@ -119,7 +122,8 @@ export class DealerComponent implements OnInit {
         this.getAllDealer();
       },
       (error) => {
-        alert(error.message);
+        // this.toastr.error(error.message, 'Fetch Error');
+        // alert(error.message);
       }
     );
   }

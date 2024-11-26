@@ -42,7 +42,7 @@ export class AuthGuard implements CanActivate {
   }
 
   private checkAuth(url: string, requiredRoles?: string[]): boolean | UrlTree {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
     if (!token) {
       this.handleUnauthenticated(url, 'no-token');
@@ -55,7 +55,7 @@ export class AuthGuard implements CanActivate {
       const isExpired = tokenData.exp * 1000 < Date.now();
 
       if (isExpired) {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         this.handleUnauthenticated(url, 'expired');
         return false;
       }
@@ -69,7 +69,7 @@ export class AuthGuard implements CanActivate {
       return true;
     } catch (error) {
       console.error('Token validation error:', error);
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
       this.handleUnauthenticated(url, 'invalid');
       return false;
     }
@@ -85,7 +85,7 @@ export class AuthGuard implements CanActivate {
   }
 
   private handleUnauthenticated(url: string, reason: string): void {
-    localStorage.setItem('redirectUrl', url);
+    sessionStorage.setItem('redirectUrl', url);
     this.router.navigate(['/login'], { queryParams: { returnUrl: url, reason } });
   }
 }

@@ -5,9 +5,14 @@
   color: black !important;
 }
 
+.custom-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
 
-
-
+.one{
+  /* border: 1px solid lightgray !important; */
+}
 /* Add this to your component's CSS file or styles.css */
 
 /* Container styling */

@@ -153,6 +153,7 @@
                           type="button"
                           class="btn btn-outline-primary"
                           (click)="deleteDealerId()"
+                           data-dismiss="modal"
                         >
                           Delete
                         </button>
@@ -218,7 +219,7 @@
       <!-- model footer buttons  -->
       <div class="modal-footer">
         <ng-container *ngIf="dealerObj.dealer_id; else saveButton">
-          <button type="button" class="btn btn-outline-primary"  (click)="onUpdate()">
+          <button type="button" class="btn btn-outline-primary"  data-dismiss="modal"  (click)="onUpdate()">
             Edit
           </button>
            
@@ -236,6 +237,7 @@
             type="button"
             class="btn btn-outline-primary"
             (click)="createNewDealer()"
+             data-dismiss="modal"
           >
             save
           </button>

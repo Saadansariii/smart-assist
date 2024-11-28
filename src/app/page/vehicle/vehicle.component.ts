@@ -95,8 +95,7 @@ export class VehicleComponent implements OnInit {
     this.masterSrv.createNewVehicle(this.vehicleObj).subscribe(
       (res: VehicleResponse) => {
         this.toastr.success('new vehicle created!', 'Success');
-        // window.location.reload();
-        this.isModalVisible = false;
+ 
         this.displayAllVehicle();
       },
       (error) => {
@@ -120,9 +119,7 @@ export class VehicleComponent implements OnInit {
         .deleteVehicle(this.selectedVehicleForDeletion.vehicle_id)
         .subscribe(
           (res: VehicleResponse) => {
-            this.displayAllVehicle();
-            this.closeModal();
-            window.location.reload() 
+            this.displayAllVehicle(); 
           },
           (error) => { 
             alert(error.message || 'Failed to delete vehicle');
@@ -137,10 +134,8 @@ export class VehicleComponent implements OnInit {
     this.displayAllVehicle();
     this.masterSrv.updateVehicle(this.vehicleObj).subscribe(
       (res: VehicleResponse) => {
-        this.toastr.success('update successfully!', 'Success');
-        this.isModalVisible = false;
-        this.displayAllVehicle();
-        // window.location.reload();
+        this.toastr.success('update successfully!', 'Success'); 
+        this.displayAllVehicle(); 
       },
       (error) => {
         console.error(error.message, 'error');

@@ -6,17 +6,22 @@ import { DealerResponse, MultiuserResponse, UserResponse } from '../../model/int
 import { MasterService } from '../../service/master.service';
 import { UserList } from '../../model/class/multiuser';
 import { dealers } from '../../model/class/dealers';
-import { ToastrService } from 'ngx-toastr';
-import { DealerResolver } from '../../service/dealar-resolver.service';   
-import { AleartSrvService } from '../../service/aleart-srv.service';
-import { error } from 'console';
-import { Users } from '../../model/class/users';
+import { ToastrService } from 'ngx-toastr'; 
+import { AleartSrvService } from '../../service/aleart-srv.service'; 
+import { TooltipModule } from 'primeng/tooltip';
+import { FloatLabelModule } from 'primeng/floatlabel'; 
 
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, SharedModule, FormsModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    FormsModule,
+    TooltipModule,
+    FloatLabelModule,
+  ],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css'],
 })
@@ -160,8 +165,6 @@ export class UsersComponent implements OnInit {
     this.masterSrv.createNewUser(this.userObj).subscribe({
       next: () => {
         this.toastr.success('User created successfully!', 'Success');
-        window.location.reload();
-        this.isModalVisible = false;
         this.displayAllUser();
       },
       error: (err) => {
@@ -198,46 +201,39 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUserId() {
-    console.log("this is the select user" , this.selectUserForDeletion , this.selectedUserForDeletion)
-    if (
-      this.selectedUserForDeletion &&
-      this.selectedUserForDeletion.user_id
-    ) {
-      this.masterSrv
-        .deleteUser(this.selectedUserForDeletion.user_id)
-        .subscribe(
-          (res: MultiuserResponse) => {
-            this.displayAllUser();
-            this.closeModal();
-            // window.location.reload();
-          },
-          (error) => {
-            alert(error.message || 'Failed to delete users');
-          }
-        );
+    console.log(
+      'this is the select user',
+      this.selectUserForDeletion,
+      this.selectedUserForDeletion
+    );
+    if (this.selectedUserForDeletion && this.selectedUserForDeletion.user_id) {
+      this.masterSrv.deleteUser(this.selectedUserForDeletion.user_id).subscribe(
+        (res: MultiuserResponse) => {
+          this.displayAllUser();
+        },
+        (error) => {
+          alert(error.message || 'Failed to delete users');
+        }
+      );
     } else {
       alert('No users selected for deletion');
     }
   }
 
   onUpdate() {
-    // Validate dealer_id before updating the user
-    if (!this.userObj.dealer_id) {
-      alert('Please select a dealer!');
-      return;
-    }
+    // if (!this.userObj.dealer_id) {
+    //   alert('Please select a dealer!');
+    //   return;
+    // }
 
     this.masterSrv.updateUser(this.userObj).subscribe({
       next: () => {
         this.toastr.success('User updated Successfully!', 'Success');
         alert('User updated successfully!');
-        window.location.reload();
-        this.isModalVisible = false;
         this.displayAllUser();
       },
       error: (err) => {
         this.toastr.error(err, 'Server Error');
-        // alert('Error updating user: ' + err.message);
       },
     });
   }

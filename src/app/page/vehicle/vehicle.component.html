@@ -92,18 +92,17 @@
               <td>{{ vehicle.YOM }}</td>
               <td>{{ vehicle.type }}</td>
               <td>{{ vehicle.VIN }}</td>
-               
+
               <td class="d-flex">
                 <a
                   href="javascript:void(0);"
                   data-target="#exampleModalCenter"
                   data-toggle="modal"
-                
                   (click)="openModal(vehicle)"
                   class="btn btn-primary shadow btn-xs sharp mr-1"
                   ><i class="fa fa-pencil"></i
                 ></a>
-                 <a
+                <a
                   href="javascript:void(0);"
                   type="button"
                   class="btn btn-primary mb-2"
@@ -111,7 +110,7 @@
                   data-target=".bd-example-modal-sm"
                   class="btn btn-danger shadow btn-xs sharp"
                   (click)="selectVehicleForDeletion(vehicle)"
-                  ><i class="fa fa-trash" ></i
+                  ><i class="fa fa-trash"></i
                 ></a>
                 <div
                   class="modal fade bd-example-modal-sm"
@@ -139,15 +138,16 @@
                         <button
                           type="button"
                           class="btn btn-outline-primary"
+                          data-dismiss="modal"
                           (click)="deleteVehicleId()"
-                          >
+                        >
                           Delete
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
-                 </td>
+              </td>
             </tr>
             }
           </tbody>
@@ -184,10 +184,20 @@
       <div class="form-group">
         <div class="calendar-container">
           <p-calendar
+            class="one"
+            [(ngModel)]="vehicleObj.YOM"
+            [showIcon]="true"
+            [showOnFocus]="false"
+            [disabled]="!!vehicleObj.vehicle_id"
+            [ngClass]="{ 'custom-disabled': !!vehicleObj.vehicle_id }"
+            inputId="buttondisplay"
+          />
+          <!-- <p-calendar
             [(ngModel)]="vehicleObj.YOM"
             dateFormat="dd.mm.yy"
             [disabled]="!!vehicleObj.vehicle_id"
-          ></p-calendar>
+            [ngClass]="{'custom-disabled': !!vehicleObj.vehicle_id}"
+          ></p-calendar> -->
         </div>
       </div>
 
@@ -211,6 +221,7 @@
           placeholder="VIN"
           [(ngModel)]="vehicleObj.VIN"
           [disabled]="!!vehicleObj.vehicle_id"
+          [ngClass]="{ 'custom-disabled': !!vehicleObj.vehicle_id }"
         />
       </div>
 
@@ -220,6 +231,7 @@
           <button
             type="button"
             class="btn btn-outline-primary"
+            data-dismiss="modal"
             (click)="onUpdate()"
           >
             Edit
@@ -228,8 +240,8 @@
         <button
           type="button"
           class="btn btn-outline-danger"
-          data-dismiss="modal"
           (click)="closeModal()"
+          data-dismiss="modal"
         >
           Close
         </button>
@@ -238,6 +250,7 @@
             type="button"
             class="btn btn-outline-primary"
             (click)="createVehicle()"
+            data-dismiss="modal"
           >
             save
           </button>

@@ -5,3 +5,8 @@
 .buttons{
     color: black !important;
 }
+
+.custom-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}

@@ -144,6 +144,7 @@
                           type="button"
                           class="btn btn-outline-primary"
                           (click)="deleteUserId()"
+                          data-dismiss="modal"
                         >
                           Delete
                         </button>
@@ -211,6 +212,7 @@
             placeholder="User Name"
             [(ngModel)]="userObj.name"
           />
+          
         </div>
 
         <div class="form-group" style="margin-inline: 1em">
@@ -239,7 +241,7 @@
           >
             <option value="" disabled selected>Select Department</option>
             <option value="admin" selected>admin</option>
-            <option value="sales-person">sales person</option>
+            <option value="salesperson">sales person</option>
           </select>
         </div>
 
@@ -250,8 +252,9 @@
             [(ngModel)]="userObj.dealer_id"
             [ngModelOptions]="{ standalone: true }"
             (change)="onDealerChange()"
-            [disabled]="!!userObj.user_id"
-          >
+            [disabled]="!!userObj.user_id  "
+            [ngClass]="{'custom-disabled': !!userObj.user_id}"
+            >
             <option value="" disabled>Select Dealer</option>
             <option
               *ngFor="let dealer of dealerList()"
@@ -289,7 +292,8 @@
           type="button"
           class="btn btn-outline-danger"
           data-dismiss="modal"
-          (click)="closeModal()"
+           
+           data-dismiss="modal"
         >
           Close
         </button>
@@ -300,6 +304,7 @@
             (click)="userObj.user_id ? onUpdate() : createUser()"
             [disabled]="!userObj.name || !userObj.email"
             style="cursor: pointer"
+             data-dismiss="modal"
           >
             {{ userObj.user_id ? "Update" : "Save" }}
           </button>

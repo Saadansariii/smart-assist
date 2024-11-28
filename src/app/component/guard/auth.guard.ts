@@ -60,7 +60,7 @@ export class AuthGuard implements CanActivate {
     const token = this.getToken();
 
     if (!token) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['']);
       return false;
     }
 
@@ -70,17 +70,17 @@ export class AuthGuard implements CanActivate {
 
       if (isExpired) {
         this.removeToken();
-        this.router.navigate(['/login']);
+        this.router.navigate(['']);
         return false;
       }
 
-      // Optional: Role-based check if needed
+     //  Optional: Role-based check if needed
       if (route.data['roles']) {
         const userRoles = tokenData.roles || [];
         const requiredRoles = route.data['roles'];
 
         if (!this.checkRoles(userRoles, requiredRoles)) {
-          this.router.navigate(['/']);
+          this.router.navigate(['']);
           return false;
         }
       }
@@ -89,7 +89,7 @@ export class AuthGuard implements CanActivate {
     } catch (error) {
       console.error('Token validation error:', error);
       this.removeToken();
-      this.router.navigate(['/']);
+      this.router.navigate(['']);
       return false;
     }
   }

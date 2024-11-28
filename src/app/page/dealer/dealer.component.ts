@@ -71,12 +71,12 @@ export class DealerComponent implements OnInit {
     this.masterSrv.createDealer(this.dealerObj).subscribe(
       (res: dealers) => {
         this.toastr.success('Dealer created successfully!', 'Success');
-        window.location.reload();
+        // window.location.reload();
         this.isModalVisible = false;
         this.getAllDealer();
       },
       (error) => {
-        // this.toastr.error(error.message, 'Unauthorized Error');
+        this.toastr.error(error.message, 'Unauthorized Error');
         // alert('API Have Sone Issue');
       }
     );
@@ -86,9 +86,7 @@ export class DealerComponent implements OnInit {
     this.getAllDealer();
     this.masterSrv.updateDealer(this.dealerObj).subscribe(
       (res: dealers) => {
-        this.toastr.success('Dealer Edit successfully!', 'Success');
-        window.location.reload();
-        this.isModalVisible = false;
+        this.toastr.success('Dealer Edit successfully!', 'Success');  
         this.getAllDealer();
       },
       (error) => {
@@ -136,8 +134,7 @@ export class DealerComponent implements OnInit {
         .subscribe(
           (res: DealerResponse) => {
             this.getAllDealer();
-            this.closeModal();
-            window.location.reload();
+            this.closeModal(); 
           },
           (error) => {
             alert(error.message || 'Failed to delete vehicle');

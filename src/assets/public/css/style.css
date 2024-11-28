@@ -6226,7 +6226,8 @@ text-align: center; }
 
 .mb-4,
 .my-4 {
-  margin-bottom: 1.5rem !important; }
+  /* margin-bottom: 1.5rem !important; */
+ }
 
 .ml-4,
 .mx-4 {
@@ -43662,3 +43663,10 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     top: 25% !important;
 }
 }
+
+:-webkit-scrollbar {
+    display: none;
+  }
+  :-webkit-tap-highlight-color{
+    background:transparent;
+  }

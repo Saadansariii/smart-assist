@@ -126,6 +126,7 @@
                   data-toggle="modal"
                   data-target=".bd-example-modal-sm"
                   class="btn btn-danger shadow btn-xs sharp"
+                  (click)="selectDealerForDeletion(dealer)"
                   ><i class="fa fa-trash"></i
                 ></a>
                 <div
@@ -151,7 +152,7 @@
                         <button
                           type="button"
                           class="btn btn-outline-primary"
-                          (click)="deleteDealerId(dealer.dealer_id)"
+                          (click)="deleteDealerId()"
                         >
                           Delete
                         </button>

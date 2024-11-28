@@ -16,23 +16,24 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./dealer.component.css'],
 })
 export class DealerComponent implements OnInit {
-  private http = inject(HttpClient); 
+  private http = inject(HttpClient);
   dealerList = signal<dealers[]>([]);
   totalDealer = signal<number>(0);
   masterSrv = inject(MasterService);
-  dealerObj : dealers = new dealers(); 
+  dealerObj: dealers = new dealers();
   selectedRowCount = 3;
-  isLoading = false; 
+  isLoading = false;
   isModalVisible = false;
   isEditMode: boolean = false;
-  
+
   private readonly toastr = inject(ToastrService);
 
   openModal(dealer?: dealers) {
     this.isModalVisible = true;
     this.dealerObj = dealer
-      ? { ...dealer }  // Populate dealer data for editing
-      : {              // Reset dealerObj for creating a new dealer
+      ? { ...dealer } // Populate dealer data for editing
+      : {
+          // Reset dealerObj for creating a new dealer
           dealer_id: '',
           dealer_name: '',
           dealer_code: null,
@@ -40,24 +41,17 @@ export class DealerComponent implements OnInit {
           updated_at: '',
           corporate_id: '',
         };
-  
-    console.log("Modal Opened with dealerObj:", this.dealerObj);
+
+    console.log('Modal Opened with dealerObj:', this.dealerObj);
   }
-  
+
   closeModal() {
     this.isModalVisible = false;
   }
-  
-  
- 
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.getAllDealer();
-
   }
-
-   
-  
 
   getAllDealer() {
     this.masterSrv.getAllDealer().subscribe(
@@ -72,16 +66,14 @@ export class DealerComponent implements OnInit {
     );
   }
 
- 
-
   createNewDealer() {
     this.getAllDealer();
     this.masterSrv.createDealer(this.dealerObj).subscribe(
       (res: dealers) => {
         this.toastr.success('Dealer created successfully!', 'Success');
         window.location.reload();
-        this.isModalVisible = false; 
-        this.getAllDealer(); 
+        this.isModalVisible = false;
+        this.getAllDealer();
       },
       (error) => {
         // this.toastr.error(error.message, 'Unauthorized Error');
@@ -96,7 +88,7 @@ export class DealerComponent implements OnInit {
       (res: dealers) => {
         this.toastr.success('Dealer Edit successfully!', 'Success');
         window.location.reload();
-        this.isModalVisible = false; 
+        this.isModalVisible = false;
         this.getAllDealer();
       },
       (error) => {
@@ -106,25 +98,53 @@ export class DealerComponent implements OnInit {
     );
   }
 
-  onEdit(data: dealers){
+  onEdit(data: dealers) {
     this.isModalVisible = true;
     this.dealerObj = data;
     console.log(this.dealerObj, 'trueeee----');
   }
 
-  deleteDealerId(id: string) { 
-    // alert('are u sure')
-    this.masterSrv.deleteDealer(id).subscribe(
-      (res) => {
-        this.toastr.success('Dealer deleted successfully!', 'Success');
-        window.location.reload()
-        // alert(res.message);
-        this.getAllDealer();
-      },
-      (error) => {
-        // this.toastr.error(error.message, 'Fetch Error');
-        // alert(error.message);
-      }
-    );
+  // deleteDealerId(id: string) {
+  //   // alert('are u sure')
+  //   this.masterSrv.deleteDealer(id).subscribe(
+  //     (res) => {
+  //       this.toastr.success('Dealer deleted successfully!', 'Success');
+  //       window.location.reload();
+  //       // alert(res.message);
+  //       this.getAllDealer();
+  //     },
+  //     (error) => {
+  //       // this.toastr.error(error.message, 'Fetch Error');
+  //       // alert(error.message);
+  //     }
+  //   );
+  // }
+
+  selectedDealerForDeletion: dealers | null = null;
+
+  selectDealerForDeletion(dealer: dealers) {
+    this.selectedDealerForDeletion = dealer;
+  }
+
+  deleteDealerId() {
+    if (
+      this.selectedDealerForDeletion &&
+      this.selectedDealerForDeletion.dealer_id
+    ) {
+      this.masterSrv
+        .deleteDealer(this.selectedDealerForDeletion.dealer_id)
+        .subscribe(
+          (res: DealerResponse) => {
+            this.getAllDealer();
+            this.closeModal();
+            window.location.reload();
+          },
+          (error) => {
+            alert(error.message || 'Failed to delete vehicle');
+          }
+        );
+    } else {
+      alert('No vehicle selected for deletion');
+    }
   }
 }

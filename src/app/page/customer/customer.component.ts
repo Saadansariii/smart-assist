@@ -29,7 +29,7 @@ import { ToastrService } from 'ngx-toastr';
     ReactiveFormsModule,
     CalendarModule,
     BreadcrumbModule,
-    RouterModule
+    RouterModule,
   ],
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css',
@@ -40,7 +40,7 @@ export class CustomerComponent implements OnInit {
   masterSrv = inject(MasterService);
   customerObj: Accounts = new Accounts();
   date: Date | undefined;
-  
+
   private readonly toastr = inject(ToastrService);
   ngOnInit(): void {
     this.displayAllCustomer();
@@ -56,9 +56,8 @@ export class CustomerComponent implements OnInit {
           phone: customer.phone ? Number(customer.phone) : null,
           mobile: customer.mobile ? Number(customer.mobile) : null,
         }
-      : new Accounts();  
+      : new Accounts();
   }
-  
 
   closeModal() {
     this.isModalVisible = false;
@@ -71,12 +70,12 @@ export class CustomerComponent implements OnInit {
     });
   }
 
-  createCustomer() { 
+  createCustomer() {
     this.customerObj.phone = Number(this.customerObj.phone);
     this.customerObj.mobile = Number(this.customerObj.mobile);
     this.masterSrv.createCustomer(this.customerObj).subscribe(
       (res: AccountsResponse) => {
-        this.toastr.success('Account created successfully!', 'Success'); 
+        this.toastr.success('Account created successfully!', 'Success');
         this.displayAllCustomer();
         this.isModalVisible = false;
         window.location.reload();
@@ -88,24 +87,58 @@ export class CustomerComponent implements OnInit {
     );
   }
 
-  deleteCustomerId(account_id: string) {
-    alert('Are you sure you want to delete this customer?');
-    this.masterSrv.deleteCustomer(account_id).subscribe(
-      (res) => {
-        this.toastr.success('Account Delete successfully!', 'Success');
-        // alert('Delete successful');
-        this.displayAllCustomer(); // Refresh the customer list
-        this.closeModal();
-        
-      },
-      (error) => {
-        console.error('Delete failed:', error); // Log the error for debugging
-        alert('Failed to delete customer. Please try again.');
-      }
+  selectedCustomerForDeletion: Accounts | null = null;
+
+  selectCustomerForDeletion(accounts: Accounts) {
+    this.selectedCustomerForDeletion = accounts;
+    console.log(
+      'Selected vehicle for deletion:',
+      this.selectedCustomerForDeletion
     );
   }
-  
 
+  // deleteCustomerId(account_id: string) {
+  //   alert('Are you sure you want to delete this customer?');
+  //   this.masterSrv.deleteCustomer(account_id).subscribe(
+  //     (res) => {
+  //       this.toastr.success('Account Delete successfully!', 'Success');
+  //       // alert('Delete successful');
+  //       this.displayAllCustomer(); // Refresh the customer list
+  //       this.closeModal();
+  //       window.location.reload();
+  //     },
+  //     (error) => {
+  //       console.error('Delete failed:', error); // Log the error for debugging
+  //       alert('Failed to delete customer. Please try again.');
+  //     }
+  //   );
+  // }
+
+  deleteCustomerId() {
+    if (
+      this.selectedCustomerForDeletion &&
+      this.selectedCustomerForDeletion.account_id
+    ) {
+      // console.log('Deleting vehicle:', this.selectedCustomerForDeletion);
+      // console.log('Customer ID:', this.selectedCustomerForDeletion.acc);
+
+      this.masterSrv
+        .deleteCustomer(this.selectedCustomerForDeletion.account_id)
+        .subscribe(
+          (res: AccountsResponse) => {
+            this.displayAllCustomer();
+            this.closeModal();
+            window.location.reload(); 
+          },
+          (error) => {
+            console.error('Delete vehicle error:', error);
+            alert(error.message || 'Failed to delete vehicle');
+          }
+        );
+    } else {
+      alert('No vehicle selected for deletion');
+    }
+  }
 
   onUpdate() {
     this.displayAllCustomer();
@@ -115,7 +148,7 @@ export class CustomerComponent implements OnInit {
         // alert('update successfully');
         this.isModalVisible = false;
         this.displayAllCustomer();
-        window.location.reload()
+        window.location.reload();
       },
       (error) => {
         this.toastr.error(error.message, 'Error');

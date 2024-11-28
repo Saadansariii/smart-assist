@@ -23,6 +23,30 @@ export interface DealerResponse {
   eventCounts: event[];
 }
 
+export interface VehicleRes{
+  // {
+  //   "dealer": {
+  //       "count": 4,
+  //       "rows": [
+  //           {
+  //          {
+  //   "count": 21,
+  //   "rows": [
+  //       {
+
+
+          
+}
+
+
+export interface VehicleResponse {
+  count: number;
+  rows: Vehicles[];
+  totalVehicles: number;
+  totalPages: number;
+  currentPage: number;
+  // vehicle: Vehicles[];
+}
 
 export interface Lead {
   dealer_id: string;
@@ -42,12 +66,7 @@ export interface event {
   count: number;
 }
 
-export interface VehicleResponse {
-  totalVehicles: number;
-  totalPages: number;
-  currentPage: number;
-  vehicle: Vehicles[];
-}
+
 
 export interface SingleDealerResponse { 
   dealer: SingleDealer;

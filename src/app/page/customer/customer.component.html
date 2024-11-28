@@ -125,6 +125,7 @@
                   data-toggle="modal"
                   data-target=".bd-example-modal-sm"
                   class="btn btn-danger shadow btn-xs sharp"
+                  (click)="selectCustomerForDeletion(customer)"
                   ><i class="fa fa-trash"></i
                 ></a>
                 <div
@@ -150,7 +151,7 @@
                         <button
                           type="button"
                           class="btn btn-outline-primary"
-                          (click)="deleteCustomerId(customer.account_id || '')"
+                          (click)="deleteCustomerId()"
                         >
                           Delete
                         </button>
@@ -235,7 +236,7 @@
           [(ngModel)]="customerObj.account_type"
           [ngModelOptions]="{ standalone: true }"
         >
-          <option value="" disabled selected>Select Type</option>
+          <option value="" disabled selected>Account Type</option>
           <option value="Individual" selected>Individual</option>
           <option value="Corporate">Corporate</option>
           <option value="Retailer">Retailer</option>

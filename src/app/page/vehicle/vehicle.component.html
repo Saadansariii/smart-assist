@@ -2,19 +2,19 @@
   <div class="row mb-5 align-items-center">
     <div class="col-xl-2 mb-4 mb-xl-0">
       <a
-      style="cursor: pointer; color: white !important;" 
+        style="cursor: pointer; color: white !important"
         (click)="openModal()"
         data-target="#exampleModalCenter"
         data-toggle="modal"
         class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
-        ><i class="fa fa-plus  mr-1"></i>Add Vehicle</a
+        ><i class="fa fa-plus mr-1"></i>Add Vehicle</a
       >
     </div>
     <div class="col-xl-2 mb-4 mb-xl-0">
       <div class="media-body ml-1">
         <p class="mb-1 fs-14 text-center">Total Vehicle</p>
         <h3 class="mb-0 text-black font-w600 fs-20 text-center">
-          {{ totalVehicle() }}
+          {{ count() }}
         </h3>
       </div>
     </div>
@@ -88,51 +88,30 @@
           <tbody>
             @for (vehicle of vehicleList(); track $index) {
             <tr>
-              
               <td>{{ vehicle.vehicle_name }}</td>
               <td>{{ vehicle.YOM }}</td>
               <td>{{ vehicle.type }}</td>
               <td>{{ vehicle.VIN }}</td>
+               
               <td class="d-flex">
-                <a 
-                  href="javascript:void(0);"
-                  data-target="#exampleModalCenter"
-                  data-toggle="modal"
-                  (click)="openModal(vehicle)"
-                  class="btn btn-primary shadow btn-xs sharp mr-1"><i class="fa fa-pencil"></i></a>
-                <!-- <a
-                  href="javascript:void(0);"
-                  data-target="#exampleModalCenter"
-                  data-toggle="modal"
-                  (click)="openModal(vehicle)"
-                >
-                
-                  <svg
-                    width="25"
-                    height="24"
-                    viewBox="0 0 25 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M17.2557 2.99994C17.5201 2.73729 17.8341 2.52895 18.1796 2.38681C18.5251 2.24467 18.8954 2.17151 19.2694 2.17151C19.6433 2.17151 20.0136 2.24467 20.3591 2.38681C20.7046 2.52895 21.0186 2.73729 21.283 2.99994C21.5474 3.26258 21.7572 3.57438 21.9003 3.91754C22.0434 4.2607 22.1171 4.6285 22.1171 4.99994C22.1171 5.37137 22.0434 5.73917 21.9003 6.08233C21.7572 6.42549 21.5474 6.73729 21.283 6.99994L7.69086 20.4999L2.15332 21.9999L3.66356 16.4999L17.2557 2.99994Z"
-                      stroke="#A0A0A0"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </a> -->
-
-                <!-- <a (click)="deleteVehicleId(vehicle.vehicle_id)" href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a> -->
                 <a
+                  href="javascript:void(0);"
+                  data-target="#exampleModalCenter"
+                  data-toggle="modal"
+                
+                  (click)="openModal(vehicle)"
+                  class="btn btn-primary shadow btn-xs sharp mr-1"
+                  ><i class="fa fa-pencil"></i
+                ></a>
+                 <a
                   href="javascript:void(0);"
                   type="button"
                   class="btn btn-primary mb-2"
                   data-toggle="modal"
                   data-target=".bd-example-modal-sm"
                   class="btn btn-danger shadow btn-xs sharp"
-                  ><i class="fa fa-trash"></i
+                  (click)="selectVehicleForDeletion(vehicle)"
+                  ><i class="fa fa-trash" ></i
                 ></a>
                 <div
                   class="modal fade bd-example-modal-sm"
@@ -140,10 +119,13 @@
                   role="dialog"
                   aria-hidden="true"
                 >
-                  <div class="modal-dialog modal-sm" >
+                  <div class="modal-dialog modal-sm">
                     <div class="modal-content">
-                      <div class="modal-header text-center" style=" margin-inline: auto;">
-                        <h5 class="modal-title text-center"  >Delete Vehicle</h5>
+                      <div
+                        class="modal-header text-center"
+                        style="margin-inline: auto"
+                      >
+                        <h5 class="modal-title text-center">Delete Vehicle</h5>
                       </div>
                       <div class="modal-body">HEY ARE YOU OKAY..!</div>
                       <div class="modal-footer">
@@ -157,43 +139,15 @@
                         <button
                           type="button"
                           class="btn btn-outline-primary"
-                          (click)="deleteVehicleId(vehicle.vehicle_id)"
-                        >
+                          (click)="deleteVehicleId()"
+                          >
                           Delete
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
-                <!-- <a
-                  href="javascript:void(0);"
-                  class="ml-4"
-                  (click)="deleteVehicleId(vehicle.vehicle_id)"
-                >
-                  <svg
-                    width="25"
-                    height="24"
-                    viewBox="0 0 25 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M3.50195 5.99994H5.5156H21.6248"
-                      stroke="#A0A0A0"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M8.5361 5.99994V3.99994C8.5361 3.46951 8.74826 2.9608 9.12589 2.58573C9.50352 2.21065 10.0157 1.99994 10.5498 1.99994H14.5771C15.1111 1.99994 15.6233 2.21065 16.0009 2.58573C16.3786 2.9608 16.5907 3.46951 16.5907 3.99994V5.99994M19.6112 5.99994V19.9999C19.6112 20.5304 19.399 21.0391 19.0214 21.4142C18.6438 21.7892 18.1316 21.9999 17.5975 21.9999H7.52928C6.99522 21.9999 6.48304 21.7892 6.10541 21.4142C5.72778 21.0391 5.51563 20.5304 5.51562 19.9999V5.99994H19.6112Z"
-                      stroke="#A0A0A0"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </a> -->
-              </td>
+                 </td>
             </tr>
             }
           </tbody>
@@ -207,7 +161,7 @@
 <div class="modal fade" id="exampleModalCenter" style="margin-block: 2em">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header"> 
+      <div class="modal-header">
         <h5
           class="modal-title"
           style="align-items: center; margin-inline: auto"
@@ -226,32 +180,31 @@
           [(ngModel)]="vehicleObj.vehicle_name"
         />
       </div>
-      
+
       <div class="form-group">
         <div class="calendar-container">
           <p-calendar
-            [(ngModel)]="vehicleObj.YOM" 
+            [(ngModel)]="vehicleObj.YOM"
             dateFormat="dd.mm.yy"
             [disabled]="!!vehicleObj.vehicle_id"
           ></p-calendar>
         </div>
       </div>
-      
 
-      <div class=" " style="margin-inline: 1em;  ">
+      <div class=" " style="margin-inline: 1em">
         <select
           class="form-control form-control-lg"
           [(ngModel)]="vehicleObj.type"
           [ngModelOptions]="{ standalone: true }"
         >
-        <option value="" disabled selected>Select Type</option>
+          <option value="" disabled selected>Select Type</option>
           <option value="petrol" selected>Petrol</option>
           <option value="diesel">Diesel</option>
           <option value="EV">EV</option>
         </select>
       </div>
 
-      <div class=" " style="margin: 1em" >
+      <div class=" " style="margin: 1em">
         <input
           class="form-control form-control-lg"
           type="text"
@@ -264,7 +217,11 @@
       <!-- model footer buttons  -->
       <div class="modal-footer">
         <ng-container *ngIf="vehicleObj.vehicle_id; else saveButton">
-          <button type="button" class="btn btn-outline-primary" (click)="onUpdate()">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            (click)="onUpdate()"
+          >
             Edit
           </button>
         </ng-container>

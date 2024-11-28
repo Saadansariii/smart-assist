@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule } from '@angular/forms';
-import { DealerResponse, MultiuserResponse } from '../../model/interface/master';
+import { DealerResponse, MultiuserResponse, UserResponse } from '../../model/interface/master';
 import { MasterService } from '../../service/master.service';
 import { UserList } from '../../model/class/multiuser';
 import { dealers } from '../../model/class/dealers';
@@ -10,12 +10,13 @@ import { ToastrService } from 'ngx-toastr';
 import { DealerResolver } from '../../service/dealar-resolver.service';   
 import { AleartSrvService } from '../../service/aleart-srv.service';
 import { error } from 'console';
+import { Users } from '../../model/class/users';
 
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, SharedModule, FormsModule  ],
+  imports: [CommonModule, SharedModule, FormsModule],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css'],
 })
@@ -29,7 +30,7 @@ export class UsersComponent implements OnInit {
   totalDealer = signal<number>(0);
   isModalVisible = false;
 
-  constructor (private aleartsrv : AleartSrvService){}
+  constructor(private aleartsrv: AleartSrvService) {}
 
   private readonly toastr = inject(ToastrService);
 
@@ -46,7 +47,7 @@ export class UsersComponent implements OnInit {
   openModal(user?: UserList) {
     this.isModalVisible = true;
     this.userObj = user
-      ? { ...user, phone: user.phone ? Number(user.phone) : null  }
+      ? { ...user, phone: user.phone ? Number(user.phone) : null }
       : {
           user_id: '',
           account_id: '',
@@ -64,7 +65,9 @@ export class UsersComponent implements OnInit {
         };
     // If userObj.dealer_id is set, find the corresponding dealer code
     if (this.userObj.dealer_id) {
-      const selectedDealer = this.dealerList().find(dealer => dealer.dealer_id === this.userObj.dealer_id);
+      const selectedDealer = this.dealerList().find(
+        (dealer) => dealer.dealer_id === this.userObj.dealer_id
+      );
       if (selectedDealer) {
         this.userObj.dealer_code = selectedDealer.dealer_code; // Bind dealer_code
       }
@@ -76,7 +79,9 @@ export class UsersComponent implements OnInit {
   }
 
   getDealerCode(dealerId: string): string {
-    const dealer = this.dealerList().find(dealer => dealer.dealer_id === dealerId);
+    const dealer = this.dealerList().find(
+      (dealer) => dealer.dealer_id === dealerId
+    );
     console.log(this.dealerList);
     return dealer?.dealer_code?.toString() ?? 'N/A';
   }
@@ -86,7 +91,7 @@ export class UsersComponent implements OnInit {
       (res: DealerResponse) => {
         this.dealerList.set(res.dealer.rows);
         this.totalDealer.set(res.dealer.count);
-        console.log(res)
+        console.log(res);
       },
       (error) => {
         // this.toastr.error(error, 'Error 123');
@@ -95,12 +100,11 @@ export class UsersComponent implements OnInit {
     );
   }
 
-  
   // getAllDealer() {
   //   this.masterSrv.getAllDealer().subscribe({
   //     next: (res: DealerResponse) => {
   //       this.dealerList.set(res.dealer.rows);
-  //       this.totalDealer.set(res.dealer.count); 
+  //       this.totalDealer.set(res.dealer.count);
   //       console.log('Dealers fetched successfully', res);
   //     },
   //     error: (error) => {
@@ -114,8 +118,10 @@ export class UsersComponent implements OnInit {
   //   });}
 
   onDealerChange() {
-    const selectedDealer = this.dealerList().find(dealer => dealer.dealer_id === this.userObj.dealer_id);
-    console.log('Selected Dealer:', selectedDealer); 
+    const selectedDealer = this.dealerList().find(
+      (dealer) => dealer.dealer_id === this.userObj.dealer_id
+    );
+    console.log('Selected Dealer:', selectedDealer);
     if (selectedDealer) {
       this.userObj.dealer_code = selectedDealer.dealer_code;
     }
@@ -126,19 +132,22 @@ export class UsersComponent implements OnInit {
       next: (res: MultiuserResponse) => {
         this.totalUser.set(res.totalUsers);
         this.userList.set(res.users);
-        console.log(res)
+        console.log(res);
       },
       error: (err) => {
         console.error('Error fetching users:', err);
-        this.toastr.error(err, 'user Error'); 
+        this.toastr.error(err, 'user Error');
       },
     });
   }
 
   createUser() {
     // Validate phone number and dealer_id before creating the user
-    if (!this.userObj.phone || isNaN(this.userObj.phone) || this.userObj.phone <= 0) {
-      
+    if (
+      !this.userObj.phone ||
+      isNaN(this.userObj.phone) ||
+      this.userObj.phone <= 0
+    ) {
       alert('Please enter a valid phone number!');
       return;
     }
@@ -149,34 +158,66 @@ export class UsersComponent implements OnInit {
     }
 
     this.masterSrv.createNewUser(this.userObj).subscribe({
-      next: () => { 
+      next: () => {
         this.toastr.success('User created successfully!', 'Success');
         window.location.reload();
         this.isModalVisible = false;
         this.displayAllUser();
       },
       error: (err) => {
-        this.toastr.error('Please Enter The Valid Response', 'Validation Error'); 
+        this.toastr.error(
+          'Please Enter The Valid Response',
+          'Validation Error'
+        );
         // alert('Error creating user: ' + err.message);
       },
     });
   }
 
-  deleteUserId(id: string) {
-    
-      this.masterSrv.deleteUser(id).subscribe({
-        next: (res) => { 
-          this.toastr.success('User deleted successfully!', 'Success');
-          window.location.reload();
-          this.displayAllUser();
-        },
-        error: (err) => {
-          this.toastr.error(err, 'Server Error');
-          console.error('Error deleting user:' + err.message);
-          // alert('Error deleting user: ' + err.message);
-        },
-      });
-    
+  // deleteUserId(id: string) {
+
+  //     this.masterSrv.deleteUser(id).subscribe({
+  //       next: (res) => {
+  //         this.toastr.success('User deleted successfully!', 'Success');
+  //         window.location.reload();
+  //         this.displayAllUser();
+  //       },
+  //       error: (err) => {
+  //         this.toastr.error(err, 'Server Error');
+  //         console.error('Error deleting user:' + err.message);
+  //       },
+  //     });
+
+  // }
+
+  selectedUserForDeletion: UserList | null = null;
+
+  selectUserForDeletion(user: UserList) {
+    this.selectedUserForDeletion = user;
+    this.isModalVisible = false;
+  }
+
+  deleteUserId() {
+    console.log("this is the select user" , this.selectUserForDeletion , this.selectedUserForDeletion)
+    if (
+      this.selectedUserForDeletion &&
+      this.selectedUserForDeletion.user_id
+    ) {
+      this.masterSrv
+        .deleteUser(this.selectedUserForDeletion.user_id)
+        .subscribe(
+          (res: MultiuserResponse) => {
+            this.displayAllUser();
+            this.closeModal();
+            // window.location.reload();
+          },
+          (error) => {
+            alert(error.message || 'Failed to delete users');
+          }
+        );
+    } else {
+      alert('No users selected for deletion');
+    }
   }
 
   onUpdate() {
@@ -188,7 +229,7 @@ export class UsersComponent implements OnInit {
 
     this.masterSrv.updateUser(this.userObj).subscribe({
       next: () => {
-        this.toastr.success('User updated Successfully!' , 'Success')
+        this.toastr.success('User updated Successfully!', 'Success');
         alert('User updated successfully!');
         window.location.reload();
         this.isModalVisible = false;

@@ -3,23 +3,25 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LeadResponse } from '../../model/interface/master';
 import { MasterService } from '../../service/master.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-single-lead',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './single-lead.component.html',
   styleUrls: ['./single-lead.component.css'],
 })
 export class SingleLeadComponent implements OnInit {
-  leadList = signal<LeadResponse | null>(null);  // WritableSignal to hold single LeadResponse
+  leadList = signal<LeadResponse | null>(null); // WritableSignal to hold single LeadResponse
   masterSrv = inject(MasterService);
   leadData: LeadResponse | undefined;
+  previousRoute!: string | null;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+      this.previousRoute = localStorage.getItem('previousRoute');
     // Load the lead data from resolver or route parameter
     this.route.data.subscribe((data) => {
       this.leadData = data['leadData'];
@@ -46,7 +48,7 @@ export class SingleLeadComponent implements OnInit {
     console.log('Fetching lead data for leadId:', leadId);
     this.masterSrv.leadById(leadId).subscribe({
       next: (res: LeadResponse) => {
-        this.leadList.set(res);  // Set the single LeadResponse object to the signal
+        this.leadList.set(res); // Set the single LeadResponse object to the signal
         console.log('Lead data fetched:', res);
       },
       error: (err: any) => {

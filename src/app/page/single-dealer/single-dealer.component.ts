@@ -32,7 +32,6 @@ export class SingleDealerComponent implements OnInit {
   leadList = signal<Leads[]>([]);
   dealerData: SingleDealerResponse | undefined;
   masterSrv = inject(MasterService);
-
   showUsersTable: boolean = true;
   showLeadsTable: boolean = false;
   showOpportunityTable: boolean = false;
@@ -230,4 +229,11 @@ export class SingleDealerComponent implements OnInit {
       window.location.reload();
     });
   }
+
+  userId() {
+    const path = window.location.pathname.split('/')[3];
+    localStorage.setItem('previousRoute', path);
+  }
+
+  
 }

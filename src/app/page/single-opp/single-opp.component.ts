@@ -3,12 +3,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { OppResponse, TaskResponse } from '../../model/interface/master';
 import { MasterService } from '../../service/master.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-single-opp',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './single-opp.component.html',
   styleUrl: './single-opp.component.css',
 })
@@ -16,10 +16,11 @@ export class SingleOppComponent implements OnInit {
   oppList = signal<OppResponse | null>(null); // WritableSignal to hold single TaskResponse
   masterSrv = inject(MasterService);
   oppData: OppResponse | undefined;
-
+  previousRoute!: string | null;
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.previousRoute = localStorage.getItem('previousRoute');
     // Load the lead data from resolver or route parameter
     this.route.data.subscribe((data) => {
       this.oppData = data['oppData'];
@@ -54,5 +55,10 @@ export class SingleOppComponent implements OnInit {
         console.error('Error fetching lead data:', err);
       },
     });
+  }
+
+  userId() {
+    const path = window.location.pathname.split('/')[3];
+    localStorage.setItem('previousRoute', path);
   }
 }

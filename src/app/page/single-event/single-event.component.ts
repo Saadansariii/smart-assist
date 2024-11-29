@@ -3,12 +3,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EventResponse } from '../../model/interface/master';
 import { MasterService } from '../../service/master.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-single-event',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './single-event.component.html',
   styleUrl: './single-event.component.css',
 })
@@ -16,10 +16,12 @@ export class SingleEventComponent implements OnInit {
   eventList = signal<EventResponse | null>(null); // WritableSignal to hold single LeadResponse
   masterSrv = inject(MasterService);
   eventData: EventResponse | undefined;
+  previousRoute!: string | null;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
+      this.previousRoute = localStorage.getItem('previousRoute');
     this.route.data.subscribe((data) => {
       this.eventData = data['leadData'];
       // console.log('I am from eventData', this.eventData?.event_id);

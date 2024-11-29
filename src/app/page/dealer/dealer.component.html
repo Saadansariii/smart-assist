@@ -3,10 +3,10 @@
   <div class="page-titles">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="javascript:void(0)">Utils</a>
+        <a href="javascript:void(0)" style="cursor: auto;">Utils</a>
       </li>
       <li class="breadcrumb-item active">
-        <a href="javascript:void(0)">Dealer</a>
+        <a href="javascript:void(0)" style="cursor: auto; font-weight: 700 !important; color: black;">Dealers</a>
       </li>
     </ol>
   </div>
@@ -211,7 +211,8 @@
           type="text"
           placeholder="Dealer Code"
           [(ngModel)]="dealerObj.dealer_code"
-          [disabled]="!!dealerObj.dealer_id"
+          [ngClass]="{'custom-disabled': !!dealerObj.dealer_id}"
+           
         />
       </div>
  

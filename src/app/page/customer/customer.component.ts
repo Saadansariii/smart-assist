@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Accounts } from '../../model/class/customer';
 import { MasterService } from '../../service/master.service';
-import {  AccountsResponse } from '../../model/interface/master';
+import {  AccountsResponse, DealerResponse } from '../../model/interface/master';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +14,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { dealers } from '../../model/class/dealers';
 
 @Component({
   selector: 'app-customer',
@@ -40,10 +41,13 @@ export class CustomerComponent implements OnInit {
   masterSrv = inject(MasterService);
   customerObj: Accounts = new Accounts();
   date: Date | undefined;
+  dealerObj: dealers = new dealers();
+  dealerList = signal<dealers[]>([]);
 
   private readonly toastr = inject(ToastrService);
   ngOnInit(): void {
     this.displayAllCustomer();
+   this.getAllDealer();
   }
 
   isModalVisible = false;
@@ -68,6 +72,38 @@ export class CustomerComponent implements OnInit {
       this.totalCustomer.set(res.totalAccounts);
       this.customerList.set(res.accounts);
     });
+  }
+
+  getDealerCode(dealerId: string): string {
+    const dealer = this.dealerList().find(
+      (dealer) => dealer.dealer_id === dealerId
+    );
+    console.log(this.dealerList);
+    return dealer?.dealer_code?.toString() ?? 'N/A';
+  }
+
+  onDealerChange() {
+    const selectedDealer = this.dealerList().find(
+      (dealer) => dealer.dealer_id === this.customerObj.dealer_id
+    );
+    console.log('Selected Dealer:', selectedDealer);
+    if (selectedDealer) {
+      this.customerObj.dealer_code = selectedDealer.dealer_code;
+    }
+  }
+
+  getAllDealer() {
+    this.masterSrv.getAllDealer().subscribe(
+      (res: DealerResponse) => {
+        this.dealerList.set(res.dealer.rows);
+        // this.totalDealer.set(res.dealer.count);
+        console.log(res);
+      },
+      (error) => {
+        // this.toastr.error(error, 'Error 123');
+        // alert(error.message);
+      }
+    );
   }
 
   createCustomer() {
@@ -128,7 +164,7 @@ export class CustomerComponent implements OnInit {
           (res: AccountsResponse) => {
             this.displayAllCustomer();
             this.closeModal();
-            window.location.reload(); 
+            window.location.reload();
           },
           (error) => {
             console.error('Delete vehicle error:', error);

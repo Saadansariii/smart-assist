@@ -60,8 +60,7 @@ export class DealerComponent implements OnInit {
         this.totalDealer.set(res.dealer.count);
       },
       (error) => {
-        this.toastr.error(error, 'Unauthorized Error');
-        // alert(error.message);
+        this.toastr.error('You Are ', 'Unauthorized Error'); 
       }
     );
   }
@@ -76,8 +75,8 @@ export class DealerComponent implements OnInit {
         this.getAllDealer();
       },
       (error) => {
-        this.toastr.error(error.message, 'Unauthorized Error');
-        // alert('API Have Sone Issue');
+        this.toastr.error('You Are Unauthorized', 'Unauthorized Error');
+     
       }
     );
   }
@@ -90,7 +89,7 @@ export class DealerComponent implements OnInit {
         this.getAllDealer();
       },
       (error) => {
-        // this.toastr.error(error.message, 'Unauthorized Error');
+        this.toastr.error('You Are Unauthorized', 'Unauthorized Error');
         // alert('something happn ');
       }
     );
@@ -135,6 +134,7 @@ export class DealerComponent implements OnInit {
           (res: DealerResponse) => {
             this.getAllDealer();
             this.closeModal(); 
+            this.toastr.success('Dealer Deleted' , 'Successful')
           },
           (error) => {
             alert(error.message || 'Failed to delete vehicle');

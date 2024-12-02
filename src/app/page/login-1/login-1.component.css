@@ -12,6 +12,10 @@ body{
     overflow: hidden;
 }
 
+.inputt{
+    width: 90% !important;
+
+}
 .wave{
     position: fixed;
     bottom: 0;

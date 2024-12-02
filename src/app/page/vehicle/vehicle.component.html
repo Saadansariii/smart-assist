@@ -1,35 +1,39 @@
 <div class="container-fluid">
-<div class="content-body">
+  <div class="content-body">
     <div class="page-titles">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <a href="javascript:void(0)" style="cursor: auto;">Transaction</a>
-      </li>
-      <li class="breadcrumb-item active">
-        <a href="javascript:void(0)" style="cursor: auto; font-weight: 700 !important; color: black;">Vehicle</a>
-      </li>
-    </ol>
-  </div>
-  <div class="row mb-5 align-items-center">
-    <div class="col-xl-2 mb-4 mb-xl-0">
-      <a
-        style="cursor: pointer; color: white !important"
-        (click)="openModal()"
-        data-target="#exampleModalCenter"
-        data-toggle="modal"
-        class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
-        ><i class="fa fa-plus mr-1"></i>Add Vehicle</a
-      >
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="javascript:void(0)" style="cursor: auto">Transaction</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a
+            href="javascript:void(0)"
+            style="cursor: auto; font-weight: 700 !important; color: black"
+            >Vehicle</a
+          >
+        </li>
+      </ol>
     </div>
-    <div class="col-xl-2 mb-4 mb-xl-0">
-      <div class="media-body ml-1">
-        <p class="mb-1 fs-14 text-center">Total Vehicle</p>
-        <h3 class="mb-0 text-black font-w600 fs-20 text-center">
-          {{ count() }}
-        </h3>
+    <div class="row mb-5 align-items-center">
+      <div class="col-xl-2 mb-4 mb-xl-0">
+        <a
+          style="cursor: pointer; color: white !important"
+          (click)="openModal()"
+          data-target="#exampleModalCenter"
+          data-toggle="modal"
+          class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
+          ><i class="fa fa-plus mr-1"></i>Add Vehicle</a
+        >
       </div>
-    </div>
-    <!-- <div class="col-xl-10">
+      <div class="col-xl-2 mb-4 mb-xl-0">
+        <div class="media-body ml-1">
+          <p class="mb-1 fs-14 text-center">Total Vehicle</p>
+          <h3 class="mb-0 text-black font-w600 fs-20 text-center">
+            {{ count() }}
+          </h3>
+        </div>
+      </div>
+      <!-- <div class="col-xl-10">
       <div class="card m-0">
         <div class="card-body py-3 py-md-2">
           <div class="row align-items-center">
@@ -63,20 +67,20 @@
         </div>
       </div>
     </div> -->
-  </div>
+    </div>
 
-  <!-- Api integration work start here -->
+    <!-- Api integration work start here -->
 
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="table-responsive">
-        <table
-          id="example5"
-          class="table display mb-4 table-responsive-xl dataTablesCard fs-14"
-        >
-          <thead>
-            <tr>
-              <!-- <th>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="table-responsive">
+          <table
+            id="example5"
+            class="table display mb-4 table-responsive-xl dataTablesCard fs-14"
+          >
+            <thead>
+              <tr>
+                <!-- <th>
                 <div class="checkbox mr-0 align-self-center">
                   <div class="custom-control custom-checkbox checkbox-info">
                     <input
@@ -89,87 +93,90 @@
                   </div>
                 </div>
               </th> -->
-              <th>Vehicle Name</th>
-              <th>Yrs Of Mfg</th>
-              <th>Vehicle Types</th>
-              <th>VIN</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (vehicle of vehicleList(); track $index) {
-            <tr>
-              <td>{{ vehicle.vehicle_name }}</td>
-              <td>{{ vehicle.YOM }}</td>
-              <td>{{ vehicle.type }}</td>
-              <td>{{ vehicle.VIN }}</td>
+                <th>Vehicle Name</th>
+                <th>Yrs Of Mfg</th>
+                <th>Vehicle Types</th>
+                <th>VIN</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (vehicle of vehicleList(); track $index) {
+              <tr>
+                <td>{{ vehicle.vehicle_name }}</td>
+                <td>{{ vehicle.YOM }}</td>
+                <td>{{ vehicle.type }}</td>
+                <td>{{ vehicle.VIN }}</td>
 
-              <td class="d-flex">
-                <a
-                  href="javascript:void(0);"
-                  data-target="#exampleModalCenter"
-                  data-toggle="modal"
-                  (click)="openModal(vehicle)"
-                  class="btn btn-primary shadow btn-xs sharp mr-1"
-                  ><i class="fa fa-pencil"></i
-                ></a>
-                <a
-                  href="javascript:void(0);"
-                  type="button"
-                  class="btn btn-primary mb-2"
-                  data-toggle="modal"
-                  data-target=".bd-example-modal-sm"
-                  class="btn btn-danger shadow btn-xs sharp"
-                  (click)="selectVehicleForDeletion(vehicle)"
-                  ><i class="fa fa-trash"></i
-                ></a>
-                <div
-                  class="modal fade bd-example-modal-sm"
-                  tabindex="-1"
-                  role="dialog"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                      <div
-                        class="modal-header text-center"
-                        style="margin-inline: auto"
-                      >
-                        <h5 class="modal-title text-center">Delete Vehicle</h5>
-                      </div>
-                      <div class="modal-body">HEY ARE YOU OKAY..!</div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-outline-danger"
-                          data-dismiss="modal"
+                <td class="d-flex">
+                  <a
+                    href="javascript:void(0);"
+                    data-target="#exampleModalCenter"
+                    data-toggle="modal"
+                    (click)="openModal(vehicle)"
+                    class="btn btn-primary shadow btn-xs sharp mr-1"
+                    ><i class="fa fa-pencil"></i
+                  ></a>
+                  <a
+                    href="javascript:void(0);"
+                    type="button"
+                    class="btn btn-primary mb-2"
+                    data-toggle="modal"
+                    data-target=".bd-example-modal-sm"
+                    class="btn btn-danger shadow btn-xs sharp"
+                    (click)="selectVehicleForDeletion(vehicle)"
+                    ><i class="fa fa-trash"></i
+                  ></a>
+                  <div
+                    class="modal fade bd-example-modal-sm"
+                    tabindex="-1"
+                    role="dialog"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div
+                          class="modal-header text-center"
+                          style="margin-inline: auto"
                         >
-                          Cancle
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-outline-primary"
-                          data-dismiss="modal"
-                          (click)="deleteVehicleId()"
-                        >
-                          Delete
-                        </button>
+                          <h5 class="modal-title text-center">
+                            Delete Vehicle
+                          </h5>
+                        </div>
+                        <div class="modal-body">HEY ARE YOU OKAY..!</div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-outline-danger"
+                            data-dismiss="modal"
+                          >
+                            Cancle
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-dismiss="modal"
+                            (click)="deleteVehicleId()"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 </div>
-</div>
 
 <!-- Modal -->
+<!-- <ng-template #content let-modal></ng-template> -->
 <div class="modal fade" id="exampleModalCenter" style="margin-block: 2em">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -180,40 +187,57 @@
         >
           {{ vehicleObj.vehicle_id ? "Edit Vehicle" : "Add New Vehicle" }}
         </h5>
-        <button type="button" class="close" data-dismiss="modal">
+        <button
+          type="button"
+          class="close"
+          (click)="closeModal()"
+          data-dismiss="modal"
+        >
           <span>&times;</span>
         </button>
       </div>
-      <div class=" " style="margin-inline: 1em">
+
+      <div [formGroup]="useForm" style="margin-inline: 1em">
+        <label for="vehicle_name" class="form-label">Vehicle Name*</label>
         <input
+          id="vehicle_name"
           class="form-control form-control-lg"
           type="text"
           placeholder="Vehicle Name"
+          formControlName="vehicle_name"
           [(ngModel)]="vehicleObj.vehicle_name"
         />
-      </div>
-
-      <div class="form-group">
-        <div class="calendar-container">
-          <p-calendar
-            class="one"
-            [(ngModel)]="vehicleObj.YOM"
-            [showIcon]="true"
-            [showOnFocus]="false"
-            [disabled]="!!vehicleObj.vehicle_id"
-            [ngClass]="{ 'custom-disabled': !!vehicleObj.vehicle_id }"
-            inputId="buttondisplay"
-          />
-          <!-- <p-calendar
-            [(ngModel)]="vehicleObj.YOM"
-            dateFormat="dd.mm.yy"
-            [disabled]="!!vehicleObj.vehicle_id"
-            [ngClass]="{'custom-disabled': !!vehicleObj.vehicle_id}"
-          ></p-calendar> -->
+        <div
+          class="text-danger"
+          *ngIf="
+            useForm.get('vehicle_name')?.touched &&
+            useForm.get('vehicle_name')?.invalid
+          "
+        >
+          <span>Vehicle name is required.</span>
         </div>
       </div>
 
-      <div class=" " style="margin-inline: 1em">
+      <div class="form-group" [formGroup]="useForm" >
+        <label for="YOM" class="form-label">YOM*</label>
+        <p-calendar
+          id="YOM"
+          [(ngModel)]="vehicleObj.YOM"
+          [showIcon]="true"
+          [showOnFocus]="false"
+          [disabled]="!!vehicleObj.vehicle_id"
+          [ngClass]="{ 'custom-disabled': !!vehicleObj.vehicle_id }"
+        ></p-calendar>
+        <div
+          class="text-danger"
+          *ngIf="useForm.get('type')?.touched && useForm.get('type')?.invalid"
+        >
+          <span>Date is required.</span>
+        </div>
+      </div>
+
+      <!-- <div [formGroup]="useForm" style="margin-inline: 1em">
+        <label for="validationServer01" class="form-label">Type*</label>
         <select
           class="form-control form-control-lg"
           [(ngModel)]="vehicleObj.type"
@@ -224,31 +248,71 @@
           <option value="diesel">Diesel</option>
           <option value="EV">EV</option>
         </select>
-      </div>
+           <div class="text-danger" *ngIf="useForm.get('type')?.touched">
+          <span>Type is required.</span>
+        </div>
+      </div> -->
 
-      <div class=" " style="margin: 1em">
-        <input
+      <div [formGroup]="useForm" style="margin-inline: 1em">
+        <label for="typeSelect" class="form-label">Type*</label>
+        <select
+          id="typeSelect"
+          formControlName="type"
           class="form-control form-control-lg"
-          type="text"
-          placeholder="VIN"
-          [(ngModel)]="vehicleObj.VIN"
-          [disabled]="!!vehicleObj.vehicle_id"
-          [ngClass]="{ 'custom-disabled': !!vehicleObj.vehicle_id }"
-        />
+           [(ngModel)]="vehicleObj.type"
+           
+        >
+          <option value="" disabled>Select Type</option>
+          <option value="petrol">Petrol</option>
+          <option value="diesel">Diesel</option>
+          <option value="EV">EV</option>
+        </select>
+        <!-- Error Message -->
+        <div
+          class="text-danger"
+          *ngIf="useForm.get('type')?.touched && useForm.get('type')?.invalid"
+        >
+          <span>Type is required.</span>
+        </div>
       </div>
 
-      <!-- model footer buttons  -->
+      <div [formGroup]="useForm" style="margin: 1em">
+  <label for="VIN" class="form-label">VIN ID*</label>
+  <input
+    id="VIN"
+    class="form-control form-control-lg"
+    type="text"
+    placeholder="VIN"
+    formControlName="VIN"
+    [(ngModel)]="vehicleObj.VIN"
+    [disabled]="!!vehicleObj.vehicle_id"
+    [ngClass]="{
+      'is-invalid': useForm.get('VIN')?.touched && useForm.get('VIN')?.invalid,
+      'custom-disabled': !!vehicleObj.vehicle_id
+    }"
+  />
+  <div
+    class="text-danger"
+    *ngIf="useForm.get('VIN')?.touched && useForm.get('VIN')?.invalid"
+  >
+    <span>VIN is required.</span>
+  </div>
+</div>
+
+
+      <!-- Modal footer buttons -->
       <div class="modal-footer">
         <ng-container *ngIf="vehicleObj.vehicle_id; else saveButton">
           <button
             type="button"
             class="btn btn-outline-primary"
-            data-dismiss="modal"
             (click)="onUpdate()"
+            [attr.data-dismiss]="useForm.valid ? 'modal' : null"
           >
             Edit
           </button>
         </ng-container>
+
         <button
           type="button"
           class="btn btn-outline-danger"
@@ -257,20 +321,22 @@
         >
           Close
         </button>
+
         <ng-template #saveButton>
           <button
             type="button"
             class="btn btn-outline-primary"
-            (click)="createVehicle()"
-            data-dismiss="modal"
+            (click)="onSave()"
+            [attr.data-dismiss]="useForm.valid ? 'modal' : null"
           >
-            save
+            Save
           </button>
         </ng-template>
       </div>
     </div>
   </div>
 </div>
+
 <!-- <div class="col-lg-3">
   <div class="card">
       <div class="card-body">

@@ -10,3 +10,11 @@
   cursor: not-allowed;
   opacity: 0.6;
 }
+
+.is-invalid {
+  border: 1px solid red !important;
+}
+span {
+    font-size: .8rem;
+    margin-left: .5rem;
+}

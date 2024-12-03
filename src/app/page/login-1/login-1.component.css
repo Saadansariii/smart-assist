@@ -16,6 +16,10 @@ body{
     width: 90% !important;
 
 }
+.fas{
+     color: #3B86E9 !important;
+}
+    
 .wave{
     position: fixed;
     bottom: 0;

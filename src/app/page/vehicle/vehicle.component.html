@@ -206,6 +206,7 @@
           placeholder="Vehicle Name"
           formControlName="vehicle_name"
           [(ngModel)]="vehicleObj.vehicle_name"
+          [ngClass]="{'is-invalid' : useForm.get('vehicle_name')?.touched && useForm.get('vehicle_name')?.invalid}"
         />
         <div
           class="text-danger"
@@ -219,21 +220,25 @@
       </div>
 
       <div class="form-group" [formGroup]="useForm" >
-        <label for="YOM" class="form-label">YOM*</label>
+        <label for="YOM" class="form-label">YOM</label>
         <p-calendar
+        
           id="YOM"
+          formControlName="YOM"
           [(ngModel)]="vehicleObj.YOM"
           [showIcon]="true"
           [showOnFocus]="false"
           [disabled]="!!vehicleObj.vehicle_id"
           [ngClass]="{ 'custom-disabled': !!vehicleObj.vehicle_id }"
+          (onSelect)="onDateSelect($event)"
+          
         ></p-calendar>
-        <div
+        <!-- <div
           class="text-danger"
           *ngIf="useForm.get('type')?.touched && useForm.get('type')?.invalid"
-        >
+          >
           <span>Date is required.</span>
-        </div>
+        </div> -->
       </div>
 
       <!-- <div [formGroup]="useForm" style="margin-inline: 1em">
@@ -253,13 +258,14 @@
         </div>
       </div> -->
 
-      <div [formGroup]="useForm" style="margin-inline: 1em">
+      <div [formGroup]="useForm" style="margin-inline: 1em" >
         <label for="typeSelect" class="form-label">Type*</label>
         <select
           id="typeSelect"
           formControlName="type"
           class="form-control form-control-lg"
            [(ngModel)]="vehicleObj.type"
+           [ngClass]="{'is-invalid' : useForm.get('type')?.touched && useForm.get('type')?.invalid}"
            
         >
           <option value="" disabled>Select Type</option>
@@ -270,8 +276,9 @@
         <!-- Error Message -->
         <div
           class="text-danger"
+           
           *ngIf="useForm.get('type')?.touched && useForm.get('type')?.invalid"
-        >
+          >
           <span>Type is required.</span>
         </div>
       </div>

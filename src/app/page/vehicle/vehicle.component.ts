@@ -15,8 +15,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { ToastrService } from 'ngx-toastr';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import $ from 'jquery';
-import { userInfo } from 'os';
+import $ from 'jquery'; 
 import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -48,8 +47,7 @@ export class VehicleComponent implements OnInit {
   vehicleObj: Vehicles = new Vehicles();
   private readonly toastr = inject(ToastrService);
   dtOptions: Config = {};
-  items: any;
-  // currentMode : 'add' | 'delete' = 'add'
+  items: any; 
   formGroup: FormGroup | undefined;
 
   date: Date | undefined;
@@ -60,7 +58,6 @@ export class VehicleComponent implements OnInit {
   }
 
   isModalVisible = false;
-
   useForm: FormGroup;
 
   constructor(private modalService: NgbModal) {
@@ -138,8 +135,9 @@ export class VehicleComponent implements OnInit {
     this.masterSrv.createNewVehicle(this.vehicleObj).subscribe(
       (res: VehicleResponse) => {
         this.toastr.success('new vehicle created!', 'Success');
-        this.closeModal();
         this.displayAllVehicle();
+        this.closeModal();
+        // window.location.reload();
       },
       (error) => {
         console.error('something was wrong:', error);
@@ -179,7 +177,9 @@ export class VehicleComponent implements OnInit {
     this.masterSrv.updateVehicle(this.vehicleObj).subscribe(
       (res: VehicleResponse) => {
         this.toastr.success('update successfully!', 'Success');
-        this.displayAllVehicle();
+         this.closeModal();
+        //  window.location.reload();
+          this.displayAllVehicle();
       },
       (error) => {
         console.error(error.message, 'error');
@@ -195,18 +195,22 @@ export class VehicleComponent implements OnInit {
   // }
 
   onEdit(data: Vehicles) {
-    // this.isEditMode = false;
-    this.isModalVisible = true;
-    this.vehicleObj = data;
+  
+    // this.isModalVisible = true;
+    // this.vehicleObj = data;
 
     this.useForm.patchValue({
       vehicle_id: data.vehicle_id || '',
       vehicle_name: data.vehicle_name || '',
-      YOM: data.YOM || new Date(),
+      YOM: data.YOM ||  Date(),
       type: data.type || '',
       VIN: data.VIN || '',
     });
 
     console.log(this.vehicleObj, 'trueeee----');
+  }
+
+  onDateSelect(selectedDate: Date){
+    this.vehicleObj.YOM = selectedDate;
   }
 }

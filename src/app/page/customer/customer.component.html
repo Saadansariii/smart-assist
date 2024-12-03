@@ -1,35 +1,39 @@
-<div class="container-fluid"> 
+<div class="container-fluid">
   <div class="content-body">
-  <div class="page-titles">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a href="javascript:void(0)" style="cursor: auto;">Utils</a>
-    </li>
-    <li class="breadcrumb-item active">
-      <a href="javascript:void(0)" style="cursor: auto; font-weight: 700 !important; color: black;">Accounts</a>
-    </li>
-  </ol>
-</div>
-  <div class="row mb-5 align-items-center">
-    <div class="col-xl-2 mb-4 mb-xl-0">
-      <a
-        style="cursor: pointer; color: white !important"
-        (click)="openModal()"
-        data-target="#exampleModalCenter"
-        data-toggle="modal"
-        class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
-        ><i class="fa fa-plus mr-1"></i>Add Account</a
-      >
+    <div class="page-titles">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="javascript:void(0)" style="cursor: auto">Utils</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a
+            href="javascript:void(0)"
+            style="cursor: auto; font-weight: 700 !important; color: black"
+            >Accounts</a
+          >
+        </li>
+      </ol>
     </div>
-    <div class="col-xl-2 mb-4 mb-xl-0">
-      <div class="media-body ml-1">
-        <p class="mb-1 fs-14 text-center">Total Account</p>
-        <h3 class="mb-0 text-black font-w600 fs-20 text-center">
-          {{ totalCustomer() }}
-        </h3>
+    <div class="row mb-5 align-items-center">
+      <div class="col-xl-2 mb-4 mb-xl-0">
+        <a
+          style="cursor: pointer; color: white !important"
+          (click)="openModal()"
+          data-target="#exampleModalCenter"
+          data-toggle="modal"
+          class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
+          ><i class="fa fa-plus mr-1"></i>Add Account</a
+        >
       </div>
-    </div>
-    <!-- <div class="col-xl-10">
+      <div class="col-xl-2 mb-4 mb-xl-0">
+        <div class="media-body ml-1">
+          <p class="mb-1 fs-14 text-center">Total Account</p>
+          <h3 class="mb-0 text-black font-w600 fs-20 text-center">
+            {{ totalCustomer() }}
+          </h3>
+        </div>
+      </div>
+      <!-- <div class="col-xl-10">
       <div class="card m-0">
         <div class="card-body py-3 py-md-2">
           <div class="row align-items-center">
@@ -63,45 +67,45 @@
         </div>
       </div>
     </div> -->
-  </div>
+    </div>
 
-  <!-- Api integration work start here -->
+    <!-- Api integration work start here -->
 
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="table-responsive">
-        <table
-          id="example5"
-          class="table display mb-4 table-responsive-xl dataTablesCard fs-14"
-        >
-          <thead>
-            <tr>
-              <th>Sr No</th>
-              <th>Account Name</th>
-              <th>Last Name</th>
-              <th>E-mail</th>
-              <th>Phone</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (customer of customerList(); track $index) {
-            <tr>
-              <td>{{ $index + 1 }}</td>
-              <td>{{ customer.fname }}</td>
-              <td>{{ customer.lname }}</td>
-              <td>{{ customer.email }}</td>
-              <td>{{ customer.phone }}</td>
-              <td class="d-flex">
-                <a
-                  href="javascript:void(0);"
-                  data-target="#exampleModalCenter"
-                  data-toggle="modal"
-                  (click)="openModal(customer)"
-                  class="btn btn-primary shadow btn-xs sharp mr-1"
-                  ><i class="fa fa-pencil"></i
-                ></a>
-                <!-- <a
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="table-responsive">
+          <table
+            id="example5"
+            class="table display mb-4 table-responsive-xl dataTablesCard fs-14"
+          >
+            <thead>
+              <tr>
+                <th>Sr No</th>
+                <th>Account Name</th>
+                <th>Last Name</th>
+                <th>E-mail</th>
+                <th>Phone</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (customer of customerList(); track $index) {
+              <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ customer.fname }}</td>
+                <td>{{ customer.lname }}</td>
+                <td>{{ customer.email }}</td>
+                <td>{{ customer.phone }}</td>
+                <td class="d-flex">
+                  <a
+                    href="javascript:void(0);"
+                    data-target="#exampleModalCenter"
+                    data-toggle="modal"
+                    (click)="openModal(customer)"
+                    class="btn btn-primary shadow btn-xs sharp mr-1"
+                    ><i class="fa fa-pencil"></i
+                  ></a>
+                  <!-- <a
                   href="javascript:void(0);"
                   data-target="#exampleModalCenter"
                   data-toggle="modal"
@@ -123,54 +127,57 @@
                     />
                   </svg>
                 </a> -->
-                <!-- <a
+                  <!-- <a
                   (click)="deleteCustomerId(customer.account_id || '')"
                   href="javascript:void(0);"
                   class="btn btn-danger shadow btn-xs sharp"
                   ><i class="fa fa-trash"></i
                 ></a> -->
-                <a
-                  href="javascript:void(0);"
-                  type="button"
-                  class="btn btn-primary mr-2"
-                  data-toggle="modal"
-                  data-target=".bd-example-modal-sm"
-                  class="btn btn-danger shadow btn-xs sharp"
-                  (click)="selectCustomerForDeletion(customer)"
-                  ><i class="fa fa-trash"></i
-                ></a>
-                <div
-                  class="modal fade bd-example-modal-sm"
-                  tabindex="-1"
-                  role="dialog"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog modal-sm" >
-                    <div class="modal-content">
-                      <div class="modal-header text-center" style=" margin-inline: auto;">
-                        <h5 class="modal-title text-center"  >Delete User</h5>
-                      </div>
-                      <div class="modal-body">HEY ARE YOU OKAY..!</div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-outline-danger"
-                          data-dismiss="modal"
+                  <a
+                    href="javascript:void(0);"
+                    type="button"
+                    class="btn btn-primary mr-2"
+                    data-toggle="modal"
+                    data-target=".bd-example-modal-sm"
+                    class="btn btn-danger shadow btn-xs sharp"
+                    (click)="selectCustomerForDeletion(customer)"
+                    ><i class="fa fa-trash"></i
+                  ></a>
+                  <div
+                    class="modal fade bd-example-modal-sm"
+                    tabindex="-1"
+                    role="dialog"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div
+                          class="modal-header text-center"
+                          style="margin-inline: auto"
                         >
-                          Cancle
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-outline-primary"
-                          (click)="deleteCustomerId()"
-                        >
-                          Delete
-                        </button>
+                          <h5 class="modal-title text-center">Delete User</h5>
+                        </div>
+                        <div class="modal-body">HEY ARE YOU OKAY..!</div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-outline-danger"
+                            data-dismiss="modal"
+                          >
+                            Cancle
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            (click)="deleteCustomerId()"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <!-- <a
+                  <!-- <a
                   href="javascript:void(0);"
                   class="ml-4"
                   (click)="deleteCustomerId(customer.account_id)"
@@ -198,15 +205,15 @@
                     />
                   </svg>
                 </a> -->
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 
 <!-- Modal -->
@@ -225,86 +232,366 @@
         </button>
       </div>
 
-      <div style="margin-inline: 1em; margin-bottom: 1em">
+      <!-- <div [formGroup]="useForm" style="margin-inline: 1em; margin-bottom: 1em">
         <select
           class="form-control form-control-lg"
           [(ngModel)]="customerObj.account_type"
           [ngModelOptions]="{ standalone: true }"
+          [ngClass]="{'is-invalid': useForm.get('account_type')?.touched && useForm.get('account_type')?.invalid}"
         >
           <option value="" disabled selected>Account Type</option>
           <option value="Individual" selected>Individual</option>
           <option value="Corporate">Corporate</option>
           <option value="Retailer">Retailer</option>
         </select>
+         <div
+            class="text-danger"
+            *ngIf="
+              useForm.get('account_type')?.touched &&
+              useForm.get('account_type')?.invalid
+            "
+          >
+            <span>Account Type is required.</span>
+          </div>
+      </div> -->
+
+      <div [formGroup]="useForm" style="margin-inline: 1em; margin-bottom: 1em">
+        <select
+          class="form-control form-control-lg"
+          formControlName="account_type"
+          [(ngModel)]="customerObj.account_type"
+          [ngClass]="{
+            'is-invalid':
+              useForm.get('account_type')?.touched &&
+              useForm.get('account_type')?.invalid
+          }"
+        >
+          <option value="" disabled>Select Account Type</option>
+          <option value="Individual">Individual</option>
+          <option value="Corporate">Corporate</option>
+          <option value="Retailer">Retailer</option>
+        </select>
+        <div
+          class="text-danger"
+          *ngIf="
+            useForm.get('account_type')?.touched &&
+            useForm.get('account_type')?.invalid
+          "
+        >
+          <span>Account Type is required.</span>
+        </div>
       </div>
 
-      <div class=" " style="margin-inline: 1em">
+      <div [formGroup]="useForm" style="margin-inline: 1em">
+        <input
+          class="form-control form-control-lg"
+          type="text"
+          placeholder="First Name"
+          formControlName="fname"
+          [(ngModel)]="customerObj.fname"
+          [ngClass]="{
+            'is-invalid':
+              useForm.get('fname')?.touched && useForm.get('fname')?.invalid
+          }"
+        />
+        <div
+          class="text-danger"
+          *ngIf="useForm.get('fname')?.touched && useForm.get('fname')?.invalid"
+        >
+          <span *ngIf="useForm.get('fname')?.errors?.['required']"
+            >First Name is required.</span
+          >
+          <span *ngIf="useForm.get('fname')?.errors?.['minlength']"
+            >First Name must be at least 3 characters long.</span
+          >
+        </div>
+      </div>
+
+      <!-- <div [formGroup]="useForm" class=" " style="margin-inline: 1em">
         <input
           class="form-control form-control-lg"
           type="text"
           placeholder="First Name"
           [(ngModel)]="customerObj.fname"
+          [ngClass]="{
+            'is-invalid':
+              useForm.get('fname')?.touched && useForm.get('fname')?.invalid
+          }"
         />
-      </div>
+        <div
+          class="text-danger"
+          *ngIf="useForm.get('fname')?.touched && useForm.get('fname')?.invalid"
+        >
+          <span>Account Type is required.</span>
+        </div>
+      </div> -->
 
-      <div class=" " style="margin-inline: 1em; margin-top: 1em">
+      <!-- <div
+        [formGroup]="useForm"
+        class=" "
+        style="margin-inline: 1em; margin-top: 1em"
+      >
         <input
           class="form-control form-control-lg"
           type="text"
           placeholder="Last Name"
           [(ngModel)]="customerObj.lname"
+          [ngClass]="{
+            'is-invalid':
+              useForm.get('lname')?.touched && useForm.get('lname')?.invalid
+          }"
         />
+        <div
+          class="text-danger"
+          *ngIf="useForm.get('lname')?.touched && useForm.get('lname')?.invalid"
+        >
+          <span>Account Type is required.</span>
+        </div>
+      </div> -->
+
+      <div [formGroup]="useForm" style="margin-inline: 1em; margin-top: 1em">
+        <input
+          class="form-control form-control-lg"
+          type="text"
+          placeholder="Last Name"
+          formControlName="lname"
+          [(ngModel)]="customerObj.lname"
+          [ngClass]="{
+            'is-invalid':
+              useForm.get('lname')?.touched && useForm.get('lname')?.invalid
+          }"
+        />
+        <div
+          class="text-danger"
+          *ngIf="useForm.get('lname')?.touched && useForm.get('lname')?.invalid"
+        >
+          <span *ngIf="useForm.get('lname')?.errors?.['required']"
+            >Last Name is required.</span
+          >
+          <span *ngIf="useForm.get('lname')?.errors?.['minlength']"
+            >Last Name must be at least 3 characters long.</span
+          >
+        </div>
       </div>
 
-      <div class=" " style="margin-inline: 1em; margin-top: 1em">
+      <!-- <div
+        [formGroup]="useForm"
+        class=""
+        style="margin-inline: 1em; margin-top: 1em"
+      >
         <select
-            id="dealerSelect"
-            class="form-select form-control form-control-lg"
-            [(ngModel)]="customerObj.dealer_id"
-            [ngModelOptions]="{ standalone: true }"
-            (change)="onDealerChange()"
-            [disabled]="!!customerObj.account_id  "
-            [ngClass]="{'custom-disabled': !!customerObj.account_id}"
-            >
-            <option value="" disabled>Select Dealer</option>
-            <option
-              *ngFor="let dealer of dealerList()"
-              [value]="dealer.dealer_id"
-            >
-              {{ dealer.dealer_code }}
-            </option>
-          </select>
+          id="dealerSelect"
+          class="form-select form-control form-control-lg"
+          [(ngModel)]="customerObj.dealer_id"
+          [ngModelOptions]="{ standalone: true }"
+          (change)="onDealerChange()"
+          [disabled]="!!customerObj.account_id"
+          [ngClass]="{
+            'custom-disabled': !!dealerObj.dealer_id,
+            'is-invalid':
+              useForm.get('dealer_code')?.touched &&
+              useForm.get('dealer_code')?.invalid
+          }"
+        >
+          <option value="" disabled>Select Dealer</option>
+          <option
+            *ngFor="let dealer of dealerList()"
+            [value]="dealer.dealer_id"
+          >
+            {{ dealer.dealer_code }}
+          </option>
+        </select>
+        <div
+          class="text-danger"
+          *ngIf="
+            useForm.get('dealer_code')?.touched &&
+            useForm.get('dealer_code')?.invalid
+          "
+        >
+          <span>Account Type is required.</span>
+        </div>
+      </div> -->
+
+      <div [formGroup]="useForm" style="margin-inline: 1em; margin-top: 1em">
+        <select
+          class="form-select form-control form-control-lg"
+          formControlName="dealer_code"
+          [disabled]="!!customerObj.account_id"
+          [(ngModel)]="customerObj.dealer_id"
+          [ngClass]="{
+            'is-invalid':
+              useForm.get('dealer_code')?.touched &&
+              useForm.get('dealer_code')?.invalid
+          }"
+          (change)="onDealerChange()"
+        >
+          <option value="" disabled>Select Dealer</option>
+          <option
+            *ngFor="let dealer of dealerList()"
+            [value]="dealer.dealer_id"
+          >
+            {{ dealer.dealer_code }}
+          </option>
+        </select>
+        <div
+          class="text-danger"
+          *ngIf="
+            useForm.get('dealer_code')?.touched &&
+            useForm.get('dealer_code')?.invalid
+          "
+        >
+          <span>Dealer is required.</span>
+        </div>
       </div>
- 
-      <div class=" " style="margin: 1em">
+
+      <!-- <div [formGroup]="useForm" class=" " style="margin: 1em">
         <input
           class="form-control form-control-lg"
           type="text"
           placeholder="E-mail"
           [(ngModel)]="customerObj.email"
+          [ngClass]="{
+            'is-invalid':
+              useForm.get('email')?.touched && useForm.get('email')?.invalid
+          }"
         />
+        <div
+          class="text-danger"
+          *ngIf="useForm.get('email')?.touched && useForm.get('email')?.invalid"
+        >
+          <span>Account Type is required.</span>
+        </div>
+      </div> -->
+
+      <div [formGroup]="useForm" style="margin-inline: 1em; margin-top: 1rem">
+        <input
+          class="form-control form-control-lg"
+          type="email"
+          placeholder="E-mail"
+          formControlName="email"
+          [(ngModel)]="customerObj.email"
+          [ngClass]="{
+            'is-invalid':
+              useForm.get('email')?.touched && useForm.get('email')?.invalid
+          }"
+        />
+        <div
+          class="text-danger"
+          *ngIf="useForm.get('email')?.touched && useForm.get('email')?.invalid"
+        >
+          <span *ngIf="useForm.get('email')?.errors?.['required']"
+            >Email is required.</span
+          >
+          <span *ngIf="useForm.get('email')?.errors?.['email']"
+            >Please enter a valid email.</span
+          >
+        </div>
       </div>
 
-      <div class=" " style="margin-inline: 1em">
+      <!-- <div [formGroup]="useForm" class=" " style="margin-inline: 1em">
         <input
           class="form-control form-control-lg"
           type="text"
           placeholder="Phone"
           [(ngModel)]="customerObj.phone"
+          [ngClass]="{
+            'is-invalid':
+              useForm.get('phone')?.touched && useForm.get('phone')?.invalid
+          }"
         />
+        <div
+          class="text-danger"
+          *ngIf="
+            useForm.get('account_type')?.touched &&
+            useForm.get('account_type')?.invalid
+          "
+        >
+          <span>Account Type is required.</span>
+        </div>
+      </div> -->
+
+      <div [formGroup]="useForm" style="margin-inline: 1em; margin-top: 1rem">
+        <input
+          class="form-control form-control-lg"
+          type="text"
+          placeholder="Phone"
+          formControlName="phone"
+          [(ngModel)]="customerObj.phone"
+          [ngClass]="{
+            'is-invalid':
+              useForm.get('phone')?.touched && useForm.get('phone')?.invalid
+          }"
+        />
+        <div
+          class="text-danger"
+          *ngIf="useForm.get('phone')?.touched && useForm.get('phone')?.invalid"
+        >
+          <span *ngIf="useForm.get('phone')?.errors?.['required']"
+            >Phone is required.</span
+          >
+          <span *ngIf="useForm.get('phone')?.errors?.['minlength']"
+            >Phone must be at least 3 characters long.</span
+          >
+          <span *ngIf="useForm.get('phone')?.errors?.['pattern']"
+            >Phone must contain only numbers.</span
+          >
+        </div>
       </div>
 
-      <div class=" " style="margin-inline: 1em; margin-top: 1em">
+      <!-- <div
+        [formGroup]="useForm"
+        class=" "
+        style="margin-inline: 1em; margin-top: 1em"
+      >
         <input
           class="form-control form-control-lg"
           type="text"
           placeholder="Mobile"
           [(ngModel)]="customerObj.mobile"
+          [ngClass]="{
+            'is-invalid':
+              useForm.get('mobile')?.touched && useForm.get('mobile')?.invalid
+          }"
         />
+        <div
+          class="text-danger"
+          *ngIf="
+            useForm.get('mobile')?.touched && useForm.get('mobile')?.invalid
+          "
+        >
+          <span>Account Type is required.</span>
+        </div>
+      </div> -->
+
+      <div [formGroup]="useForm" style="margin-inline: 1em; margin-top: 1em">
+        <input
+          class="form-control form-control-lg"
+          type="text"
+          placeholder="Mobile"
+          formControlName="mobile"
+          [(ngModel)]="customerObj.mobile"
+          [ngClass]="{
+            'is-invalid':
+              useForm.get('mobile')?.touched && useForm.get('mobile')?.invalid
+          }"
+        />
+        <div
+          class="text-danger"
+          *ngIf="
+            useForm.get('mobile')?.touched && useForm.get('mobile')?.invalid
+          "
+        >
+          <span *ngIf="useForm.get('mobile')?.errors?.['required']"
+            >Mobile is required.</span
+          >
+          <span *ngIf="useForm.get('mobile')?.errors?.['minlength']"
+            >Mobile must be at least 3 characters long.</span
+          >
+          <span *ngIf="useForm.get('mobile')?.errors?.['pattern']"
+            >Mobile must contain only numbers.</span
+          >
+        </div>
       </div>
-
-      
-
       <!-- model footer buttons  -->
       <div class="modal-footer">
         <ng-container *ngIf="customerObj.account_id; else saveButton">
@@ -328,7 +615,8 @@
           <button
             type="button"
             class="btn btn-outline-primary"
-            (click)="createCustomer()"
+            (click)="onSave()"
+            [attr.data-dismiss]="useForm.valid ? 'modal' : null"
           >
             save
           </button>

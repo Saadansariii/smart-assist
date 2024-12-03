@@ -4,7 +4,7 @@ import { MasterService } from '../../service/master.service';
 import {  AccountsResponse, DealerResponse } from '../../model/interface/master';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -15,6 +15,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { dealers } from '../../model/class/dealers';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-customer',
@@ -31,6 +32,8 @@ import { dealers } from '../../model/class/dealers';
     CalendarModule,
     BreadcrumbModule,
     RouterModule,
+    ReactiveFormsModule,
+    NgbModalModule
   ],
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css',
@@ -43,6 +46,42 @@ export class CustomerComponent implements OnInit {
   date: Date | undefined;
   dealerObj: dealers = new dealers();
   dealerList = signal<dealers[]>([]);
+  useForm : FormGroup
+
+  constructor(private modalService : NgbModalModule){
+    this.useForm = new FormGroup({
+      account_type: new FormControl(this.customerObj.account_type, [
+        Validators.required,
+      ]),
+      fname: new FormControl(this.customerObj.fname, [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      lname: new FormControl(this.customerObj.lname, [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      email: new FormControl(this.customerObj.email, [
+        Validators.required,
+        Validators.email,
+      ]),
+      phone: new FormControl(this.customerObj.phone, [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.pattern(/^\d+$/), // Ensures only numeric input
+      ]),
+      mobile: new FormControl(this.customerObj.mobile, [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.pattern(/^\d+$/), // Ensures only numeric input
+      ]),
+      dealer_code: new FormControl(this.customerObj.dealer_code, [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+    });
+
+  }
 
   private readonly toastr = inject(ToastrService);
   ngOnInit(): void {
@@ -50,21 +89,34 @@ export class CustomerComponent implements OnInit {
    this.getAllDealer();
   }
 
+  
   isModalVisible = false;
 
   openModal(customer?: Accounts) {
+     
     this.isModalVisible = true;
     this.customerObj = customer
       ? {
           ...customer,
-          phone: customer.phone ? Number(customer.phone) : null,
-          mobile: customer.mobile ? Number(customer.mobile) : null,
+          phone:     Number(customer.phone) ,
+          mobile:   Number(customer.mobile) ,
         }
       : new Accounts();
+
+      this.useForm.reset({
+        account_type: this.customerObj.account_type || '',
+        fname: this.customerObj.fname || '',
+        lname: this.customerObj.lname || '',
+        email: this.customerObj.email || '',
+        phone: this.customerObj.phone || '',
+        mobile: this.customerObj.mobile || '',
+        dealer_code: this.customerObj.dealer_code || '',
+      });
   }
 
   closeModal() {
-    this.isModalVisible = false;
+     ($('#exampleModalCenter') as any).modal('hide');
+    // this.isModalVisible = false;
   }
 
   displayAllCustomer() {
@@ -113,12 +165,13 @@ export class CustomerComponent implements OnInit {
       (res: AccountsResponse) => {
         this.toastr.success('Account created successfully!', 'Success');
         this.displayAllCustomer();
-        this.isModalVisible = false;
-        window.location.reload();
+        this.closeModal()
+        // this.isModalVisible = false;
+        // window.location.reload();
       },
       (error) => {
         this.toastr.error(error.message, 'Error');
-        // alert('something went wrong');
+      
       }
     );
   }
@@ -154,10 +207,7 @@ export class CustomerComponent implements OnInit {
     if (
       this.selectedCustomerForDeletion &&
       this.selectedCustomerForDeletion.account_id
-    ) {
-      // console.log('Deleting vehicle:', this.selectedCustomerForDeletion);
-      // console.log('Customer ID:', this.selectedCustomerForDeletion.acc);
-
+    ) { 
       this.masterSrv
         .deleteCustomer(this.selectedCustomerForDeletion.account_id)
         .subscribe(
@@ -194,8 +244,28 @@ export class CustomerComponent implements OnInit {
   }
 
   onEdit(data: Accounts) {
-    this.isModalVisible = true;
-    this.customerObj = data;
+  
+    this.useForm.patchValue({
+      // account_type: data.account_type || '',
+      fname: data.fname || '',
+      lname: data.lname || '',
+      // dealer_code: data.dealer_code || '',
+      email: data.email || '',
+      // phone: data.phone || Number,
+      // mobile: data.mobile || Number,
+    });
     console.log(this.customerObj, 'trueeee----');
+  }
+
+  onSave(){
+    if(this.useForm.invalid){
+      console.log('form is invalid' , this.useForm);
+      this.useForm.markAllAsTouched();
+      return
+    }
+
+    this.createCustomer();
+    ($('#exampleModalCenter')as any).modal('hide');
+    console.log('form is valid')
   }
 }

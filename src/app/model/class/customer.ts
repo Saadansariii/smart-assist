@@ -12,8 +12,8 @@ export class Accounts {
   occupation: null;
   cust_journey_stage: null;
   national_id: null;
-  phone: number | null;
-  mobile: number | null;
+  phone: number | undefined;
+  mobile: number | undefined;
   billing_street: null;
   billing_city: null;
   billing_state: null;
@@ -52,8 +52,8 @@ export class Accounts {
     this.occupation = null;
     this.cust_journey_stage = null;
     this.national_id = null;
-    this.phone = null;
-    this.mobile = null;
+    this.phone = undefined;
+    this.mobile = undefined;
     this.billing_street = null;
     this.billing_city = null;
     this.billing_state = null;

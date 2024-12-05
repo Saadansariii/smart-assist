@@ -5,10 +5,7 @@
   color: black !important;
 }
 
-.custom-disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
+ 
 
 .is-invalid {
   border: 1px solid red !important;
@@ -134,3 +131,127 @@ span {
 :host ::ng-deep .p-calendar .p-inputtext::placeholder {
   color: #6c757d;
 }
+
+
+
+/* Form styling */
+.custom-modal .form-group {
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+.custom-modal .form-label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+ 
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .custom-modal .modal-dialog {
+    max-width: 700px;
+  }
+
+  .custom-modal .modal-content {
+    padding: 2rem;
+  }
+
+  .custom-modal .form-group {
+    margin-right: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .custom-modal .modal-dialog {
+    max-width: 100%;
+  }
+
+  .custom-modal .form-group {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .custom-modal .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .custom-modal .modal-footer button {
+    margin-bottom: 0.5rem;
+  }
+}
+
+
+/* General modal styling */
+.custom-modal .modal-dialog {
+  max-width: 95%;
+  margin: 1.5rem auto;
+}
+
+.custom-modal .modal-content {
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .custom-modal .modal-dialog {
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 767px) {
+  .custom-modal .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .custom-modal .modal-footer button {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.custom-disabled .p-inputtext {
+  background-color: #e0e2e4 !important; /* Target the input field */
+  opacity: 0.8 !important;             /* Ensure input field is dimmed */
+  cursor: not-allowed !important;      /* Ensure proper cursor */
+  pointer-events: none;                /* Disable interactions */
+}
+
+.custom-disabled  {
+  background-color: #e0e2e4;
+  cursor: not-allowed !important; /* Force cursor property */
+  pointer-events: none; /* Prevent interactions */
+}
+input.custom-disabled {
+  cursor: not-allowed !important;
+  pointer-events: auto;
+  border: 1px solid lightgray;
+}
+
+/* Ensure the parent wrapper applies a disabled style */
+.custom-disabled {
+  background-color: #e0e2e4 !important;
+  opacity: 0.8 !important;
+  cursor: not-allowed !important;
+}
+
+/* Target the input field */
+.custom-disabled .p-inputtext {
+  background-color: #e0e2e4 !important;
+  opacity: 0.8 !important;
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+}
+
+/* Target the calendar icon */
+.custom-disabled .p-datepicker-trigger {
+  pointer-events: none !important; /* Disable the calendar icon */
+  cursor: not-allowed !important;
+}
+
+/* Ensure that the calendar popup (if opened) is still functional */
+.p-calendar .p-datepicker {
+  pointer-events: auto !important; /* Allow interactions with the calendar popup */
+}
+

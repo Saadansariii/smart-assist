@@ -34,43 +34,7 @@
             {{ totalDealer() }}
           </h3>
         </div>
-      </div>
-      <!-- <
-      <div class="card m-0">
-        <div class="card-body py-3 py-md-2">
-          <div class="row align-items-center">
-            <div class="col-md-5 mb-3 mb-md-0">
-              <div class="media align-items-end">
-                <span class="mr-2 mb-1">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g clip-path="url(#clip0)">
-                      
-                    </g>
-                    <defs>
-                      <clipPath id="clip0">
-                        <rect width="24" height="24" fill="white" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                </span>
-                <div class="media-body ml-1">
-                  <p class="mb-1 fs-14">Total dealer</p>
-                  <h3 class="mb-0 text-black font-w600 fs-20">
-                    {{ totalDealer() }}
-                  </h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
+      </div> 
     </div>
 
     <!-- Api integration work start here -->
@@ -115,14 +79,7 @@
                     (click)="openModal(dealer)"
                     class="btn btn-primary shadow btn-xs sharp mr-1"
                     ><i class="fa fa-pencil"></i
-                  ></a>
-
-                  <!-- <a
-                  (click)="deleteDealerId(dealer.dealer_id)"
-                  href="javascript:void(0);"
-                  class="btn btn-danger shadow btn-xs sharp mr-1"
-                  ><i class="fa fa-trash"></i
-                ></a> -->
+                  ></a> 
                   <a
                     href="javascript:void(0);"
                     type="button"
@@ -174,9 +131,8 @@
                     href="javascript:void(0);"
                     class="btn btn-success shadow btn-xs sharp"
                     [routerLink]="['/Admin/singleUser', dealer.dealer_id]"
-                      
                   >
-                    <span class="" style="  margin-left: 0 !important;">
+                    <span class="" style="margin-left: 0 !important">
                       <i class="fa fa-eye"></i>
                     </span>
                   </a>
@@ -194,7 +150,6 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-           
           <h5
             class="modal-title"
             style="align-items: center; margin-inline: auto"
@@ -211,7 +166,7 @@
           class="form-group"
           style="margin-inline: 1em"
         >
-        <label for="dealer_name" class="form-label">Dealer Name*</label>
+          <label for="dealer_name" class="form-label">Dealer Name*</label>
           <input
             class="form-control form-control-lg"
             type="text"
@@ -235,7 +190,11 @@
           </div>
         </div>
 
-        <div [formGroup]="useForm" class="form-group" style="margin-inline: 1em">
+        <div
+          [formGroup]="useForm"
+          class="form-group"
+          style="margin-inline: 1em"
+        >
           <label for="dealer_code" class="form-label">Dealer Code*</label>
           <input
 
@@ -251,6 +210,21 @@
                 useForm.get('dealer_code')?.invalid
             }"
           />
+          <!-- <input
+            class="form-control form-control-lg custom-disabled"
+            type="text"
+            placeholder="Dealer Code"
+            formControlName="dealer_code"
+            [(ngModel)]="dealerObj.dealer_code"
+            [ngClass]="{
+              'custom-disabled': !!dealerObj.dealer_id,
+              'is-invalid':
+                useForm.get('dealer_code')?.touched &&
+                useForm.get('dealer_code')?.invalid
+            }"
+            [readOnly]="!!dealerObj.dealer_id"
+          /> -->
+
           <div
             class="text-danger"
             *ngIf="
@@ -269,7 +243,8 @@
               type="button"
               class="btn btn-outline-primary"
               data-dismiss="modal"
-              (click)="onUpdate()"
+              [disabled]="!dealerObj.dealer_name"
+              (click)="onUpdate()" 
             >
               Edit
             </button>

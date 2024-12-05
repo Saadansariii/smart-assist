@@ -19,8 +19,9 @@
         <a
           style="cursor: pointer; color: white !important"
           (click)="openModal()"
-          data-target="#exampleModalCenter"
+          type="button"
           data-toggle="modal"
+          data-target=".bd-example-modal-lg"
           class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
           ><i class="fa fa-plus mr-1"></i>Add Vehicle</a
         >
@@ -93,6 +94,7 @@
                   </div>
                 </div>
               </th> -->
+                <th>Sr No</th>
                 <th>Vehicle Name</th>
                 <th>Yrs Of Mfg</th>
                 <th>Vehicle Types</th>
@@ -103,6 +105,7 @@
             <tbody>
               @for (vehicle of vehicleList(); track $index) {
               <tr>
+                <td>{{ $index + 1 }}</td>
                 <td>{{ vehicle.vehicle_name }}</td>
                 <td>{{ vehicle.YOM }}</td>
                 <td>{{ vehicle.type }}</td>
@@ -111,8 +114,9 @@
                 <td class="d-flex">
                   <a
                     href="javascript:void(0);"
-                    data-target="#exampleModalCenter"
+                    type="button"
                     data-toggle="modal"
+                    data-target=".bd-example-modal-lg"
                     (click)="openModal(vehicle)"
                     class="btn btn-primary shadow btn-xs sharp mr-1"
                     ><i class="fa fa-pencil"></i
@@ -177,8 +181,13 @@
 
 <!-- Modal -->
 <!-- <ng-template #content let-modal></ng-template> -->
-<div class="modal fade" id="exampleModalCenter" style="margin-block: 2em">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+<div
+  class="modal fade bd-example-modal-lg custom-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5
@@ -197,51 +206,64 @@
         </button>
       </div>
 
-      <div [formGroup]="useForm" style="margin-inline: 1em">
-        <label for="vehicle_name" class="form-label">Vehicle Name*</label>
-        <input
-          id="vehicle_name"
-          class="form-control form-control-lg"
-          type="text"
-          placeholder="Vehicle Name"
-          formControlName="vehicle_name"
-          [(ngModel)]="vehicleObj.vehicle_name"
-          [ngClass]="{'is-invalid' : useForm.get('vehicle_name')?.touched && useForm.get('vehicle_name')?.invalid}"
-        />
-        <div
-          class="text-danger"
-          *ngIf="
-            useForm.get('vehicle_name')?.touched &&
-            useForm.get('vehicle_name')?.invalid
-          "
-        >
-          <span>Vehicle name is required.</span>
+      <div class="modal-body" [formGroup]="useForm">
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="vehicle_name" class="form-label">Vehicle Name*</label>
+            <input
+              id="vehicle_name"
+              class="form-control form-control-lg"
+              type="text"
+              placeholder="Vehicle Name"
+              formControlName="vehicle_name"
+              [(ngModel)]="vehicleObj.vehicle_name"
+              [ngClass]="{
+                'is-invalid':
+                  useForm.get('vehicle_name')?.touched &&
+                  useForm.get('vehicle_name')?.invalid
+              }"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                useForm.get('vehicle_name')?.touched &&
+                useForm.get('vehicle_name')?.invalid
+              "
+            >
+              <span>Vehicle name is required.</span>
+            </div>
+          </div>
+
+          <!-- <div class="form-group col-md-6">
+            <label for="YOM" class="form-label">YOM</label>
+            <p-calendar
+              id="YOM"
+              formControlName="YOM"
+              [(ngModel)]="vehicleObj.YOM"
+              [showIcon]="true"
+              [showOnFocus]="false"
+              [disabled]="!!vehicleObj.vehicle_id"
+              [ngClass]="{ 'custom-disabled': !!vehicleObj.vehicle_id }"
+              (onSelect)="onDateSelect($event)"
+            ></p-calendar>
+          </div> -->
+          <div class="form-group col-md-6">
+            <label for="YOM" class="form-label">YOM</label>
+            <p-calendar
+              id="YOM"
+              class="custom-disabled"
+              formControlName="YOM"
+              [(ngModel)]="vehicleObj.YOM"
+              [showIcon]="true"
+              [showOnFocus]="false"
+              [readonlyInput]="!!vehicleObj.vehicle_id"
+              [ngClass]="{ 'custom-disabled': !!vehicleObj.vehicle_id }"
+              (onSelect)="onDateSelect($event)"
+            ></p-calendar>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group" [formGroup]="useForm" >
-        <label for="YOM" class="form-label">YOM</label>
-        <p-calendar
-        
-          id="YOM"
-          formControlName="YOM"
-          [(ngModel)]="vehicleObj.YOM"
-          [showIcon]="true"
-          [showOnFocus]="false"
-          [disabled]="!!vehicleObj.vehicle_id"
-          [ngClass]="{ 'custom-disabled': !!vehicleObj.vehicle_id }"
-          (onSelect)="onDateSelect($event)"
-          
-        ></p-calendar>
-        <!-- <div
-          class="text-danger"
-          *ngIf="useForm.get('type')?.touched && useForm.get('type')?.invalid"
-          >
-          <span>Date is required.</span>
-        </div> -->
-      </div>
-
-      <!-- <div [formGroup]="useForm" style="margin-inline: 1em">
+        <!-- <div [formGroup]="useForm" style="margin-inline: 1em">
         <label for="validationServer01" class="form-label">Type*</label>
         <select
           class="form-control form-control-lg"
@@ -257,55 +279,62 @@
           <span>Type is required.</span>
         </div>
       </div> -->
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="typeSelect" class="form-label">Type*</label>
+            <select
+              id="typeSelect"
+              formControlName="type"
+              class="form-control form-control-lg"
+              [(ngModel)]="vehicleObj.type"
+              [ngClass]="{
+                'is-invalid':
+                  useForm.get('type')?.touched && useForm.get('type')?.invalid
+              }"
+            >
+              <option value="" disabled>Select Type</option>
+              <option value="petrol">Petrol</option>
+              <option value="diesel">Diesel</option>
+              <option value="EV">EV</option>
+            </select>
+            <!-- Error Message -->
+            <div
+              class="text-danger"
+              *ngIf="
+                useForm.get('type')?.touched && useForm.get('type')?.invalid
+              "
+            >
+              <span>Type is required.</span>
+            </div>
+          </div>
 
-      <div [formGroup]="useForm" style="margin-inline: 1em" >
-        <label for="typeSelect" class="form-label">Type*</label>
-        <select
-          id="typeSelect"
-          formControlName="type"
-          class="form-control form-control-lg"
-           [(ngModel)]="vehicleObj.type"
-           [ngClass]="{'is-invalid' : useForm.get('type')?.touched && useForm.get('type')?.invalid}"
-           
-        >
-          <option value="" disabled>Select Type</option>
-          <option value="petrol">Petrol</option>
-          <option value="diesel">Diesel</option>
-          <option value="EV">EV</option>
-        </select>
-        <!-- Error Message -->
-        <div
-          class="text-danger"
-           
-          *ngIf="useForm.get('type')?.touched && useForm.get('type')?.invalid"
-          >
-          <span>Type is required.</span>
+          <div class="col-md-6 form-group">
+            <label for="VIN" class="form-label">VIN ID*</label>
+            <input
+              id="VIN"
+              class="form-control form-control-lg custom-disabled"
+              type="text"
+              placeholder="VIN"
+              formControlName="VIN"
+              [(ngModel)]="vehicleObj.VIN"
+              [disabled]="!!vehicleObj.vehicle_id"
+              [ngClass]="{
+                'custom-disabled': !!vehicleObj.vehicle_id,
+                'is-invalid':
+                  useForm.get('VIN')?.touched && useForm.get('VIN')?.invalid
+              }"
+              [readOnly]="!!vehicleObj.vehicle_id"
+            />
+
+            <div
+              class="text-danger"
+              *ngIf="useForm.get('VIN')?.touched && useForm.get('VIN')?.invalid"
+            >
+              <span>VIN is required.</span>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div [formGroup]="useForm" style="margin: 1em">
-  <label for="VIN" class="form-label">VIN ID*</label>
-  <input
-    id="VIN"
-    class="form-control form-control-lg"
-    type="text"
-    placeholder="VIN"
-    formControlName="VIN"
-    [(ngModel)]="vehicleObj.VIN"
-    [disabled]="!!vehicleObj.vehicle_id"
-    [ngClass]="{
-      'is-invalid': useForm.get('VIN')?.touched && useForm.get('VIN')?.invalid,
-      'custom-disabled': !!vehicleObj.vehicle_id
-    }"
-  />
-  <div
-    class="text-danger"
-    *ngIf="useForm.get('VIN')?.touched && useForm.get('VIN')?.invalid"
-  >
-    <span>VIN is required.</span>
-  </div>
-</div>
-
 
       <!-- Modal footer buttons -->
       <div class="modal-footer">
@@ -344,16 +373,4 @@
   </div>
 </div>
 
-<!-- <div class="col-lg-3">
-  <div class="card">
-      <div class="card-body">
-          <h4 class="card-title">Sweet Confirm Or Cancel</h4>
-          <div class="card-content">
-              <div class="sweetalert mt-5">
-                  <button class="btn btn-warning btn sweet-success-cancel">Sweet Confirm Or
-                      Cancel</button>
-              </div>
-          </div>
-      </div>
-  </div> 
-</div> -->
+ 

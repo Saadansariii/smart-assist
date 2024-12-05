@@ -115,7 +115,7 @@ export class CustomerComponent implements OnInit {
   }
 
   closeModal() {
-     ($('#exampleModalCenter') as any).modal('hide');
+     ($('.bd-example-modal-lg') as any).modal('hide');
     // this.isModalVisible = false;
   }
 
@@ -230,11 +230,10 @@ export class CustomerComponent implements OnInit {
     this.displayAllCustomer();
     this.masterSrv.updateCustomer(this.customerObj).subscribe(
       (res: AccountsResponse) => {
-        this.toastr.success('Account Update successfully!', 'Success');
-        // alert('update successfully');
-        this.isModalVisible = false;
+        this.toastr.success('Account Update successfully!', 'Success');  
         this.displayAllCustomer();
-        window.location.reload();
+        this.closeModal();
+        // window.location.reload();
       },
       (error) => {
         this.toastr.error(error.message, 'Error');
@@ -249,7 +248,7 @@ export class CustomerComponent implements OnInit {
       // account_type: data.account_type || '',
       fname: data.fname || '',
       lname: data.lname || '',
-      // dealer_code: data.dealer_code || '',
+      dealer_code: data.dealer_code || '',
       email: data.email || '',
       // phone: data.phone || Number,
       // mobile: data.mobile || Number,
@@ -265,7 +264,7 @@ export class CustomerComponent implements OnInit {
     }
 
     this.createCustomer();
-    ($('#exampleModalCenter')as any).modal('hide');
+    ($('.bd-example-modal-lg') as any).modal('hide');
     console.log('form is valid')
   }
 }

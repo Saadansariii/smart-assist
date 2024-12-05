@@ -38,6 +38,7 @@ import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   templateUrl: './vehicle.component.html',
   styleUrl: './vehicle.component.css',
+  
 })
 export class VehicleComponent implements OnInit {
   count = signal<number>(0);
@@ -102,7 +103,7 @@ export class VehicleComponent implements OnInit {
   // }
 
   closeModal() {
-    ($('#exampleModalCenter') as any).modal('hide');
+    ($('.bd-example-modal-lg') as any).modal('hide');
     this.isModalVisible = false;
   }
 
@@ -125,7 +126,7 @@ export class VehicleComponent implements OnInit {
 
     // If form is valid, call the API to create the vehicle
     this.createVehicle();
-    ($('#exampleModalCenter') as any).modal('hide');
+    ($('.bd-example-modal-lg') as any).modal('hide');
     console.log('Form is valid. Proceeding with API call.');
   }
 
@@ -186,18 +187,8 @@ export class VehicleComponent implements OnInit {
       }
     );
   }
-
-  // onEdit(data: Vehicles) {
-  //   this.isEditMode = false;
-  //   this.isModalVisible = true;
-  //   this.vehicleObj = data;
-  //   console.log(this.vehicleObj, 'trueeee----');
-  // }
-
-  onEdit(data: Vehicles) {
-  
-    // this.isModalVisible = true;
-    // this.vehicleObj = data;
+ 
+  onEdit(data: Vehicles) { 
 
     this.useForm.patchValue({
       vehicle_id: data.vehicle_id || '',
@@ -206,8 +197,7 @@ export class VehicleComponent implements OnInit {
       type: data.type || '',
       VIN: data.VIN || '',
     });
-
-    console.log(this.vehicleObj, 'trueeee----');
+ 
   }
 
   onDateSelect(selectedDate: Date){

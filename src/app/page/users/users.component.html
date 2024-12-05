@@ -20,8 +20,8 @@
         <a
           style="cursor: pointer; color: white !important"
           (click)="openModal()"
-          data-target="#exampleModalCenter"
-          data-toggle="modal"
+          type="button" 
+          data-toggle="modal" data-target=".bd-example-modal-lg"
           class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
           ><i class="fa fa-plus mr-1"></i>Add Users</a
         >
@@ -81,7 +81,8 @@
           >
             <thead>
               <tr>
-                <th>User Name</th>
+                <th>Sr No</th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
                 <th>Dealer Code</th>
@@ -89,7 +90,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of userList()">
+              <tr *ngFor="let user of userList(); let i = index">
+                <td>{{ i + 1 }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.role }}</td>
@@ -97,7 +99,7 @@
                 <td class="d-flex">
                   <a
                     href="javascript:void(0);"
-                    data-target="#exampleModalCenter"
+                    data-target=".bd-example-modal-lg"
                     data-toggle="modal"
                     class="btn btn-primary shadow btn-xs sharp mr-1"
                     (click)="openModal(user)"
@@ -170,35 +172,7 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <a
-                  href="javascript:void(0);"
-                  class="ml-4"
-                  (click)="deleteUserId(user.user_id)"
-                >
-                  <svg
-                    width="25"
-                    height="24"
-                    viewBox="0 0 25 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M3.50195 5.99994H5.5156H21.6248"
-                      stroke="#A0A0A0"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M8.5361 5.99994V3.99994C8.5361 3.46951 8.74826 2.9608 9.12589 2.58573C9.50352 2.21065 10.0157 1.99994 10.5498 1.99994H14.5771C15.1111 1.99994 15.6233 2.21065 16.0009 2.58573C16.3786 2.9608 16.5907 3.46951 16.5907 3.99994V5.99994M19.6112 5.99994V19.9999C19.6112 20.5304 19.399 21.0391 19.0214 21.4142C18.6438 21.7892 18.1316 21.9999 17.5975 21.9999H7.52928C6.99522 21.9999 6.48304 21.7892 6.10541 21.4142C5.72778 21.0391 5.51563 20.5304 5.51562 19.9999V5.99994H19.6112Z"
-                      stroke="#A0A0A0"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </a> -->
-                </td>
+                 </td>
               </tr>
             </tbody>
           </table>
@@ -209,188 +183,176 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" style="margin-block: 2em">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+<!-- <div class="modal fade" style="margin-block: 2em"> -->
+<div
+  class="modal fade bd-example-modal-lg custom-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5
-          class="modal-title"
-          style="align-items: center; margin-inline: auto"
-        >
+        <h5 class="modal-title" style="text-align: center; width: 100%;">
           {{ userObj.user_id ? "Edit User" : "Add New User" }}
         </h5>
         <button type="button" class="close" data-dismiss="modal">
           <span>&times;</span>
         </button>
       </div>
+
       <div class="modal-body">
-        <div style="display: flex">
-          <div class="form-group" style="margin-inline: 1em">
-            <label for="validationServer01" class="form-label">name</label>
-            <input
-              class="form-control form-control-lg"
-              type="text"
-              placeholder="User Name"
-              [(ngModel)]="userObj.name"
-              id="validationDefault01"
-              value="Mark"
-              required
-            />
-          </div>
+        <form [formGroup]="useForm">
+          <div class="row">
+            <!-- Name -->
+            <div class="col-md-6 form-group">
+              <label for="name" class="form-label">Name</label>
+              <input
+                id="name"
+                class="form-control form-control-lg"
+                type="text"
+                formControlName="name"
+                placeholder="User Name"
+                [(ngModel)]="userObj.name"
+                [ngClass]="{
+                  'is-invalid':
+                    useForm.get('name')?.touched && useForm.get('name')?.invalid
+                }"
+                required
+              />
+              <div class="text-danger" *ngIf="useForm.get('name')?.invalid && useForm.get('name')?.touched">
+                <span *ngIf="useForm.get('name')?.errors?.['required']">Name is required.</span>
+              </div>
+            </div>
 
-          <div class="form-group" style="margin-inline: 1em">
-            <label for="validationServer01" class="form-label"
-              >Department</label
-            >
-            <select
-              class="form-control form-control-lg"
-              [(ngModel)]="userObj.role"
-              [ngModelOptions]="{ standalone: true }"
-            >
-              <option value="" disabled selected>Select Department</option>
-              <option value="admin" selected>admin</option>
-              <option value="salesperson">sales person</option>
-            </select>
-          </div>
-
-         
-        </div>
-
-        <div style="display: flex">
-
-          <div class="form-group" style="margin-inline: 1em">
-            <label class="form-label">Account No</label>
-            <input
-              class="form-control form-control-lg"
-              type="email"
-              placeholder="Account Id"
-              [(ngModel)]="userObj.account_id"
-            />
-          </div>
-
-           <div class="form-group" style="margin-inline: 1em">
-            <label for="validationServer01" class="form-label">E-mail</label>
-            <input
-              class="form-control form-control-lg"
-              type="email"
-              placeholder="E-mail"
-              [(ngModel)]="userObj.email"
-            />
-          </div>
-
-           
-        </div>
-
-        <div style="display: flex">
-          
-
-          <div class="form-group" style="margin-inline: 1em">
-            <label class="form-label">Dealer Code</label>
-            <select
-              class="form-control form-control-lg"
-              id="dealerSelect"
-              [(ngModel)]="userObj.dealer_id"
-              [ngModelOptions]="{ standalone: true }"
-              (change)="onDealerChange()"
-              [disabled]="!!userObj.user_id"
-              [ngClass]="{ 'custom-disabled': !!userObj.user_id }"
-            >
-              <option value="" disabled>Select Dealer</option>
-              <option
-                *ngFor="let dealer of dealerList()"
-                [value]="dealer.dealer_id"
+            <!-- Department -->
+            <div class="col-md-6 form-group">
+              <label for="role" class="form-label">Department</label>
+              <select
+                id="role"
+                class="form-control form-control-lg"
+                formControlName="role"
+                [(ngModel)]="userObj.role"
+                [ngClass]="{
+                  'is-invalid':
+                    useForm.get('role')?.touched && useForm.get('role')?.invalid
+                }"
               >
-                {{ dealer.dealer_code }}
-              </option>
-            </select>
+                <option value="" disabled>Select Department</option>
+                <option value="admin">Admin</option>
+                <option value="salesperson">Salesperson</option>
+              </select>
+              <div class="text-danger" *ngIf="useForm.get('role')?.touched && useForm.get('role')?.invalid">
+                <span>Department is required.</span>
+              </div>
+            </div>
           </div>
-          <!-- Additional Fields -->
-          <div class="form-group" style="margin-inline: 1em">
-            <label for="validationServer01" class="form-label">Phone</label>
-            <input
-              class="form-control form-control-lg"
-              type="tel"
-              placeholder="Phone"
-              [(ngModel)]="userObj.phone"
-              (ngModelChange)="onPhoneInputChange($event)"
-            />
+
+          <div class="row">
+            <!-- Account No -->
+            <div class="col-md-6 form-group">
+              <label for="account_id" class="form-label">Account No</label>
+              <input
+                id="account_id"
+                class="form-control form-control-lg"
+                formControlName="account_id"
+                placeholder="Account Id"
+                [(ngModel)]="userObj.account_id"
+                [ngClass]="{
+                  'is-invalid':
+                    useForm.get('account_id')?.touched && useForm.get('account_id')?.invalid
+                }"
+              />
+              <div class="text-danger" *ngIf="useForm.get('account_id')?.invalid && useForm.get('account_id')?.touched">
+                <span *ngIf="useForm.get('account_id')?.errors?.['required']">Account Id is required.</span>
+                <span *ngIf="useForm.get('account_id')?.errors?.['minlength']">Must be at least 12 characters long.</span>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-6 form-group">
+              <label for="email" class="form-label">E-mail</label>
+              <input
+                id="email"
+                class="form-control form-control-lg"
+                formControlName="email"
+                placeholder="E-mail"
+                [(ngModel)]="userObj.email"
+                [ngClass]="{
+                  'is-invalid':
+                    useForm.get('email')?.touched && useForm.get('email')?.invalid
+                }"
+              />
+              <div class="text-danger" *ngIf="useForm.get('email')?.invalid && useForm.get('email')?.touched">
+                <span *ngIf="useForm.get('email')?.errors?.['required']">Email is required.</span>
+                <span *ngIf="useForm.get('email')?.errors?.['email']">Please enter a valid email address.</span>
+              </div>
+            </div>
           </div>
-        </div>
+
+          <div class="row">
+            <!-- Dealer Code -->
+            <div class="col-md-6 form-group" [formGroup]="useForm">
+              <label for="dealer_code" class="form-label">Dealer Code</label>
+              <select
+                id="dealer_id"
+                class="form-control form-control-lg"
+                formControlName="dealer_code"
+                [(ngModel)]="userObj.dealer_id"
+                (change)="onDealerChange()"
+                [disabled]="!!userObj.user_id"
+                [ngClass]="{
+                  'is-invalid':
+                    useForm.get('dealer_code')?.touched && useForm.get('dealer_code')?.invalid
+                }"  
+              >
+                <option value="" disabled>Select Dealer</option>
+                <option *ngFor="let dealer of dealerList()" [value]="dealer.dealer_id">
+                  {{ dealer.dealer_code }}
+                </option>
+              </select>
+              <div class="text-danger" *ngIf="useForm.get('dealer_code')?.touched && useForm.get('dealer_code')?.invalid">
+                <span>Dealer is required.</span>
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="col-md-6 form-group">
+              <label for="phone" class="form-label">Phone</label>
+              <input
+                id="phone"
+                class="form-control form-control-lg"
+                formControlName="phone"
+                placeholder="Phone"
+                [(ngModel)]="userObj.phone"
+                [ngClass]="{
+                  'is-invalid':
+                    useForm.get('phone')?.touched && useForm.get('phone')?.invalid
+                }"
+              />
+              <div class="text-danger" *ngIf="useForm.get('phone')?.touched && useForm.get('phone')?.invalid">
+                <span *ngIf="useForm.get('phone')?.errors?.['required']">Phone is required.</span>
+                <span *ngIf="useForm.get('phone')?.errors?.['minlength']">Must be at least 10 characters.</span>
+                <span *ngIf="useForm.get('phone')?.errors?.['pattern']">Only numbers are allowed.</span>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
 
-      <!-- Modal Footer Buttons -->
       <div class="modal-footer">
-        <ng-container *ngIf="userObj.user_id; else saveButton">
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            (click)="onUpdate()"
-          >
-            Edit
-          </button>
-        </ng-container>
         <button
           type="button"
-          class="btn btn-outline-danger"
-          data-dismiss="modal"
-          data-dismiss="modal"
+          class="btn btn-outline-primary"
+          (click)="userObj.user_id ? onUpdate() : onSave()"
+          [attr.data-dismiss]="useForm.valid ? 'modal' : null"
         >
-          Close
+          {{ userObj.user_id ? "Update" : "Create" }}
         </button>
-        <ng-template #saveButton>
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            (click)="userObj.user_id ? onUpdate() : createUser()"
-            style="cursor: pointer"
-            data-dismiss="modal"
-            [disabled]="
-              !userObj.name ||
-              !userObj.email ||
-              !userObj.email ||
-              !userObj.dealer_code ||
-              !userObj.phone ||
-              !userObj.role
-            "
-          >
-            {{ userObj.user_id ? "Update" : "Save" }}
-          </button>
-        </ng-template>
+        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
-<!-- </div> -->
 
-<!-- <button
-  type="button"
-  class="btn btn-primary mb-2"
-  data-toggle="modal"
-  data-target=".bd-example-modal-sm"
->
-  Small modal
-</button>
-<div
-  class="modal fade bd-example-modal-sm"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal">
-          <span>&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">Modal body text goes here.</div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger light" data-dismiss="modal">
-          Close
-        </button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div> -->
+ 

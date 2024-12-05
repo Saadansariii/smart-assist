@@ -1,16 +1,28 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
-import { FormsModule } from '@angular/forms';
-import { DealerResponse, MultiuserResponse, UserResponse } from '../../model/interface/master';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
+  DealerResponse,
+  MultiuserResponse,
+  UserResponse,
+} from '../../model/interface/master';
 import { MasterService } from '../../service/master.service';
 import { UserList } from '../../model/class/multiuser';
 import { dealers } from '../../model/class/dealers';
-import { ToastrService } from 'ngx-toastr'; 
-import { AleartSrvService } from '../../service/aleart-srv.service'; 
+import { ToastrService } from 'ngx-toastr';
+import { AleartSrvService } from '../../service/aleart-srv.service';
 import { TooltipModule } from 'primeng/tooltip';
-import { FloatLabelModule } from 'primeng/floatlabel'; 
-
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { Accounts } from '../../model/class/customer';
+import { Users } from '../../model/class/users';
 
 @Component({
   selector: 'app-users',
@@ -21,6 +33,8 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     FormsModule,
     TooltipModule,
     FloatLabelModule,
+    ReactiveFormsModule,
+    NgbModalModule,
   ],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css'],
@@ -34,8 +48,33 @@ export class UsersComponent implements OnInit {
   dealerList = signal<dealers[]>([]);
   totalDealer = signal<number>(0);
   isModalVisible = false;
+  useForm: FormGroup;
 
-  constructor(private aleartsrv: AleartSrvService) {}
+  constructor(
+    private aleartsrv: AleartSrvService,
+    private modalService: NgbModalModule
+  ) {
+    this.useForm = new FormGroup({
+      name: new FormControl(this.userObj.name, [Validators.required]),
+      role: new FormControl(this.userObj.role, [Validators.required]),
+      email: new FormControl(this.userObj.email, [
+        Validators.required,
+        Validators.email,
+      ]),
+      phone: new FormControl(this.userObj.phone, [
+        Validators.required,
+        Validators.pattern(/^\d+$/),
+      ]),
+      account_id: new FormControl(this.userObj.account_id, [
+        Validators.required,
+        Validators.minLength(12),
+      ]),
+      dealer_code: new FormControl(this.dealerObj.dealer_code, [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+    });
+  }
 
   private readonly toastr = inject(ToastrService);
 
@@ -45,8 +84,7 @@ export class UsersComponent implements OnInit {
   }
 
   onPhoneInputChange(value: string) {
-    // Convert input value to a number and store it in userObj.phone
-    this.userObj.phone = Number(value) || null; // Default to 0 if input is invalid
+    this.userObj.phone = Number(value);
   }
 
   openModal(user?: UserList) {
@@ -64,23 +102,33 @@ export class UsersComponent implements OnInit {
           otp_validated: '',
           otp: '',
           otp_expiration: '',
-          dealer_code: null,
+          dealer_code: undefined,
           corporate_id: '',
           dealer_id: '', // Ensure dealer_id is part of the user object
         };
     // If userObj.dealer_id is set, find the corresponding dealer code
-    if (this.userObj.dealer_id) {
+    if (this.userObj.dealer_id != null) {
+      // Checks for both null and undefined
       const selectedDealer = this.dealerList().find(
-        (dealer) => dealer.dealer_id === this.userObj.dealer_id
+        (dealer) => dealer.dealer_id === this.userObj.dealer_id.toString() // Cast dealer_id to string if necessary
       );
       if (selectedDealer) {
         this.userObj.dealer_code = selectedDealer.dealer_code; // Bind dealer_code
       }
     }
+
+    this.useForm.reset({
+      name: this.userObj.name || '',
+      account_id: this.userObj.account_id || '',
+      email: this.userObj.email || '',
+      phone: this.userObj.phone ?? undefined,
+      role: this.userObj.role || '',
+      dealer_code: this.userObj.dealer_code || undefined,
+    });
   }
 
   closeModal() {
-    this.isModalVisible = false;
+    ($('.bd-example-modal-lg') as any).modal('hide');
   }
 
   getDealerCode(dealerId: string): string {
@@ -99,8 +147,7 @@ export class UsersComponent implements OnInit {
         console.log(res);
       },
       (error) => {
-        // this.toastr.error(error, 'Error 123');
-        // alert(error.message);
+        this.toastr.error(error, 'Server Error');
       }
     );
   }
@@ -221,20 +268,38 @@ export class UsersComponent implements OnInit {
   }
 
   onUpdate() {
-    // if (!this.userObj.dealer_id) {
-    //   alert('Please select a dealer!');
-    //   return;
-    // }
-
     this.masterSrv.updateUser(this.userObj).subscribe({
       next: () => {
         this.toastr.success('User updated Successfully!', 'Success');
-        alert('User updated successfully!');
         this.displayAllUser();
+        this.closeModal();
       },
       error: (err) => {
         this.toastr.error(err, 'Server Error');
       },
     });
   }
+
+  onSave() {
+    if (this.useForm.invalid) {
+      console.log('form is invalid', this.useForm);
+      this.useForm.markAllAsTouched();
+      return;
+    }
+
+    this.createUser();
+    console.log('form is valid');
+  }
+
+  // onEdit(data : UserList){
+  //    this.useForm.patchValue({
+  //      name: this.userObj.name || '',
+  //      account_id: this.userObj.account_id || '',
+  //      email: this.userObj.email || '',
+  //      phone: this.userObj.phone ,
+  //      role: this.userObj.role || '',
+  //      dealer_code: this.userObj.dealer_code ,
+  //    });
+  // }
+  
 }

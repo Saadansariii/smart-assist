@@ -120,9 +120,7 @@ export class DealerComponent implements OnInit {
       (res: dealers) => {
         this.toastr.success('Dealer Edit successfully!', 'Success');
         this.closeModal();
-        this.getAllDealer();
-
-
+        this.getAllDealer(); 
       },
       (error) => {
         this.toastr.error('You Are Unauthorized', 'Unauthorized Error');
@@ -131,31 +129,16 @@ export class DealerComponent implements OnInit {
   }
 
   onEdit(data: dealers) {
-    // this.dealerObj = data;
+    this.dealerObj = data;
     this.useForm.patchValue({
       dealer_id: data.dealer_id || '',
       dealer_name: data.dealer_name || '',
-      // dealer_code : data.dealer_code || Number   
+      dealer_code : data.dealer_code || Number   
     }),
       console.log(this.dealerObj, 'trueeee----');
   }
 
-  // deleteDealerId(id: string) {
-  //   // alert('are u sure')
-  //   this.masterSrv.deleteDealer(id).subscribe(
-  //     (res) => {
-  //       this.toastr.success('Dealer deleted successfully!', 'Success');
-  //       window.location.reload();
-  //       // alert(res.message);
-  //       this.getAllDealer();
-  //     },
-  //     (error) => {
-  //       // this.toastr.error(error.message, 'Fetch Error');
-  //       // alert(error.message);
-  //     }
-  //   );
-  // }
-
+  
   selectedDealerForDeletion: dealers | null = null;
 
   selectDealerForDeletion(dealer: dealers) {

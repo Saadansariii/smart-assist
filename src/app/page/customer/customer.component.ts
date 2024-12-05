@@ -33,7 +33,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     BreadcrumbModule,
     RouterModule,
     ReactiveFormsModule,
-    NgbModalModule
+    NgbModalModule,
   ],
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css',
@@ -46,9 +46,10 @@ export class CustomerComponent implements OnInit {
   date: Date | undefined;
   dealerObj: dealers = new dealers();
   dealerList = signal<dealers[]>([]);
-  useForm : FormGroup
+  useForm: FormGroup;
+  previousValue: string = '';
 
-  constructor(private modalService : NgbModalModule){
+  constructor(private modalService: NgbModalModule) {
     this.useForm = new FormGroup({
       account_type: new FormControl(this.customerObj.account_type, [
         Validators.required,
@@ -80,42 +81,47 @@ export class CustomerComponent implements OnInit {
         Validators.minLength(3),
       ]),
     });
-
   }
 
   private readonly toastr = inject(ToastrService);
   ngOnInit(): void {
     this.displayAllCustomer();
-   this.getAllDealer();
+    this.getAllDealer();
   }
 
-  
   isModalVisible = false;
 
   openModal(customer?: Accounts) {
-     
+    if (customer) {
+      this.previousValue = customer.email;
+      this.useForm.patchValue({ account_name: customer?.account_name });
+    }
     this.isModalVisible = true;
     this.customerObj = customer
       ? {
           ...customer,
-          phone:     Number(customer.phone) ,
-          mobile:   Number(customer.mobile) ,
+          phone: Number(customer.phone),
+          mobile: Number(customer.mobile),
         }
       : new Accounts();
 
-      this.useForm.reset({
-        account_type: this.customerObj.account_type || '',
-        fname: this.customerObj.fname || '',
-        lname: this.customerObj.lname || '',
-        email: this.customerObj.email || '',
-        phone: this.customerObj.phone || '',
-        mobile: this.customerObj.mobile || '',
-        dealer_code: this.customerObj.dealer_code || '',
-      });
+    this.useForm.reset({
+      account_type: this.customerObj.account_type || '',
+      fname: this.customerObj.fname || '',
+      lname: this.customerObj.lname || '',
+      email: this.customerObj.email || '',
+      phone: this.customerObj.phone || '',
+      mobile: this.customerObj.mobile || '',
+      dealer_code: this.customerObj.dealer_code || '',
+    });
+  }
+
+  isEmailChange(): boolean {
+    return this.useForm.value.email !== this.previousValue;
   }
 
   closeModal() {
-     ($('.bd-example-modal-lg') as any).modal('hide');
+    ($('.bd-example-modal-lg') as any).modal('hide');
     // this.isModalVisible = false;
   }
 
@@ -165,13 +171,12 @@ export class CustomerComponent implements OnInit {
       (res: AccountsResponse) => {
         this.toastr.success('Account created successfully!', 'Success');
         this.displayAllCustomer();
-        this.closeModal()
+        this.closeModal();
         // this.isModalVisible = false;
         // window.location.reload();
       },
       (error) => {
         this.toastr.error(error.message, 'Error');
-      
       }
     );
   }
@@ -207,7 +212,7 @@ export class CustomerComponent implements OnInit {
     if (
       this.selectedCustomerForDeletion &&
       this.selectedCustomerForDeletion.account_id
-    ) { 
+    ) {
       this.masterSrv
         .deleteCustomer(this.selectedCustomerForDeletion.account_id)
         .subscribe(
@@ -230,7 +235,7 @@ export class CustomerComponent implements OnInit {
     this.displayAllCustomer();
     this.masterSrv.updateCustomer(this.customerObj).subscribe(
       (res: AccountsResponse) => {
-        this.toastr.success('Account Update successfully!', 'Success');  
+        this.toastr.success('Account Update successfully!', 'Success');
         this.displayAllCustomer();
         this.closeModal();
         // window.location.reload();
@@ -243,7 +248,6 @@ export class CustomerComponent implements OnInit {
   }
 
   onEdit(data: Accounts) {
-  
     this.useForm.patchValue({
       // account_type: data.account_type || '',
       fname: data.fname || '',
@@ -256,15 +260,15 @@ export class CustomerComponent implements OnInit {
     console.log(this.customerObj, 'trueeee----');
   }
 
-  onSave(){
-    if(this.useForm.invalid){
-      console.log('form is invalid' , this.useForm);
+  onSave() {
+    if (this.useForm.invalid) {
+      console.log('form is invalid', this.useForm);
       this.useForm.markAllAsTouched();
-      return
+      return;
     }
 
     this.createCustomer();
     ($('.bd-example-modal-lg') as any).modal('hide');
-    console.log('form is valid')
+    console.log('form is valid');
   }
 }

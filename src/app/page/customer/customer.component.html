@@ -599,6 +599,7 @@
             type="button"
             class="btn btn-outline-primary"
             (click)="onUpdate()"
+            [disabled]="!isEmailChange()"
           >
             Edit
           </button>
@@ -608,6 +609,7 @@
           class="btn btn-outline-danger"
           data-dismiss="modal"
           (click)="closeModal()"
+          
         >
           Close
         </button>

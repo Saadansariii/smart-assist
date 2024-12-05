@@ -1,14 +1,26 @@
-import { Component, OnInit, inject, numberAttribute, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  numberAttribute,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SharedModule } from '../../shared/shared.module';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'; 
-import { MasterService } from '../../service/master.service';  
-import { DealerResponse } from '../../model/interface/master'; 
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MasterService } from '../../service/master.service';
+import { DealerResponse } from '../../model/interface/master';
 import { dealers } from '../../model/class/dealers';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
- 
+
 @Component({
   selector: 'app-dealer',
   standalone: true,
@@ -33,10 +45,11 @@ export class DealerComponent implements OnInit {
   isModalVisible = false;
   isEditMode: boolean = false;
   useForm: FormGroup;
+  previousValue: string = '';
 
   constructor(private modalService: NgbModal) {
     this.useForm = new FormGroup({
-      dealer_name: new FormControl(this.dealerObj.dealer_name , [
+      dealer_name: new FormControl(this.dealerObj.dealer_name, [
         Validators.required,
         Validators.minLength(2),
       ]),
@@ -52,7 +65,12 @@ export class DealerComponent implements OnInit {
   openModal(dealer?: dealers) {
     this.useForm.reset();
     this.isModalVisible = true;
-    this.dealerObj = dealer
+    if (dealer) {
+      this.previousValue = dealer.dealer_name;
+      this.useForm.patchValue({ dealer_name: dealer.dealer_name });
+    }
+
+    this.dealerObj = dealer // the edit obj come
       ? { ...dealer } // Populate dealer data for editing
       : {
           // Reset dealerObj for creating a new dealer
@@ -65,6 +83,10 @@ export class DealerComponent implements OnInit {
         };
 
     console.log('Modal Opened with dealerObj:', this.dealerObj);
+  }
+
+  isDealerNameChanged(): boolean {
+    return this.useForm.value.dealer_name !== this.previousValue;
   }
 
   closeModal() {
@@ -88,16 +110,16 @@ export class DealerComponent implements OnInit {
     );
   }
 
-  onSave(){
-    if(this.useForm.invalid){
-      console.log('form is invalid' , this.useForm);
+  onSave() {
+    if (this.useForm.invalid) {
+      console.log('form is invalid', this.useForm);
       this.useForm.markAllAsTouched();
-      return
+      return;
     }
 
     this.createNewDealer();
-    ($('#exampleModalCenter')as any).modal('hide');
-    console.log('form is valid . proceeding with API call')
+    ($('#exampleModalCenter') as any).modal('hide');
+    console.log('form is valid . proceeding with API call');
   }
 
   createNewDealer() {
@@ -120,7 +142,7 @@ export class DealerComponent implements OnInit {
       (res: dealers) => {
         this.toastr.success('Dealer Edit successfully!', 'Success');
         this.closeModal();
-        this.getAllDealer(); 
+        this.getAllDealer();
       },
       (error) => {
         this.toastr.error('You Are Unauthorized', 'Unauthorized Error');
@@ -129,16 +151,15 @@ export class DealerComponent implements OnInit {
   }
 
   onEdit(data: dealers) {
-    this.dealerObj = data;
+    // this.dealerObj = data;
     this.useForm.patchValue({
       dealer_id: data.dealer_id || '',
       dealer_name: data.dealer_name || '',
-      dealer_code : data.dealer_code || Number   
+      dealer_code: data.dealer_code || Number,
     }),
       console.log(this.dealerObj, 'trueeee----');
   }
 
-  
   selectedDealerForDeletion: dealers | null = null;
 
   selectDealerForDeletion(dealer: dealers) {

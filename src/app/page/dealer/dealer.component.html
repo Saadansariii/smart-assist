@@ -196,7 +196,7 @@
           style="margin-inline: 1em"
         >
           <label for="dealer_code" class="form-label">Dealer Code*</label>
-          <input
+          <!-- <input
 
             class="form-control form-control-lg"
             type="text"
@@ -209,8 +209,8 @@
                 useForm.get('dealer_code')?.touched &&
                 useForm.get('dealer_code')?.invalid
             }"
-          />
-          <!-- <input
+          /> -->
+          <input
             class="form-control form-control-lg custom-disabled"
             type="text"
             placeholder="Dealer Code"
@@ -223,7 +223,7 @@
                 useForm.get('dealer_code')?.invalid
             }"
             [readOnly]="!!dealerObj.dealer_id"
-          /> -->
+          />
 
           <div
             class="text-danger"
@@ -242,9 +242,9 @@
             <button
               type="button"
               class="btn btn-outline-primary"
-              data-dismiss="modal"
-              [disabled]="!dealerObj.dealer_name"
+              data-dismiss="modal" 
               (click)="onUpdate()" 
+              [disabled]="!isDealerNameChanged()"
             >
               Edit
             </button>

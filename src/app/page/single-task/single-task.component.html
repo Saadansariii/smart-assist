@@ -80,7 +80,7 @@
         </div>
         <div *ngIf="taskList()" class="card-body" style="background-color: #f9f9f9; padding: 20px;">
           <!-- First section: Basic Information -->
-          <div class="row mb-4 text-center">
+          <div class="row mb-4 text-start">
             <div class="col-md-4 mb-3">
               <h4  class="text-muted">Subject</h4>
               <h5 class="mb-0">{{ taskList()?.subject }}</h5>
@@ -98,7 +98,7 @@
            
       
           <!-- Third section: Additional Information -->
-          <div class="row mb-4 text-center">
+          <div class="row mb-4 text-start">
             <div class="col-md-4 mb-3">
               <h4 class="text-muted">Due Date</h4>
               <h5 class="mb-0">{{ taskList()?.due_date }}</h5>
@@ -113,7 +113,7 @@
             </div>
           </div>
 
-          <div class="row mb-4 text-center  ">
+          <div class="row mb-4 text-start  ">
             <div class="col-md-4 mb-3">
               <h4 class="text-muted">Lead Email</h4>
               <h5 class="mb-0">{{ taskList()?.lead_email }}</h5>

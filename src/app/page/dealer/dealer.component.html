@@ -57,7 +57,7 @@
             <tbody>
               <tr *ngFor="let dealer of dealerList(); let i = index">
                 <td>
-                  <a [routerLink]="['/Admin/singleUser', dealer.dealer_id]">
+                  <a [routerLink]="['/Admin/singleUser', dealer.dealer_id , dealer.dealer_name ]">
                     {{ i + 1 }}
                   </a>
                 </td>
@@ -131,6 +131,7 @@
                     href="javascript:void(0);"
                     class="btn btn-success shadow btn-xs sharp"
                     [routerLink]="['/Admin/singleUser', dealer.dealer_id]"
+                    
                   >
                     <span class="" style="margin-left: 0 !important">
                       <i class="fa fa-eye"></i>

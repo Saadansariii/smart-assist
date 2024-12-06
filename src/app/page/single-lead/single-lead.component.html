@@ -67,7 +67,7 @@
       </div>
       <div *ngIf="leadList()" class="card-body" style="background-color: #f9f9f9; padding: 20px;">
         <!-- First section: Basic Information -->
-        <div class="row mb-4 text-center">
+        <div class="row mb-4 text-start">
           <div class="col-md-3 mb-3">
             <h4  class="text-muted">Lead Code</h4>
             <h5 class="mb-0">{{ leadList()?.lead_code }}</h5>
@@ -89,7 +89,7 @@
          
     
         <!-- Third section: Additional Information -->
-        <div class="row mb-4 text-center">
+        <div class="row mb-4 text-start">
           <div class="col-md-3 mb-3">
             <h4 class="text-muted">Type</h4>
             <h5 class="mb-0">{{ leadList()?.type }}</h5>
@@ -108,7 +108,7 @@
           </div> 
         </div>
 
-        <div class="row mb-4 text-center  ">
+        <div class="row mb-4 text-start  ">
           <div class="col-md-3 mb-3">
             <h4 class="text-muted">Lead Source</h4>
             <h5 class="mb-0">{{ leadList()?.lead_source }}</h5>
@@ -126,7 +126,7 @@
             <h5 class="mb-0">{{ leadList()?.email }}</h5>
           </div>
         </div>
-        <div class="row mb-4 text-center  ">
+        <div class="row mb-4 text-start  ">
           <div class="col-md-3 mb-3">
             <h4 class="text-muted">Lead Owner</h4>
             <h5 class="mb-0">{{ leadList()?.lead_owner }}</h5>

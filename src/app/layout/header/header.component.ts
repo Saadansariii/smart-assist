@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy , Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, ChangeDetectionStrategy , Inject, OnInit, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
 import {
   ActivatedRoute,
   NavigationEnd,
@@ -8,6 +8,7 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { Token } from '@angular/compiler';
 import { filter, map } from 'rxjs';
+import { ContextService } from '../../service/context.service';
 
 @Component({
   selector: 'app-header',
@@ -15,54 +16,48 @@ import { filter, map } from 'rxjs';
   imports: [RouterLink],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'], // corrected `styleUrl` to `styleUrls`
-  changeDetection: ChangeDetectionStrategy.OnPush,  
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
   guestDetails: any;
-  pageTitle: string = 'Dashboard';
+  // pageTitle: string = 'Dashboard';
+  currentHeading: string = 'Dashboard';
 
   constructor(
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private context: ContextService,
+    private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.context.onSideBarClick$.subscribe(({ pageTitle }) => {
+      console.log('Current Heading Updated:', pageTitle);
+      this.currentHeading = pageTitle;
+         this.cdr.markForCheck();
+    });
+
     this.updateTitle();
-    // if (isPlatformBrowser(this.platformId)) {
-    //   // Access localStorage only if running in the browser
-    //   const loginType = sessionStorage.getItem('login_type');
-    //   console.log(loginType);
 
-    //   const userDetails = sessionStorage.getItem('userDetails');
-    //   this.guestDetails = userDetails ? JSON.parse(userDetails) : null;
-    // }
-
-    // header name  
+    // header name
     this.router.events
-    .pipe(
-      filter(event => event instanceof NavigationEnd)
-    )
-    .subscribe(() => this.updateTitle());
-    
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => this.updateTitle());
   }
 
   private updateTitle(): void {
     const route = this.getDeepestChild(this.activatedRoute);
-    this.pageTitle = route.snapshot.data['title'] || 'Dashboard';
+    // this.pageTitle = route.snapshot.data['title'] || 'Dashboard';
   }
-  
+
   private getDeepestChild(route: ActivatedRoute): ActivatedRoute {
     return route.firstChild ? this.getDeepestChild(route.firstChild) : route;
   }
 
-  // view(page: any) {
-  //   this.router.navigate([`../Admin/${page}`]);
-  // }
-
   logout() {
     // if (isPlatformBrowser(this.platformId)) {
-    // } 
+    // }
     sessionStorage.removeItem('token');
     this.guestDetails = null;
   }

@@ -18,7 +18,7 @@ export class SingleUserComponent implements OnInit {
   masterSrv = inject(MasterService);
   userData: UserResponse | undefined;
   userLists = signal<Users[]>([]);
-  previousRoute!: string | null;
+  previousRoute!: string | null; 
 
   constructor(private route: ActivatedRoute) {}
 

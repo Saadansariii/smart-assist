@@ -97,21 +97,21 @@
             <a  [routerLink]="['/Admin/dealer']">Dealer</a>
           </li>
           <li class="breadcrumb-item ">
-            <a href="/Admin/User">Single Dealer</a>
+            <a  [routerLink]="['/Admin/singleUser', previousRoute]">Single Dealer</a>
           </li>
           <li class="breadcrumb-item active">
-            <a href="javascript:void(0)"  style="font-weight: 700 !important; color: black;">Single Opportunities</a>
+            <a href="javascript:void(0)"  style="font-weight: 700 !important; color: black;">Opportunities</a>
           </li>
         </ol>
       </div>
        
       <div class="card" style="border-radius: 12px; overflow: hidden; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
-        <div class="card-header text-center" style="background-color: #0276FE; color: white; padding: 15px;">
-          <h5 class="card-title m-0 " style="color: white !important;">User Details</h5>
+        <div class="card-header text-start" style="background-color: #0276FE; color: white; padding: 15px;">
+          <h5 class="card-title m-0 " style="color: white !important;">Opportunities Details</h5>
         </div>
         <div  *ngIf="oppList()" class="card-body" style="background-color: #f9f9f9; padding: 20px;">
           <!-- First section: Basic Information -->
-          <div class="row mb-4 text-center">
+          <div class="row mb-4 text-start">
             <div class="col-md-3 mb-3">
               <h4  class="text-muted">Opportunity Name</h4>
               <h5 class="mb-0">{{ oppList()?.opportunity_name }}</h5>
@@ -133,7 +133,7 @@
            
       
           <!-- Third section: Additional Information -->
-          <div class="row mb-4 text-center">
+          <div class="row mb-4 text-start">
             <div class="col-md-3  mb-3">
               <h4 class="text-muted">close Date</h4>
               <h5 class="mb-0">{{ oppList()?.close_date }}</h5>
@@ -152,10 +152,10 @@
             </div> 
           </div>
 
-          <div class="row mb-4 text-center  ">
+          <div class="row mb-4 text-start  ">
           </div>
           
-          <div class="row mb-4 text-center">
+          <div class="row mb-4 text-start">
             <div class="col-md-3 mb-3">
               <h4 class="text-muted">Sub Type</h4>
               <h5 class="mb-0">{{ oppList()?.sub_type }}</h5>
@@ -174,7 +174,7 @@
             </div>
           </div>
 
-          <div class="row mb-4 text-center">
+          <div class="row mb-4 text-start">
             <div class="col-md-3 mb-3">
               <h4 class="text-muted">Mobile</h4>
               <h5 class="mb-0">{{ oppList()?.mobile }}</h5>

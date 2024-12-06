@@ -5,6 +5,8 @@ import {  TaskResponse } from '../../model/interface/master';
 import { MasterService } from '../../service/master.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
+
+
 @Component({
   selector: 'app-single-task',
   standalone: true,

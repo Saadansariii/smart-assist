@@ -15,6 +15,8 @@ import { MasterService } from './master.service';
   providedIn: 'root',
 })
 export class DealerResolver implements Resolve<SingleDealerResponse | null> {
+
+  
   constructor(private masterSrv: MasterService) {}
 
   resolve(

@@ -9,7 +9,10 @@
           <a [routerLink]="['/Admin/dealer']">Dealer</a>
         </li>
         <li class="breadcrumb-item active">
-          <a style="font-weight: 700 !important; color: black">Single Dealer</a>
+          <a style="font-weight: 700 !important; color: black" >{{
+            this.dealerData?.dealer?.dealer_name
+          }} </a>
+          <!-- <a style="display:  none;" [routerLink]="['/Admin/singleUser']" [queryParams]="{ dealerName: dealerData?.dealer?.dealer_name }">Go to Users</a> -->
         </li>
       </ol>
     </div>
@@ -194,7 +197,6 @@
                 </td>
                 <td>
                   <a [routerLink]="['/Admin/single-user', user.user_id]">
-                     
                     <span class="" (click)="userId()">
                       <i class="fa fa-eye"></i>
                     </span>
@@ -207,7 +209,6 @@
       </div>
       <!-- <button (click)="userId()">Something</button> -->
     </div>
-
 
     <!-- table 2 -->
     <div class="row">
@@ -255,7 +256,10 @@
                 <td>{{ lead.email }}</td>
                 <td>{{ lead.lead_owner }}</td>
                 <td>
-                  <a [routerLink]="['/Admin/single-lead', lead.lead_id]" (click)="userId()">
+                  <a
+                    [routerLink]="['/Admin/single-lead', lead.lead_id]"
+                    (click)="userId()"
+                  >
                     <span class="">
                       <i class="fa fa-eye"></i>
                     </span>
@@ -355,7 +359,7 @@
                       '/Admin/single-opportunities',
                       opp.opportunity_id
                     ]"
-                     (click)="userId()"
+                    (click)="userId()"
                   >
                     <!-- <a
                     href="javascript:void(0);"
@@ -426,7 +430,10 @@
                   {{ task.lead_code }}
                 </td>
                 <td>
-                  <a [routerLink]="['/Admin/single-task', task.task_id]" (click)="userId()">
+                  <a
+                    [routerLink]="['/Admin/single-task', task.task_id]"
+                    (click)="userId()"
+                  >
                     <!-- <a
                     href="javascript:void(0);"
                     class="btn btn-success shadow btn-xs sharp"
@@ -515,7 +522,10 @@
                   {{ event.lead_email }}
                 </td>
                 <td>
-                  <a [routerLink]="['/Admin/single-events', event.event_id]" (click)="userId()">
+                  <a
+                    [routerLink]="['/Admin/single-events', event.event_id]"
+                    (click)="userId()"
+                  >
                     <span class="">
                       <i class="fa fa-eye"></i>
                     </span>

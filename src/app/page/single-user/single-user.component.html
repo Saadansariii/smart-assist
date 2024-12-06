@@ -9,10 +9,10 @@
           <a  [routerLink]="['/Admin/dealer']">Dealer</a>
         </li>
         <li class="breadcrumb-item">
-          <a [routerLink]="['/Admin/singleUser', previousRoute]">Single Dealer</a>
+          <a [routerLink]="['/Admin/singleUser', previousRoute]">Users</a>
         </li>
-        <li class="breadcrumb-item active">
-          <a href="javascript:void(0)"  style="font-weight: 700 !important; color: black;">Single User</a>
+        <li class="breadcrumb-item active" >
+          <a href="javascript:void(0)"  style="font-weight: 700 !important; color: black;">{{userList()?.name}}</a>
         </li>
       </ol>
     </div>
@@ -75,7 +75,7 @@
         style="background-color: #0276fe; color: white; padding: 15px"
       >
         <h5 class="card-title m-0" style="color: white !important">
-          User Details
+         {{ userList()?.name }} Details
         </h5>
       </div>
       <div

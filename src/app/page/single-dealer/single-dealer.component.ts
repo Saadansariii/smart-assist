@@ -16,6 +16,7 @@ import { Leads } from '../../model/class/leads';
 import { Opportunities } from '../../model/class/opportunities';
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
+import { param } from 'jquery';
 
 @Component({
   selector: 'app-single-dealer',
@@ -37,6 +38,7 @@ export class SingleDealerComponent implements OnInit {
   showOpportunityTable: boolean = false;
   showTaskTable: boolean = false;
   showEventTable: boolean = false;
+  dealerName: string | null = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -136,6 +138,11 @@ export class SingleDealerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      this.dealerName = params['dealerName']; // The dealer name is passed as a query parameter
+      console.log('Dealer Name:', this.dealerName); // Now you can use it in your component
+    });
+
     this.route.data.subscribe((data) => {
       this.dealerData = data['dealerData'];
       if (this.dealerData) {
@@ -232,8 +239,7 @@ export class SingleDealerComponent implements OnInit {
 
   userId() {
     const path = window.location.pathname.split('/')[3];
+    console.log(this.userList);
     localStorage.setItem('previousRoute', path);
   }
-
-  
 }

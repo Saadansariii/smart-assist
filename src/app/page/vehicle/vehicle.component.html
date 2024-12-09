@@ -247,19 +247,19 @@
               (onSelect)="onDateSelect($event)"
             ></p-calendar>
           </div> -->
+           
           <div class="form-group col-md-6">
             <label for="YOM" class="form-label">YOM</label>
-            <p-calendar
+            <input
               id="YOM"
-              class="custom-disabled"
+              type="date"
+              class="form-control form-control-lg"
               formControlName="YOM"
               [(ngModel)]="vehicleObj.YOM"
-              [showIcon]="true"
-              [showOnFocus]="false"
-              [readonlyInput]="!!vehicleObj.vehicle_id"
+              [disabled]="!!vehicleObj.vehicle_id"
+              [readonly]="!!vehicleObj.vehicle_id"  
               [ngClass]="{ 'custom-disabled': !!vehicleObj.vehicle_id }"
-              (onSelect)="onDateSelect($event)"
-            ></p-calendar>
+            />
           </div>
         </div>
 
@@ -343,7 +343,7 @@
             type="button"
             class="btn btn-outline-primary"
             (click)="onUpdate()"
-            [attr.data-dismiss]="useForm.valid ? 'modal' : null"
+            [disabled]="!isVehicleName()"
           >
             Edit
           </button>
@@ -372,5 +372,3 @@
     </div>
   </div>
 </div>
-
- 

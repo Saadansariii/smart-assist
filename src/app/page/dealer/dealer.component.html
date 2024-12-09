@@ -34,7 +34,7 @@
             {{ totalDealer() }}
           </h3>
         </div>
-      </div> 
+      </div>
     </div>
 
     <!-- Api integration work start here -->
@@ -57,7 +57,13 @@
             <tbody>
               <tr *ngFor="let dealer of dealerList(); let i = index">
                 <td>
-                  <a [routerLink]="['/Admin/singleUser', dealer.dealer_id , dealer.dealer_name ]">
+                  <a
+                    [routerLink]="[
+                      '/Admin/singleUser',
+                      dealer.dealer_id,
+                      dealer.dealer_name
+                    ]"
+                  >
                     {{ i + 1 }}
                   </a>
                 </td>
@@ -79,7 +85,7 @@
                     (click)="openModal(dealer)"
                     class="btn btn-primary shadow btn-xs sharp mr-1"
                     ><i class="fa fa-pencil"></i
-                  ></a> 
+                  ></a>
                   <a
                     href="javascript:void(0);"
                     type="button"
@@ -131,7 +137,6 @@
                     href="javascript:void(0);"
                     class="btn btn-success shadow btn-xs sharp"
                     [routerLink]="['/Admin/singleUser', dealer.dealer_id]"
-                    
                   >
                     <span class="" style="margin-left: 0 !important">
                       <i class="fa fa-eye"></i>
@@ -168,10 +173,24 @@
           style="margin-inline: 1em"
         >
           <label for="dealer_name" class="form-label">Dealer Name*</label>
+          <!-- <input
+            class="form-control form-control-lg"
+            type="text"
+            placeholder="Dealer Name"
+            formControlName="dealer_name"
+            [(ngModel)]="dealerObj.dealer_name"
+            [ngClass]="{
+              'is-invalid':
+                useForm.get('dealer_name')?.touched &&
+                useForm.get('dealer_name')?.invalid
+            }"
+          /> -->
+
           <input
             class="form-control form-control-lg"
             type="text"
             placeholder="Dealer Name"
+            formControlName="dealer_name"
             formControlName="dealer_name"
             [(ngModel)]="dealerObj.dealer_name"
             [ngClass]="{
@@ -211,7 +230,7 @@
                 useForm.get('dealer_code')?.invalid
             }"
           /> -->
-          <input
+          <!-- <input
             class="form-control form-control-lg custom-disabled"
             type="text"
             placeholder="Dealer Code"
@@ -224,6 +243,20 @@
                 useForm.get('dealer_code')?.invalid
             }"
             [readOnly]="!!dealerObj.dealer_id"
+          /> -->
+          <input
+            class="form-control form-control-lg custom-disabled"
+            type="text"
+            placeholder="Dealer Code"
+            formControlName="dealer_code"
+            [(ngModel)]="dealerObj.dealer_code"
+            [ngClass]="{
+              'custom-disabled': !!dealerObj.dealer_id,
+              'is-invalid':
+                useForm.get('dealer_code')?.touched &&
+                useForm.get('dealer_code')?.invalid
+            }"
+            [readonly]="!!dealerObj.dealer_id"
           />
 
           <div
@@ -243,8 +276,8 @@
             <button
               type="button"
               class="btn btn-outline-primary"
-              data-dismiss="modal" 
-              (click)="onUpdate()" 
+              data-dismiss="modal"
+              (click)="onUpdate()"
               [disabled]="!isDealerNameChanged()"
             >
               Edit

@@ -49,6 +49,7 @@ export class UsersComponent implements OnInit {
   totalDealer = signal<number>(0);
   isModalVisible = false;
   useForm: FormGroup;
+  previousValue: string = '';
 
   constructor(
     private aleartsrv: AleartSrvService,
@@ -69,7 +70,7 @@ export class UsersComponent implements OnInit {
         Validators.required,
         Validators.minLength(12),
       ]),
-      dealer_code: new FormControl(this.dealerObj.dealer_code, [
+      dealer_code: new FormControl(this.userObj.dealer_id, [
         Validators.required,
         Validators.minLength(3),
       ]),
@@ -88,43 +89,24 @@ export class UsersComponent implements OnInit {
   }
 
   openModal(user?: UserList) {
-    this.isModalVisible = true;
-    this.userObj = user
-      ? { ...user, phone: user.phone ? Number(user.phone) : null }
-      : {
-          user_id: '',
-          account_id: '',
-          name: '',
-          phone: null,
-          email: '',
-          role: '',
-          password: '',
-          otp_validated: '',
-          otp: '',
-          otp_expiration: '',
-          dealer_code: undefined,
-          corporate_id: '',
-          dealer_id: '', // Ensure dealer_id is part of the user object
-        };
-    // If userObj.dealer_id is set, find the corresponding dealer code
-    if (this.userObj.dealer_id != null) {
-      // Checks for both null and undefined
+    if (user) {
+      // Use the form control to patch values
       const selectedDealer = this.dealerList().find(
-        (dealer) => dealer.dealer_id === this.userObj.dealer_id.toString() // Cast dealer_id to string if necessary
+        (dealer) => dealer.dealer_id === user.dealer_id
       );
-      if (selectedDealer) {
-        this.userObj.dealer_code = selectedDealer.dealer_code; // Bind dealer_code
-      }
-    }
 
-    this.useForm.reset({
-      name: this.userObj.name || '',
-      account_id: this.userObj.account_id || '',
-      email: this.userObj.email || '',
-      phone: this.userObj.phone ?? undefined,
-      role: this.userObj.role || '',
-      dealer_code: this.userObj.dealer_code || undefined,
-    });
+      this.useForm.patchValue({
+        name: user.name || '',
+        account_id: user.account_id || '',
+        email: user.email || '',
+        phone: user.phone || '',
+        role: user.role || '',
+        dealer_code: selectedDealer ? selectedDealer.dealer_id : '', // Bind dealer_code correctly using form
+      });
+    } else {
+      // Reset the form for a new user
+      this.useForm.reset();
+    }
   }
 
   closeModal() {
@@ -169,14 +151,29 @@ export class UsersComponent implements OnInit {
   //     }
   //   });}
 
+  // onDealerChange() {
+  //   const selectedDealer = this.dealerList().find(
+  //     (dealer) => dealer.dealer_id === this.userObj.dealer_id
+  //   );
+  //   console.log('Selected Dealer:', selectedDealer);
+  //   if (selectedDealer) {
+  //     this.userObj.dealer_code = selectedDealer.dealer_code;
+  //   }
+  // }
+
   onDealerChange() {
+    // Update userObj when a dealer is selected
+    const selectedDealerId = this.useForm.get('dealer_code')?.value;
     const selectedDealer = this.dealerList().find(
-      (dealer) => dealer.dealer_id === this.userObj.dealer_id
+      (dealer) => dealer.dealer_id === selectedDealerId
     );
-    console.log('Selected Dealer:', selectedDealer);
+
     if (selectedDealer) {
+      this.userObj.dealer_id = selectedDealer.dealer_id;
       this.userObj.dealer_code = selectedDealer.dealer_code;
     }
+
+    console.log('Selected Dealer:', selectedDealer);
   }
 
   displayAllUser() {
@@ -291,15 +288,12 @@ export class UsersComponent implements OnInit {
     console.log('form is valid');
   }
 
-  // onEdit(data : UserList){
-  //    this.useForm.patchValue({
-  //      name: this.userObj.name || '',
-  //      account_id: this.userObj.account_id || '',
-  //      email: this.userObj.email || '',
-  //      phone: this.userObj.phone ,
-  //      role: this.userObj.role || '',
-  //      dealer_code: this.userObj.dealer_code ,
-  //    });
-  // }
-  
+  onEdit(user: UserList) {
+    this.openModal(user);
+  }
+
+  // this is for email require
+  isEmailChange(): boolean {
+    return this.useForm.value.email !== this.previousValue;
+  }
 }

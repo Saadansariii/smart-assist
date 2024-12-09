@@ -20,8 +20,9 @@
         <a
           style="cursor: pointer; color: white !important"
           (click)="openModal()"
-          type="button" 
-          data-toggle="modal" data-target=".bd-example-modal-lg"
+          type="button"
+          data-toggle="modal"
+          data-target=".bd-example-modal-lg"
           class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
           ><i class="fa fa-plus mr-1"></i>Add Users</a
         >
@@ -172,7 +173,7 @@
                       </div>
                     </div>
                   </div>
-                 </td>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -193,7 +194,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" style="text-align: center; width: 100%;">
+        <h5 class="modal-title" style="text-align: center; width: 100%">
           {{ userObj.user_id ? "Edit User" : "Add New User" }}
         </h5>
         <button type="button" class="close" data-dismiss="modal">
@@ -220,8 +221,15 @@
                 }"
                 required
               />
-              <div class="text-danger" *ngIf="useForm.get('name')?.invalid && useForm.get('name')?.touched">
-                <span *ngIf="useForm.get('name')?.errors?.['required']">Name is required.</span>
+              <div
+                class="text-danger"
+                *ngIf="
+                  useForm.get('name')?.invalid && useForm.get('name')?.touched
+                "
+              >
+                <span *ngIf="useForm.get('name')?.errors?.['required']"
+                  >Name is required.</span
+                >
               </div>
             </div>
 
@@ -242,10 +250,17 @@
                 <option value="admin">Admin</option>
                 <option value="salesperson">Salesperson</option>
               </select>
-              <div class="text-danger" *ngIf="useForm.get('role')?.touched && useForm.get('role')?.invalid">
+              <div
+                class="text-danger"
+                *ngIf="
+                  useForm.get('role')?.touched && useForm.get('role')?.invalid
+                "
+              >
                 <span>Department is required.</span>
               </div>
             </div>
+
+           
           </div>
 
           <div class="row">
@@ -260,12 +275,23 @@
                 [(ngModel)]="userObj.account_id"
                 [ngClass]="{
                   'is-invalid':
-                    useForm.get('account_id')?.touched && useForm.get('account_id')?.invalid
+                    useForm.get('account_id')?.touched &&
+                    useForm.get('account_id')?.invalid
                 }"
               />
-              <div class="text-danger" *ngIf="useForm.get('account_id')?.invalid && useForm.get('account_id')?.touched">
-                <span *ngIf="useForm.get('account_id')?.errors?.['required']">Account Id is required.</span>
-                <span *ngIf="useForm.get('account_id')?.errors?.['minlength']">Must be at least 12 characters long.</span>
+              <div
+                class="text-danger"
+                *ngIf="
+                  useForm.get('account_id')?.invalid &&
+                  useForm.get('account_id')?.touched
+                "
+              >
+                <span *ngIf="useForm.get('account_id')?.errors?.['required']"
+                  >Account Id is required.</span
+                >
+                <span *ngIf="useForm.get('account_id')?.errors?.['minlength']"
+                  >Must be at least 12 characters long.</span
+                >
               </div>
             </div>
 
@@ -280,19 +306,29 @@
                 [(ngModel)]="userObj.email"
                 [ngClass]="{
                   'is-invalid':
-                    useForm.get('email')?.touched && useForm.get('email')?.invalid
+                    useForm.get('email')?.touched &&
+                    useForm.get('email')?.invalid
                 }"
               />
-              <div class="text-danger" *ngIf="useForm.get('email')?.invalid && useForm.get('email')?.touched">
-                <span *ngIf="useForm.get('email')?.errors?.['required']">Email is required.</span>
-                <span *ngIf="useForm.get('email')?.errors?.['email']">Please enter a valid email address.</span>
+              <div
+                class="text-danger"
+                *ngIf="
+                  useForm.get('email')?.invalid && useForm.get('email')?.touched
+                "
+              >
+                <span *ngIf="useForm.get('email')?.errors?.['required']"
+                  >Email is required.</span
+                >
+                <span *ngIf="useForm.get('email')?.errors?.['email']"
+                  >Please enter a valid email address.</span
+                >
               </div>
             </div>
           </div>
 
           <div class="row">
             <!-- Dealer Code -->
-            <div class="col-md-6 form-group" [formGroup]="useForm">
+            <!-- <div class="col-md-6 form-group" [formGroup]="useForm">
               <label for="dealer_code" class="form-label">Dealer Code</label>
               <select
                 id="dealer_id"
@@ -314,6 +350,39 @@
               <div class="text-danger" *ngIf="useForm.get('dealer_code')?.touched && useForm.get('dealer_code')?.invalid">
                 <span>Dealer is required.</span>
               </div>
+            </div> -->
+            <div class="col-md-6 form-group" [formGroup]="useForm">
+              <label for="dealer_code" class="form-label">Dealer Code</label>
+              <select
+                id="dealer_code"
+                class="form-control form-control-lg"
+                formControlName="dealer_code"
+                [(ngModel)]="userObj.dealer_id"
+                (change)="onDealerChange()"
+                [disabled]="!!userObj.user_id"
+                [ngClass]="{
+                  'is-invalid':
+                    useForm.get('dealer_code')?.touched &&
+                    useForm.get('dealer_code')?.invalid
+                }"
+              >
+                <option value="" disabled>Select Dealer</option>
+                <option
+                  *ngFor="let dealer of dealerList()"
+                  [value]="dealer.dealer_id"
+                >
+                  {{ dealer.dealer_code }}
+                </option>
+              </select>
+              <div
+                class="text-danger"
+                *ngIf="
+                  useForm.get('dealer_code')?.touched &&
+                  useForm.get('dealer_code')?.invalid
+                "
+              >
+                <span>Dealer is required.</span>
+              </div>
             </div>
 
             <!-- Phone -->
@@ -327,13 +396,25 @@
                 [(ngModel)]="userObj.phone"
                 [ngClass]="{
                   'is-invalid':
-                    useForm.get('phone')?.touched && useForm.get('phone')?.invalid
+                    useForm.get('phone')?.touched &&
+                    useForm.get('phone')?.invalid
                 }"
               />
-              <div class="text-danger" *ngIf="useForm.get('phone')?.touched && useForm.get('phone')?.invalid">
-                <span *ngIf="useForm.get('phone')?.errors?.['required']">Phone is required.</span>
-                <span *ngIf="useForm.get('phone')?.errors?.['minlength']">Must be at least 10 characters.</span>
-                <span *ngIf="useForm.get('phone')?.errors?.['pattern']">Only numbers are allowed.</span>
+              <div
+                class="text-danger"
+                *ngIf="
+                  useForm.get('phone')?.touched && useForm.get('phone')?.invalid
+                "
+              >
+                <span *ngIf="useForm.get('phone')?.errors?.['required']"
+                  >Phone is required.</span
+                >
+                <span *ngIf="useForm.get('phone')?.errors?.['minlength']"
+                  >Must be at least 10 characters.</span
+                >
+                <span *ngIf="useForm.get('phone')?.errors?.['pattern']"
+                  >Only numbers are allowed.</span
+                >
               </div>
             </div>
           </div>
@@ -341,18 +422,50 @@
       </div>
 
       <div class="modal-footer">
-        <button
+        <!-- <button
           type="button"
           class="btn btn-outline-primary"
+           [disabled]="
+              !userObj.name ||
+              !userObj.email ||
+              !userObj.email ||
+              !userObj.dealer_code ||
+              !userObj.phone ||
+              !userObj.role
+            "
           (click)="userObj.user_id ? onUpdate() : onSave()"
           [attr.data-dismiss]="useForm.valid ? 'modal' : null"
         >
           {{ userObj.user_id ? "Update" : "Create" }}
+        </button> -->
+        <ng-container *ngIf="userObj.user_id; else saveButton">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            (click)="onUpdate()"
+            [disabled]="!isEmailChange()"
+          >
+            Edit
+          </button>
+        </ng-container>
+        <ng-template #saveButton>
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            (click)="onSave()"
+            [attr.data-dismiss]="useForm.valid ? 'modal' : null"
+          >
+            save
+          </button>
+        </ng-template>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          data-dismiss="modal"
+        >
+          Close
         </button>
-        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
-
- 

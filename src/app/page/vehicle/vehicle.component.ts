@@ -38,7 +38,6 @@ import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   templateUrl: './vehicle.component.html',
   styleUrl: './vehicle.component.css',
-  
 })
 export class VehicleComponent implements OnInit {
   count = signal<number>(0);
@@ -48,18 +47,18 @@ export class VehicleComponent implements OnInit {
   vehicleObj: Vehicles = new Vehicles();
   private readonly toastr = inject(ToastrService);
   dtOptions: Config = {};
-  items: any; 
+  items: any;
   formGroup: FormGroup | undefined;
 
   date: Date | undefined;
 
   ngOnInit(): void {
     this.displayAllVehicle();
- 
   }
 
   isModalVisible = false;
   useForm: FormGroup;
+  previousValue: string = '';
 
   constructor(private modalService: NgbModal) {
     this.useForm = new FormGroup({
@@ -71,17 +70,20 @@ export class VehicleComponent implements OnInit {
         Validators.required,
         Validators.minLength(5),
       ]),
-      type: new FormControl(this.vehicleObj.type , [
-        Validators.required
-      ]),
-      YOM: new FormControl(this.vehicleObj.YOM , [
-        Validators.required
-      ])
+      type: new FormControl(this.vehicleObj.type, [Validators.required]),
+      YOM: new FormControl(this.vehicleObj.YOM, [Validators.required]),
     });
   }
 
+  isVehicleName(): boolean {
+    return this.useForm.value.vehicle_name !== this.previousValue;
+  }
+
   openModal(vehicle?: Vehicles) {
-      this.useForm.reset();
+    if (vehicle) {
+      this.previousValue = vehicle.vehicle_name; 
+    }
+    this.useForm.reset();
     this.isModalVisible = true;
     this.vehicleObj = vehicle
       ? { ...vehicle }
@@ -178,29 +180,29 @@ export class VehicleComponent implements OnInit {
     this.masterSrv.updateVehicle(this.vehicleObj).subscribe(
       (res: VehicleResponse) => {
         this.toastr.success('update successfully!', 'Success');
-         this.closeModal();
+        this.closeModal();
         //  window.location.reload();
-          this.displayAllVehicle();
+        this.displayAllVehicle();
       },
       (error) => {
         console.error(error.message, 'error');
       }
     );
   }
- 
-  onEdit(data: Vehicles) { 
 
+  onEdit(data: Vehicles) {
     this.useForm.patchValue({
       vehicle_id: data.vehicle_id || '',
       vehicle_name: data.vehicle_name || '',
-      YOM: data.YOM ||  Date(),
+      YOM: data.YOM || Date(),
       type: data.type || '',
       VIN: data.VIN || '',
     });
- 
   }
 
-  onDateSelect(selectedDate: Date){
+  onDateSelect(selectedDate: Date) {
     this.vehicleObj.YOM = selectedDate;
   }
+
+   
 }

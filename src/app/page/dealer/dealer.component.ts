@@ -67,19 +67,19 @@ export class DealerComponent implements OnInit {
     this.isModalVisible = true;
     if (dealer) {
       this.previousValue = dealer.dealer_name;
-      this.useForm.patchValue({ dealer_name: dealer.dealer_name });
+
+      // Patch form values with dealer data if it's in edit mode
+      this.useForm.patchValue({
+        dealer_name: dealer.dealer_name,
+        dealer_code: dealer.dealer_code,
+      });
+
+      // Update dealerObj with the dealer's data
+      this.dealerObj = { ...dealer };
+    } else {
+      // Reset dealerObj if no dealer is provided (for a new entry)
+      this.dealerObj = new dealers();
     }
-
-    this.dealerObj = dealer // the edit obj come
-      ? { ...dealer } // Populate dealer data for editing
-      : { 
-          dealer_id: '',
-          dealer_name: '',
-          dealer_code: null, 
-          corporate_id: '',
-        };
-
-    console.log('Modal Opened with dealerObj:', this.dealerObj);
   }
 
   isDealerNameChanged(): boolean {
@@ -107,42 +107,81 @@ export class DealerComponent implements OnInit {
     );
   }
 
+  // onSave() {
+  //   if (this.useForm.invalid) {
+  //     console.log('form is invalid', this.useForm);
+  //     this.useForm.markAllAsTouched();
+  //     return;
+  //   }
+
+  //   this.createNewDealer();
+  //   ($('#exampleModalCenter') as any).modal('hide');
+  //   console.log('form is valid . proceeding with API call');
+  // }
+
   onSave() {
     if (this.useForm.invalid) {
-      console.log('form is invalid', this.useForm);
       this.useForm.markAllAsTouched();
-      return;
+      return; // Don't proceed if the form is invalid
     }
 
-    this.createNewDealer();
-    ($('#exampleModalCenter') as any).modal('hide');
-    console.log('form is valid . proceeding with API call');
+    if (this.isEditMode) {
+      this.onUpdate(); // Update existing dealer
+    } else {
+      this.createNewDealer(); // Create new dealer
+    }
+
+    this.closeModal();
   }
 
   createNewDealer() {
-    this.getAllDealer();
     this.masterSrv.createDealer(this.dealerObj).subscribe(
       (res: dealers) => {
         this.toastr.success('Dealer created successfully!', 'Success');
-        this.getAllDealer();
-        this.closeModal();
+        this.getAllDealer(); // Reload dealers list after creation
       },
       (error) => {
-        this.toastr.error('You Are Unauthorized', 'Unauthorized Error');
+        this.toastr.error('Error creating dealer', 'Error');
       }
     );
   }
 
+  // createNewDealer() {
+  //   this.getAllDealer();
+  //   this.masterSrv.createDealer(this.dealerObj).subscribe(
+  //     (res: dealers) => {
+  //       this.toastr.success('Dealer created successfully!', 'Success');
+  //       this.getAllDealer();
+  //       this.closeModal();
+  //     },
+  //     (error) => {
+  //       this.toastr.error('You Are Unauthorized', 'Unauthorized Error');
+  //     }
+  //   );
+  // }
+
+  // onUpdate() {
+  //   this.getAllDealer();
+  //   this.masterSrv.updateDealer(this.dealerObj).subscribe(
+  //     (res: dealers) => {
+  //       this.toastr.success('Dealer Edit successfully!', 'Success');
+  //       this.closeModal();
+  //       this.getAllDealer();
+  //     },
+  //     (error) => {
+  //       this.toastr.error('You Are Unauthorized', 'Unauthorized Error');
+  //     }
+  //   );
+  // }
+
   onUpdate() {
-    this.getAllDealer();
     this.masterSrv.updateDealer(this.dealerObj).subscribe(
       (res: dealers) => {
-        this.toastr.success('Dealer Edit successfully!', 'Success');
-        this.closeModal();
-        this.getAllDealer();
+        this.toastr.success('Dealer updated successfully!', 'Success');
+        this.getAllDealer(); // Reload dealers list after update
       },
       (error) => {
-        this.toastr.error('You Are Unauthorized', 'Unauthorized Error');
+        this.toastr.error('Error updating dealer', 'Error');
       }
     );
   }

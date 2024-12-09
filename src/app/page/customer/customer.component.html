@@ -21,7 +21,7 @@
           (click)="openModal()"
           data-target="#exampleModalCenter"
           data-toggle="modal"
-          class="btn btn-primary  light btn-lg btn-block rounded shadow px-2 buttons"
+          class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
           ><i class="fa fa-plus mr-1"></i>Add Account</a
         >
       </div>
@@ -414,10 +414,10 @@
 
       <div [formGroup]="useForm" style="margin-inline: 1em; margin-top: 1em">
         <select
+          id="dealer_code"
           class="form-select form-control form-control-lg"
           formControlName="dealer_code"
-          [disabled]="!!customerObj.account_id"
-          [(ngModel)]="customerObj.dealer_id"
+          [disabled]="useForm.get('account_id')?.value"
           [ngClass]="{
             'is-invalid':
               useForm.get('dealer_code')?.touched &&
@@ -433,6 +433,7 @@
             {{ dealer.dealer_code }}
           </option>
         </select>
+
         <div
           class="text-danger"
           *ngIf="
@@ -609,7 +610,6 @@
           class="btn btn-outline-danger"
           data-dismiss="modal"
           (click)="closeModal()"
-          
         >
           Close
         </button>

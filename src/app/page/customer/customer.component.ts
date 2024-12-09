@@ -91,29 +91,75 @@ export class CustomerComponent implements OnInit {
 
   isModalVisible = false;
 
+  // openModal(customer?: Accounts) {
+  //   if (customer) {
+  //     this.previousValue = customer.email;
+  //     this.useForm.patchValue({ account_name: customer?.account_name });
+  //   }
+  //   this.isModalVisible = true;
+  //   this.customerObj = customer
+  //     ? {
+  //         ...customer,
+  //         phone: Number(customer.phone),
+  //         mobile: Number(customer.mobile),
+  //       }
+  //     : new Accounts();
+
+  //   this.useForm.reset({
+  //     account_type: this.customerObj.account_type || '',
+  //     fname: this.customerObj.fname || '',
+  //     lname: this.customerObj.lname || '',
+  //     email: this.customerObj.email || '',
+  //     phone: this.customerObj.phone || '',
+  //     mobile: this.customerObj.mobile || '',
+  //     dealer_code: this.customerObj.dealer_code || '',
+  //   });
+  // }
+
   openModal(customer?: Accounts) {
     if (customer) {
       this.previousValue = customer.email;
       this.useForm.patchValue({ account_name: customer?.account_name });
-    }
-    this.isModalVisible = true;
-    this.customerObj = customer
-      ? {
-          ...customer,
-          phone: Number(customer.phone),
-          mobile: Number(customer.mobile),
-        }
-      : new Accounts();
 
-    this.useForm.reset({
-      account_type: this.customerObj.account_type || '',
-      fname: this.customerObj.fname || '',
-      lname: this.customerObj.lname || '',
-      email: this.customerObj.email || '',
-      phone: this.customerObj.phone || '',
-      mobile: this.customerObj.mobile || '',
-      dealer_code: this.customerObj.dealer_code || '',
-    });
+      // Make a copy of the customer object
+      this.customerObj = { ...customer };
+
+      // Check if dealerList() contains the dealer and log for debugging
+      const selectedDealer = this.dealerList().find(
+        (dealer) => dealer.dealer_id === customer.dealer_id
+      );
+
+      // Log for debugging
+      console.log('Selected Dealer: ', selectedDealer);
+
+      if (selectedDealer) {
+        // Ensure dealer_code is set correctly
+        this.customerObj.dealer_code = selectedDealer.dealer_code;
+
+        // Log to verify dealer_code is being set
+        console.log('Setting dealer_code: ', this.customerObj.dealer_code);
+
+        // Update the form with customer data, including dealer_code
+        this.useForm.patchValue({
+          account_type: this.customerObj.account_type || '',
+          fname: this.customerObj.fname || '',
+          lname: this.customerObj.lname || '',
+          email: this.customerObj.email || '',
+          phone: this.customerObj.phone || '',
+          mobile: this.customerObj.mobile || '',
+          dealer_code: this.customerObj.dealer_code || '', // Ensure only set once
+        });
+
+        // Log after form is patched
+        console.log('Form after patching: ', this.useForm.value);
+      } else {
+        // Log in case dealer was not found
+        console.log('Dealer not found for dealer_id: ', customer.dealer_id);
+      }
+    } else {
+      this.customerObj = new Accounts();
+      this.useForm.reset();
+    }
   }
 
   isEmailChange(): boolean {
@@ -147,6 +193,10 @@ export class CustomerComponent implements OnInit {
     console.log('Selected Dealer:', selectedDealer);
     if (selectedDealer) {
       this.customerObj.dealer_code = selectedDealer.dealer_code;
+      // Update the form control for dealer_code
+      this.useForm.patchValue({
+        dealer_code: selectedDealer.dealer_code,
+      });
     }
   }
 
@@ -247,17 +297,8 @@ export class CustomerComponent implements OnInit {
     );
   }
 
-  onEdit(data: Accounts) {
-    this.useForm.patchValue({
-      // account_type: data.account_type || '',
-      fname: data.fname || '',
-      lname: data.lname || '',
-      dealer_code: data.dealer_code || '',
-      email: data.email || '',
-      // phone: data.phone || Number,
-      // mobile: data.mobile || Number,
-    });
-    console.log(this.customerObj, 'trueeee----');
+  onEdit(user: Accounts) {
+    this.openModal(user);
   }
 
   onSave() {

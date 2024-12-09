@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { OppResponse, TaskResponse } from '../../model/interface/master';
 import { MasterService } from '../../service/master.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouteTrackingServiceService } from '../../service/route-tracking-service.service';
 
 @Component({
   selector: 'app-single-opp',
@@ -16,11 +17,23 @@ export class SingleOppComponent implements OnInit {
   oppList = signal<OppResponse | null>(null); // WritableSignal to hold single TaskResponse
   masterSrv = inject(MasterService);
   oppData: OppResponse | undefined;
-  previousRoute!: string | null;
-  constructor(private route: ActivatedRoute) {}
+  previousRoutes!: string | null;
+  previousRoute: string | null = null;
+  previousId: string | null = null;
+  constructor(
+    private route: ActivatedRoute,
+    private routeTrackingService: RouteTrackingServiceService
+  ) {}
 
   ngOnInit(): void {
-    this.previousRoute = localStorage.getItem('previousRoute');
+    this.routeTrackingService.previousId$.subscribe((id) => {
+      this.previousId = id;
+    });
+
+    // Optionally, get initial previous ID from local storage
+    this.previousId = this.routeTrackingService.getPreviousId();
+
+    // this.previousRoute = localStorage.getItem('previousRoute');
     // Load the lead data from resolver or route parameter
     this.route.data.subscribe((data) => {
       this.oppData = data['oppData'];
@@ -57,8 +70,8 @@ export class SingleOppComponent implements OnInit {
     });
   }
 
-  userId() {
-    const path = window.location.pathname.split('/')[3];
-    localStorage.setItem('previousRoute', path);
-  }
+  // userId() {
+  //   const path = window.location.pathname.split('/')[3];
+  //   localStorage.setItem('previousRoute', path);
+  // }
 }

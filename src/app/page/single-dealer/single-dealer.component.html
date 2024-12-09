@@ -6,14 +6,13 @@
           <a href="javascript:void(0)" style="cursor: auto">Utils</a>
         </li>
         <li class="breadcrumb-item">
-          <a [routerLink]="['/Admin/dealer']">Dealer</a>
+          <a [routerLink]="['/Admin/dealer']" >Dealer</a>
         </li>
         <li class="breadcrumb-item active">
           <a style="font-weight: 700 !important; color: black" >{{
             this.dealerData?.dealer?.dealer_name
           }} </a>
-          <!-- <a style="display:  none;" [routerLink]="['/Admin/singleUser']" [queryParams]="{ dealerName: dealerData?.dealer?.dealer_name }">Go to Users</a> -->
-        </li>
+         </li>
       </ol>
     </div>
     <!-- table header -->

@@ -72,13 +72,10 @@ export class DealerComponent implements OnInit {
 
     this.dealerObj = dealer // the edit obj come
       ? { ...dealer } // Populate dealer data for editing
-      : {
-          // Reset dealerObj for creating a new dealer
+      : { 
           dealer_id: '',
           dealer_name: '',
-          dealer_code: null,
-          created_at: '',
-          updated_at: '',
+          dealer_code: null, 
           corporate_id: '',
         };
 

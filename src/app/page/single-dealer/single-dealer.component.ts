@@ -47,10 +47,7 @@ export class SingleDealerComponent implements OnInit {
   ) {}
 
   selectedOption: string = 'users';
-
-  reload(): void {
-    window.location.reload();
-  }
+ 
 
   handleSelectionChange(event: Event) {
     const option = (event.target as HTMLSelectElement).value;
@@ -140,7 +137,7 @@ export class SingleDealerComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.dealerName = params['dealerName']; // The dealer name is passed as a query parameter
-      console.log('Dealer Name:', this.dealerName); // Now you can use it in your component
+      console.log('Dealer Name:', this.dealerData?.dealer.dealer_name); // Now you can use it in your component
     });
 
     this.route.data.subscribe((data) => {

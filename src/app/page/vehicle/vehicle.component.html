@@ -117,7 +117,7 @@
                     type="button"
                     data-toggle="modal"
                     data-target=".bd-example-modal-lg"
-                    (click)="openModal(vehicle)"
+                    (click)="onEdit(vehicle.vehicle_id)"
                     class="btn btn-primary shadow btn-xs sharp mr-1"
                     ><i class="fa fa-pencil"></i
                   ></a>
@@ -215,8 +215,7 @@
               class="form-control form-control-lg"
               type="text"
               placeholder="Vehicle Name"
-              formControlName="vehicle_name"
-              [(ngModel)]="vehicleObj.vehicle_name"
+              formControlName="vehicle_name" 
               [ngClass]="{
                 'is-invalid':
                   useForm.get('vehicle_name')?.touched &&
@@ -254,11 +253,11 @@
               id="YOM"
               type="date"
               class="form-control form-control-lg"
-              formControlName="YOM"
-              [(ngModel)]="vehicleObj.YOM"
+              formControlName="YOM" 
               [disabled]="!!vehicleObj.vehicle_id"
               [readonly]="!!vehicleObj.vehicle_id"  
               [ngClass]="{ 'custom-disabled': !!vehicleObj.vehicle_id }"
+               (change)="onDateSelect($event)"
             />
           </div>
         </div>
@@ -285,14 +284,13 @@
             <select
               id="typeSelect"
               formControlName="type"
-              class="form-control form-control-lg"
-              [(ngModel)]="vehicleObj.type"
+              class="form-control form-control-lg" 
               [ngClass]="{
                 'is-invalid':
                   useForm.get('type')?.touched && useForm.get('type')?.invalid
               }"
             >
-              <option value="" disabled>Select Type</option>
+              <option value="null" disabled>Select Type</option>
               <option value="petrol">Petrol</option>
               <option value="diesel">Diesel</option>
               <option value="EV">EV</option>
@@ -315,8 +313,7 @@
               class="form-control form-control-lg custom-disabled"
               type="text"
               placeholder="VIN"
-              formControlName="VIN"
-              [(ngModel)]="vehicleObj.VIN"
+              formControlName="VIN" 
               [disabled]="!!vehicleObj.vehicle_id"
               [ngClass]="{
                 'custom-disabled': !!vehicleObj.vehicle_id,

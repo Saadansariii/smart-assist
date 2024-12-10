@@ -48,13 +48,17 @@ export class UsersComponent implements OnInit {
   dealerList = signal<dealers[]>([]);
   totalDealer = signal<number>(0);
   isModalVisible = false;
-  useForm: FormGroup;
+  useForm: FormGroup  = new FormGroup({});
   previousValue: string = '';
 
   constructor(
     private aleartsrv: AleartSrvService,
     private modalService: NgbModalModule
-  ) {
+  ) { 
+    this.initializeform();
+  }
+
+  initializeform(){
     this.useForm = new FormGroup({
       name: new FormControl(this.userObj.name, [Validators.required]),
       role: new FormControl(this.userObj.role, [Validators.required]),
@@ -192,21 +196,21 @@ export class UsersComponent implements OnInit {
 
   createUser() {
     // Validate phone number and dealer_id before creating the user
-    if (
-      !this.userObj.phone ||
-      isNaN(this.userObj.phone) ||
-      this.userObj.phone <= 0
-    ) {
-      alert('Please enter a valid phone number!');
-      return;
-    }
+    // if (
+    //   !this.userObj.phone ||
+    //   isNaN(this.userObj.phone) ||
+    //   this.userObj.phone <= 0
+    // ) {
+    //   alert('Please enter a valid phone number!');
+    //   return;
+    // }
 
-    if (!this.userObj.dealer_id) {
-      alert('Please select a dealer!');
-      return;
-    }
+    // if (!this.userObj.dealer_id) {
+    //   alert('Please select a dealer!');
+    //   return;
+    // }
 
-    this.masterSrv.createNewUser(this.userObj).subscribe({
+    this.masterSrv.createNewUser(this.useForm.value).subscribe({
       next: () => {
         this.toastr.success('User created successfully!', 'Success');
         this.displayAllUser();
@@ -265,7 +269,7 @@ export class UsersComponent implements OnInit {
   }
 
   onUpdate() {
-    this.masterSrv.updateUser(this.userObj).subscribe({
+    this.masterSrv.updateUser(this.useForm.value).subscribe({
       next: () => {
         this.toastr.success('User updated Successfully!', 'Success');
         this.displayAllUser();
@@ -276,6 +280,8 @@ export class UsersComponent implements OnInit {
       },
     });
   }
+
+   
 
   onSave() {
     if (this.useForm.invalid) {
@@ -288,8 +294,15 @@ export class UsersComponent implements OnInit {
     console.log('form is valid');
   }
 
-  onEdit(user: UserList) {
-    this.openModal(user);
+  onEdit(id : string) { 
+    this.masterSrv.getSingleUser(id).subscribe((res:UserList)=>{ 
+      this.userObj = res;
+      console.log('this is onedit ' , this.userObj)
+      this.openModal();
+      this.initializeform();
+    },error=>{
+      alert('API error')
+    })
   }
 
   // this is for email require

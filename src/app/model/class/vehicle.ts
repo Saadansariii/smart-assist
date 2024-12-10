@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class Vehicles {
   vehicle_id:string;
-  YOM: Date;
+  YOM: string;
   vehicle_name: string;
   type: string;
   VIN: string;
@@ -17,7 +17,7 @@ export class Vehicles {
   constructor() {
     this.deleted = false ;
     this.vehicle_id = ' ';
-    this.YOM = new Date();
+    this.YOM = '';
     this.vehicle_name = '';
     this.type = '';
     this.VIN = '';

@@ -134,6 +134,13 @@ export class MasterService {
     });
   }
 
+  getSingleVehicle(id : string): Observable<Vehicles> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<Vehicles>(`${this.apiUrl}/vehicles/${id}`, {
+      headers,
+    });
+  }
+
   createNewVehicle(obj: Vehicles): Observable<VehicleResponse> {
     const headers = this.getAuthHeaders();
     return this.http.post<VehicleResponse>(
@@ -223,6 +230,14 @@ export class MasterService {
       obj,
       { headers }
     );
+  }
+
+   
+  getSingleUser(id : string): Observable<UserList> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<UserList>(`${this.apiUrl}/users/${id}`, {
+      headers,
+    });
   }
 
   deleteUser(user_id: string): Observable<MultiuserResponse> {

@@ -17,6 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import $ from 'jquery'; 
 import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { error } from 'node:console';
 
 
 @Component({
@@ -57,10 +58,14 @@ export class VehicleComponent implements OnInit {
   }
 
   isModalVisible = false;
-  useForm: FormGroup;
+  useForm: FormGroup = new FormGroup({});
   previousValue: string = '';
 
   constructor(private modalService: NgbModal) {
+    this.initializeform();
+  }
+
+  initializeform() {
     this.useForm = new FormGroup({
       vehicle_name: new FormControl(this.vehicleObj.vehicle_name, [
         Validators.required,
@@ -71,7 +76,9 @@ export class VehicleComponent implements OnInit {
         Validators.minLength(5),
       ]),
       type: new FormControl(this.vehicleObj.type, [Validators.required]),
-      YOM: new FormControl(this.vehicleObj.YOM, [Validators.required]),
+      YOM: new FormControl(this.formatDate(this.vehicleObj.YOM), [
+        Validators.required,
+      ]),
     });
   }
 
@@ -81,14 +88,14 @@ export class VehicleComponent implements OnInit {
 
   openModal(vehicle?: Vehicles) {
     if (vehicle) {
-      this.previousValue = vehicle.vehicle_name; 
+      this.previousValue = vehicle.vehicle_name;
     }
     this.useForm.reset();
     this.isModalVisible = true;
     this.vehicleObj = vehicle
       ? { ...vehicle }
       : {
-          YOM: new Date(),
+          YOM: '',
           vehicle_name: '',
           type: '',
           VIN: '',
@@ -122,7 +129,7 @@ export class VehicleComponent implements OnInit {
   onSave() {
     if (this.useForm.invalid) {
       console.log('Form is invalid', this.useForm);
-      this.useForm.markAllAsTouched(); // Mark all fields as touched to show validation errors
+      this.useForm.markAllAsTouched(); // Mark all  
       return; // If form is invalid, do not proceed
     }
 
@@ -135,17 +142,19 @@ export class VehicleComponent implements OnInit {
   createVehicle() {
     console.log('Creating vehicle with the following data:', this.vehicleObj);
     // this.isEditMode = true;
-    this.masterSrv.createNewVehicle(this.vehicleObj).subscribe(
-      (res: VehicleResponse) => {
+    this.masterSrv.createNewVehicle(this.useForm.value).subscribe({
+      next: () => {
         this.toastr.success('new vehicle created!', 'Success');
         this.displayAllVehicle();
         this.closeModal();
-        // window.location.reload();
       },
-      (error) => {
-        console.error('something was wrong:', error);
-      }
-    );
+      error: (err) => {
+        this.toastr.error(
+          'Please Enter The Valid Response',
+          'Validation Error'
+        );
+      },
+    });
   }
 
   selectedVehicleForDeletion: Vehicles | null = null;
@@ -180,9 +189,8 @@ export class VehicleComponent implements OnInit {
     this.masterSrv.updateVehicle(this.vehicleObj).subscribe(
       (res: VehicleResponse) => {
         this.toastr.success('update successfully!', 'Success');
-        this.closeModal();
-        //  window.location.reload();
         this.displayAllVehicle();
+        this.closeModal(); 
       },
       (error) => {
         console.error(error.message, 'error');
@@ -190,19 +198,37 @@ export class VehicleComponent implements OnInit {
     );
   }
 
-  onEdit(data: Vehicles) {
-    this.useForm.patchValue({
-      vehicle_id: data.vehicle_id || '',
-      vehicle_name: data.vehicle_name || '',
-      YOM: data.YOM || Date(),
-      type: data.type || '',
-      VIN: data.VIN || '',
-    });
+  onEdit(id: string) {
+    this.openModal();
+    debugger;
+    this.masterSrv.getSingleVehicle(id).subscribe(
+      (res: Vehicles) => {
+        this.vehicleObj = res;
+        console.log('thiss is vehicle res', this.vehicleObj);
+        this.initializeform();
+      },
+      (error) => {
+        alert('API error');
+      }
+    );
   }
 
-  onDateSelect(selectedDate: Date) {
-    this.vehicleObj.YOM = selectedDate;
+  onDateSelect(event: Event): void {
+    const input = event.target as HTMLInputElement | null; // Safeguard against null
+    const selectedDate = input?.value; // Safely access the value property
+
+    if (selectedDate) {
+      this.vehicleObj.YOM = selectedDate; // Update vehicleObj with the selected date
+      this.useForm.get('YOM')?.setValue(selectedDate); // Sync FormControl value
+    }
   }
 
-   
+  formatDate(date: string | null | undefined): string {
+    if (!date) return ''; // Handle null or undefined
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 }

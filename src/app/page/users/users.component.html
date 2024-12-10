@@ -103,7 +103,7 @@
                     data-target=".bd-example-modal-lg"
                     data-toggle="modal"
                     class="btn btn-primary shadow btn-xs sharp mr-1"
-                    (click)="openModal(user)"
+                    (click)="onEdit(user.user_id)"
                     ><i class="fa fa-pencil"></i
                   ></a>
                   <!-- <a
@@ -214,7 +214,6 @@
                 type="text"
                 formControlName="name"
                 placeholder="User Name"
-                [(ngModel)]="userObj.name"
                 [ngClass]="{
                   'is-invalid':
                     useForm.get('name')?.touched && useForm.get('name')?.invalid
@@ -240,13 +239,12 @@
                 id="role"
                 class="form-control form-control-lg"
                 formControlName="role"
-                [(ngModel)]="userObj.role"
                 [ngClass]="{
                   'is-invalid':
                     useForm.get('role')?.touched && useForm.get('role')?.invalid
                 }"
               >
-                <option value="" disabled>Select Department</option>
+                <option value="null" disabled>Select Department</option>
                 <option value="admin">Admin</option>
                 <option value="salesperson">Salesperson</option>
               </select>
@@ -259,8 +257,6 @@
                 <span>Department is required.</span>
               </div>
             </div>
-
-           
           </div>
 
           <div class="row">
@@ -272,7 +268,6 @@
                 class="form-control form-control-lg"
                 formControlName="account_id"
                 placeholder="Account Id"
-                [(ngModel)]="userObj.account_id"
                 [ngClass]="{
                   'is-invalid':
                     useForm.get('account_id')?.touched &&
@@ -303,7 +298,6 @@
                 class="form-control form-control-lg"
                 formControlName="email"
                 placeholder="E-mail"
-                [(ngModel)]="userObj.email"
                 [ngClass]="{
                   'is-invalid':
                     useForm.get('email')?.touched &&
@@ -357,7 +351,6 @@
                 id="dealer_code"
                 class="form-control form-control-lg"
                 formControlName="dealer_code"
-                [(ngModel)]="userObj.dealer_id"
                 (change)="onDealerChange()"
                 [disabled]="!!userObj.user_id"
                 [ngClass]="{
@@ -366,10 +359,12 @@
                     useForm.get('dealer_code')?.invalid
                 }"
               >
-                <option value="" disabled>Select Dealer</option>
+                <option value="null" disabled>Select Dealer</option>
                 <option
                   *ngFor="let dealer of dealerList()"
-                  [value]="dealer.dealer_id"
+                  [value]="
+                    userObj.user_id ? dealer.dealer_id : dealer.dealer_code
+                  "
                 >
                   {{ dealer.dealer_code }}
                 </option>
@@ -393,7 +388,6 @@
                 class="form-control form-control-lg"
                 formControlName="phone"
                 placeholder="Phone"
-                [(ngModel)]="userObj.phone"
                 [ngClass]="{
                   'is-invalid':
                     useForm.get('phone')?.touched &&
@@ -438,7 +432,31 @@
         >
           {{ userObj.user_id ? "Update" : "Create" }}
         </button> -->
-        <ng-container *ngIf="userObj.user_id; else saveButton">
+        <div>
+          <!-- Save Button -->
+          <button
+            *ngIf="!useForm.controls['dealer_code']?.value"
+            type="button"
+            class="btn btn-outline-primary"
+            (click)="onSave()"
+            [attr.data-dismiss]="useForm.valid ? 'modal' : null"
+          >
+            Save
+          </button>
+
+          <!-- Edit Button -->
+          <button
+            *ngIf="useForm.controls['dealer_code']?.value"
+            type="button"
+            class="btn btn-outline-primary"
+            (click)="onUpdate()"
+            [disabled]="!isEmailChange()"
+          >
+            Edit
+          </button>
+        </div>
+
+        <!-- <ng-container *ngIf="userObj.user_id; else saveButton">
           <button
             type="button"
             class="btn btn-outline-primary"
@@ -457,7 +475,7 @@
           >
             save
           </button>
-        </ng-template>
+        </ng-template> -->
         <button
           type="button"
           class="btn btn-outline-danger"

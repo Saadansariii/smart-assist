@@ -249,11 +249,18 @@ export class MasterService {
     );
   }
 
-  // Customer API's
+  // Accounts API's
 
   getCustomer(): Observable<AccountsResponse> {
     const headers = this.getAuthHeaders();
     return this.http.get<AccountsResponse>(this.apiUrl + 'accounts/all', {
+      headers,
+    });
+  }
+
+  getSingleAccount(id : string):Observable<Accounts> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<Accounts>(`${this.apiUrl}/accounts/${id}`, {
       headers,
     });
   }

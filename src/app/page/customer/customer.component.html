@@ -67,8 +67,8 @@
                     href="javascript:void(0);"
                     type="button"
                     data-target=".bd-example-modal-lg"
-                    data-toggle="modal"
-                    (click)="openModal(customer)" 
+                    data-toggle="modal" 
+                    (click)="onEdit(customer.account_id)"
                     class="btn btn-primary shadow btn-xs sharp mr-1"
                     ><i class="fa fa-pencil"></i
                   ></a>
@@ -152,10 +152,10 @@
       <div class="modal-body" [formGroup]="useForm">
         <div class="row">
           <div class="form-group col-md-6">
+             <label for="account_type" class="form-label">Account Type</label>
             <select
               class="form-control form-control-lg"
-              formControlName="account_type"
-              [(ngModel)]="customerObj.account_type"
+              formControlName="account_type" 
               [ngClass]="{
                 'is-invalid':
                   useForm.get('account_type')?.touched &&
@@ -179,12 +179,12 @@
           </div>
 
           <div class="form-group col-md-6">
+             <label for="fname" class="form-label">First Name</label>
             <input
               class="form-control form-control-lg"
               type="text"
               placeholder="First Name"
-              formControlName="fname"
-              [(ngModel)]="customerObj.fname"
+              formControlName="fname" 
               [ngClass]="{
                 'is-invalid':
                   useForm.get('fname')?.touched && useForm.get('fname')?.invalid
@@ -208,12 +208,12 @@
 
         <div class="row">
           <div class="form-group col-md-6">
+             <label for="name" class="form-label">Last Name</label>
             <input
               class="form-control form-control-lg"
               type="text"
               placeholder="Last Name"
-              formControlName="lname"
-              [(ngModel)]="customerObj.lname"
+              formControlName="lname" 
               [ngClass]="{
                 'is-invalid':
                   useForm.get('lname')?.touched && useForm.get('lname')?.invalid
@@ -235,6 +235,7 @@
           </div>
 
           <div class="form-group col-md-6">
+             <label for="dealer_code" class="form-label">Dealer Code</label>
             <select
               id="dealer_code"
               class="form-select form-control form-control-lg"
@@ -250,7 +251,7 @@
               <option value="null" disabled>Select Dealer</option>
               <option
                 *ngFor="let dealer of dealerList()"
-                [value]="dealer.dealer_id"
+                [value]="dealer.dealer_code"
               >
                 {{ dealer.dealer_code }}
               </option>
@@ -270,12 +271,12 @@
 
         <div class="row">
           <div class="form-group col-md-6">
+             <label for="email" class="form-label">E-mail</label>
             <input
               class="form-control form-control-lg"
               type="email"
               placeholder="E-mail"
-              formControlName="email"
-              [(ngModel)]="customerObj.email"
+              formControlName="email" 
               [ngClass]="{
                 'is-invalid':
                   useForm.get('email')?.touched && useForm.get('email')?.invalid
@@ -297,12 +298,12 @@
           </div>
 
           <div class="form-group col-md-6">
+             <label for="phone" class="form-label">Phone</label>
             <input
               class="form-control form-control-lg"
               type="text"
               placeholder="Phone"
-              formControlName="phone"
-              [(ngModel)]="customerObj.phone"
+              formControlName="phone" 
               [ngClass]="{
                 'is-invalid':
                   useForm.get('phone')?.touched && useForm.get('phone')?.invalid
@@ -329,12 +330,12 @@
 
         <div class="row">
           <div class="form-group col-md-6">
+             <label for="mobile" class="form-label">Mobile</label>
             <input
               class="form-control form-control-lg"
               type="text"
               placeholder="Mobile"
-              formControlName="mobile"
-              [(ngModel)]="customerObj.mobile"
+              formControlName="mobile" 
               [ngClass]="{
                 'is-invalid':
                   useForm.get('mobile')?.touched &&

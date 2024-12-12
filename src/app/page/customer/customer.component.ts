@@ -43,14 +43,26 @@ export class CustomerComponent implements OnInit {
   customerList = signal<Accounts[]>([]);
   masterSrv = inject(MasterService);
   customerObj: Accounts = new Accounts();
-  date: Date | undefined;
   dealerObj: dealers = new dealers();
   dealerList = signal<dealers[]>([]);
-  useForm: FormGroup;
+  useForm: FormGroup = new FormGroup({});
   previousValue: string = '';
 
   constructor(private modalService: NgbModalModule) {
+    this.initializeForm();
+  }
+
+  private readonly toastr = inject(ToastrService);
+  ngOnInit(): void {
+    this.displayAllCustomer();
+    this.getAllDealer();
+  }
+
+  isModalVisible = false;
+
+  initializeForm() {
     this.useForm = new FormGroup({
+      account_id : new FormControl(''),
       account_type: new FormControl(this.customerObj.account_type, [
         Validators.required,
       ]),
@@ -83,83 +95,65 @@ export class CustomerComponent implements OnInit {
     });
   }
 
-  private readonly toastr = inject(ToastrService);
-  ngOnInit(): void {
-    this.displayAllCustomer();
-    this.getAllDealer();
-  }
-
-  isModalVisible = false;
-
-  // openModal(customer?: Accounts) {
-  //   if (customer) {
-  //     this.previousValue = customer.email;
-  //     this.useForm.patchValue({ account_name: customer?.account_name });
-  //   }
-  //   this.isModalVisible = true;
-  //   this.customerObj = customer
-  //     ? {
-  //         ...customer,
-  //         phone: Number(customer.phone),
-  //         mobile: Number(customer.mobile),
-  //       }
-  //     : new Accounts();
-
-  //   this.useForm.reset({
-  //     account_type: this.customerObj.account_type || '',
-  //     fname: this.customerObj.fname || '',
-  //     lname: this.customerObj.lname || '',
-  //     email: this.customerObj.email || '',
-  //     phone: this.customerObj.phone || '',
-  //     mobile: this.customerObj.mobile || '',
-  //     dealer_code: this.customerObj.dealer_code || '',
-  //   });
-  // }
-
   openModal(customer?: Accounts) {
+    this.useForm.reset();
     if (customer) {
-      this.previousValue = customer.email;
-      this.useForm.patchValue({ account_name: customer?.account_name });
-
-      // Make a copy of the customer object
-      this.customerObj = { ...customer };
-
-      // Check if dealerList() contains the dealer and log for debugging
-      const selectedDealer = this.dealerList().find(
-        (dealer) => dealer.dealer_id === customer.dealer_id
-      );
-
-      // Log for debugging
-      console.log('Selected Dealer: ', selectedDealer);
-
-      if (selectedDealer) {
-        // Ensure dealer_code is set correctly
-        this.customerObj.dealer_code = selectedDealer.dealer_code;
-
-        // Log to verify dealer_code is being set
-        console.log('Setting dealer_code: ', this.customerObj.dealer_code);
-
-        // Update the form with customer data, including dealer_code
-        this.useForm.patchValue({
-          account_type: this.customerObj.account_type || '',
-          fname: this.customerObj.fname || '',
-          lname: this.customerObj.lname || '',
-          email: this.customerObj.email || '',
-          phone: this.customerObj.phone || '',
-          mobile: this.customerObj.mobile || '',
-          dealer_code: this.customerObj.dealer_code || '', // Ensure only set once
-        });
-
-        // Log after form is patched
-        console.log('Form after patching: ', this.useForm.value);
-      } else {
-        // Log in case dealer was not found
-        console.log('Dealer not found for dealer_id: ', customer.dealer_id);
-      }
-    } else {
-      this.customerObj = new Accounts();
-      this.useForm.reset();
+      this.useForm.patchValue({
+        account_id : this.customerObj.account_id || '',
+        account_type: this.customerObj.account_type || '',
+        fname: this.customerObj.fname || '',
+        lname: this.customerObj.lname || '',
+        email: this.customerObj.email || '',
+        phone: this.customerObj.phone || '',
+        mobile: this.customerObj.mobile || '',
+        dealer_code: this.customerObj.dealer_code || '', // Ensure only set once
+        dealer_id : this.customerObj.dealer_id || '',
+      });
     }
+
+    // if (customer) {
+    //   this.previousValue = customer.email;
+    //   this.useForm.patchValue({ account_name: customer?.account_name });
+
+    //   // Make a copy of the customer object
+    //   this.customerObj = { ...customer };
+
+    //   // Check if dealerList() contains the dealer and log for debugging
+    //   const selectedDealer = this.dealerList().find(
+    //     (dealer) => dealer.dealer_id === customer.dealer_id
+    //   );
+
+    //   // Log for debugging
+    //   console.log('Selected Dealer: ', selectedDealer);
+
+    //   if (selectedDealer) {
+    //     // Ensure dealer_code is set correctly
+    //     this.customerObj.dealer_code = selectedDealer.dealer_code;
+
+    //     // Log to verify dealer_code is being set
+    //     console.log('Setting dealer_code: ', this.customerObj.dealer_code);
+
+    //     // Update the form with customer data, including dealer_code
+    //     this.useForm.patchValue({
+    //       account_type: this.customerObj.account_type || '',
+    //       fname: this.customerObj.fname || '',
+    //       lname: this.customerObj.lname || '',
+    //       email: this.customerObj.email || '',
+    //       phone: this.customerObj.phone || '',
+    //       mobile: this.customerObj.mobile || '',
+    //       dealer_code: this.customerObj.dealer_code || '', // Ensure only set once
+    //     });
+
+    //     // Log after form is patched
+    //     console.log('Form after patching: ', this.useForm.value);
+    //   } else {
+    //     // Log in case dealer was not found
+    //     console.log('Dealer not found for dealer_id: ', customer.dealer_id);
+    //   }
+    // } else {
+    //   this.customerObj = new Accounts();
+    //   this.useForm.reset();
+    // }
   }
 
   isEmailChange(): boolean {
@@ -168,7 +162,6 @@ export class CustomerComponent implements OnInit {
 
   closeModal() {
     ($('.bd-example-modal-lg') as any).modal('hide');
-    // this.isModalVisible = false;
   }
 
   displayAllCustomer() {
@@ -208,7 +201,7 @@ export class CustomerComponent implements OnInit {
         console.log(res);
       },
       (error) => {
-        // this.toastr.error(error, 'Error 123');
+        this.toastr.error('Serverside Error', 'Error');
         // alert(error.message);
       }
     );
@@ -217,7 +210,7 @@ export class CustomerComponent implements OnInit {
   createCustomer() {
     this.customerObj.phone = Number(this.customerObj.phone);
     this.customerObj.mobile = Number(this.customerObj.mobile);
-    this.masterSrv.createCustomer(this.customerObj).subscribe(
+    this.masterSrv.createCustomer(this.useForm.value).subscribe(
       (res: AccountsResponse) => {
         this.toastr.success('Account created successfully!', 'Success');
         this.displayAllCustomer();
@@ -241,22 +234,7 @@ export class CustomerComponent implements OnInit {
     );
   }
 
-  // deleteCustomerId(account_id: string) {
-  //   alert('Are you sure you want to delete this customer?');
-  //   this.masterSrv.deleteCustomer(account_id).subscribe(
-  //     (res) => {
-  //       this.toastr.success('Account Delete successfully!', 'Success');
-  //       // alert('Delete successful');
-  //       this.displayAllCustomer(); // Refresh the customer list
-  //       this.closeModal();
-  //       window.location.reload();
-  //     },
-  //     (error) => {
-  //       console.error('Delete failed:', error); // Log the error for debugging
-  //       alert('Failed to delete customer. Please try again.');
-  //     }
-  //   );
-  // }
+ 
 
   deleteCustomerId() {
     if (
@@ -282,37 +260,41 @@ export class CustomerComponent implements OnInit {
   }
 
   onUpdate() {
-    this.displayAllCustomer();
-    this.masterSrv.updateCustomer(this.customerObj).subscribe(
-      (res: AccountsResponse) => {
+    if (this.useForm.invalid) {
+      this.markFormGroupTouched(this.useForm);
+      this.toastr.warning(
+        'Please fill all required fields correctly',
+        'Validation'
+      );
+      return;
+    }
+
+    this.masterSrv.updateCustomer(this.useForm.value).subscribe({
+      next: () => {
         this.toastr.success('Account Update successfully!', 'Success');
         this.displayAllCustomer();
         this.closeModal();
-        // window.location.reload();
       },
-      (error) => {
-        this.toastr.error(error.message, 'Error');
+      error: (err) => {
+        console.error('User update error:', err);
+        this.toastr.error('Server Error', 'Error');
         // alert('something happn ');
-      }
-    );
+      },
+    });
   }
 
-  onEdit(user: Accounts) {
-    this.openModal(user);
+  onEdit(id: string) {
+    this.masterSrv.getSingleAccount(id).subscribe({
+      next: (res: Accounts) => {
+        this.customerObj = res;
+        this.openModal(res);
+      },
+      error: (err) => {
+        console.error('User fetch error:', err);
+        this.toastr.error('Failed to fetch user details', 'Error');
+      },
+    });
   }
-
-  // onEdit(id : string){
-  //   this.masterSrv.(id).subscribe({
-  //     next: (res: Accounts) => {
-  //       this.customerObj = res;
-  //       this.openModal(res);
-  //     },
-  //     error: (err) => {
-  //       console.error('User fetch error:', err);
-  //       this.toastr.error('Failed to fetch user details', 'Error');
-  //     },
-  //   });
-  // }
 
   onSave() {
     if (this.useForm.invalid) {
@@ -324,5 +306,15 @@ export class CustomerComponent implements OnInit {
     this.createCustomer();
     ($('.bd-example-modal-lg') as any).modal('hide');
     console.log('form is valid');
+  }
+
+  private markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach((control) => {
+      control.markAsTouched();
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

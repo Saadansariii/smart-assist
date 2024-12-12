@@ -324,31 +324,7 @@
           </div>
 
           <div class="row">
-            <!-- Dealer Code -->
-            <!-- <div class="col-md-6 form-group" [formGroup]="useForm">
-              <label for="dealer_code" class="form-label">Dealer Code</label>
-              <select
-                id="dealer_id"
-                class="form-control form-control-lg"
-                formControlName="dealer_code"
-                [(ngModel)]="userObj.dealer_id"
-                (change)="onDealerChange()"
-                [disabled]="!!userObj.user_id"
-                [ngClass]="{
-                  'is-invalid':
-                    useForm.get('dealer_code')?.touched && useForm.get('dealer_code')?.invalid
-                }"  
-              >
-                <option value="" disabled>Select Dealer</option>
-                <option *ngFor="let dealer of dealerList()" [value]="dealer.dealer_id">
-                  {{ dealer.dealer_code }}
-                </option>
-              </select>
-              <div class="text-danger" *ngIf="useForm.get('dealer_code')?.touched && useForm.get('dealer_code')?.invalid">
-                <span>Dealer is required.</span>
-              </div>
-            </div> -->
-            <div class="col-md-6 form-group" [formGroup]="useForm">
+             <div class="col-md-6 form-group" >
               <label for="dealer_code" class="form-label">Dealer Code</label>
               <select
                 id="dealer_code"

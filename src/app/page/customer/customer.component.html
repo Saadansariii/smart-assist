@@ -19,7 +19,7 @@
         <a
           style="cursor: pointer; color: white !important"
           (click)="openModal()"
-          data-target="#exampleModalCenter"
+          data-target=".bd-example-modal-lg"
           data-toggle="modal"
           class="btn btn-primary light btn-lg btn-block rounded shadow px-2 buttons"
           ><i class="fa fa-plus mr-1"></i>Add Account</a
@@ -33,40 +33,6 @@
           </h3>
         </div>
       </div>
-      <!-- <div class="col-xl-10">
-      <div class="card m-0">
-        <div class="card-body py-3 py-md-2">
-          <div class="row align-items-center">
-            <div class="col-md-5 mb-3 mb-md-0">
-              <div class="media align-items-end">
-                <span class="mr-2 mb-1">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g clip-path="url(#clip0)"></g>
-                    <defs>
-                      <clipPath id="clip0">
-                        <rect width="24" height="24" fill="white" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                </span>
-                <div class="media-body ml-1">
-                  <p class="mb-1 fs-14">Total Customers</p>
-                  <h3 class="mb-0 text-black font-w600 fs-20">
-                    {{ totalCustomer() }}
-                  </h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
     </div>
 
     <!-- Api integration work start here -->
@@ -99,44 +65,18 @@
                 <td class="d-flex">
                   <a
                     href="javascript:void(0);"
-                    data-target="#exampleModalCenter"
+                    type="button"
+                    data-target=".bd-example-modal-lg"
                     data-toggle="modal"
-                    (click)="openModal(customer)"
+                    (click)="openModal(customer)" 
                     class="btn btn-primary shadow btn-xs sharp mr-1"
                     ><i class="fa fa-pencil"></i
                   ></a>
-                  <!-- <a
-                  href="javascript:void(0);"
-                  data-target="#exampleModalCenter"
-                  data-toggle="modal"
-                  (click)="openModal(customer)"
-                >
-                  <svg
-                    width="25"
-                    height="24"
-                    viewBox="0 0 25 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M17.2557 2.99994C17.5201 2.73729 17.8341 2.52895 18.1796 2.38681C18.5251 2.24467 18.8954 2.17151 19.2694 2.17151C19.6433 2.17151 20.0136 2.24467 20.3591 2.38681C20.7046 2.52895 21.0186 2.73729 21.283 2.99994C21.5474 3.26258 21.7572 3.57438 21.9003 3.91754C22.0434 4.2607 22.1171 4.6285 22.1171 4.99994C22.1171 5.37137 22.0434 5.73917 21.9003 6.08233C21.7572 6.42549 21.5474 6.73729 21.283 6.99994L7.69086 20.4999L2.15332 21.9999L3.66356 16.4999L17.2557 2.99994Z"
-                      stroke="#A0A0A0"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </a> -->
-                  <!-- <a
-                  (click)="deleteCustomerId(customer.account_id || '')"
-                  href="javascript:void(0);"
-                  class="btn btn-danger shadow btn-xs sharp"
-                  ><i class="fa fa-trash"></i
-                ></a> -->
+
                   <a
                     href="javascript:void(0);"
                     type="button"
-                    class="btn btn-primary mr-2"
+                    class="btn btn-primary mb-2"
                     data-toggle="modal"
                     data-target=".bd-example-modal-sm"
                     class="btn btn-danger shadow btn-xs sharp"
@@ -177,34 +117,6 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <a
-                  href="javascript:void(0);"
-                  class="ml-4"
-                  (click)="deleteCustomerId(customer.account_id)"
-                >
-                  <svg
-                    width="25"
-                    height="24"
-                    viewBox="0 0 25 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M3.50195 5.99994H5.5156H21.6248"
-                      stroke="#A0A0A0"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M8.5361 5.99994V3.99994C8.5361 3.46951 8.74826 2.9608 9.12589 2.58573C9.50352 2.21065 10.0157 1.99994 10.5498 1.99994H14.5771C15.1111 1.99994 15.6233 2.21065 16.0009 2.58573C16.3786 2.9608 16.5907 3.46951 16.5907 3.99994V5.99994M19.6112 5.99994V19.9999C19.6112 20.5304 19.399 21.0391 19.0214 21.4142C18.6438 21.7892 18.1316 21.9999 17.5975 21.9999H7.52928C6.99522 21.9999 6.48304 21.7892 6.10541 21.4142C5.72778 21.0391 5.51563 20.5304 5.51562 19.9999V5.99994H19.6112Z"
-                      stroke="#A0A0A0"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </a> -->
                 </td>
               </tr>
               }
@@ -217,380 +129,235 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" style="margin-block: 2em">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+<div
+  class="modal fade bd-example-modal-lg custom-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5
           class="modal-title"
           style="align-items: center; margin-inline: auto"
         >
-          Add New Customers
+          Add New Account
         </h5>
         <button type="button" class="close" data-dismiss="modal">
-          <span>&times;</span>
+          <span class="x">&times;</span>
         </button>
       </div>
 
-      <!-- <div [formGroup]="useForm" style="margin-inline: 1em; margin-bottom: 1em">
-        <select
-          class="form-control form-control-lg"
-          [(ngModel)]="customerObj.account_type"
-          [ngModelOptions]="{ standalone: true }"
-          [ngClass]="{'is-invalid': useForm.get('account_type')?.touched && useForm.get('account_type')?.invalid}"
-        >
-          <option value="" disabled selected>Account Type</option>
-          <option value="Individual" selected>Individual</option>
-          <option value="Corporate">Corporate</option>
-          <option value="Retailer">Retailer</option>
-        </select>
-         <div
-            class="text-danger"
-            *ngIf="
-              useForm.get('account_type')?.touched &&
-              useForm.get('account_type')?.invalid
-            "
-          >
-            <span>Account Type is required.</span>
+      <div class="modal-body" [formGroup]="useForm">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <select
+              class="form-control form-control-lg"
+              formControlName="account_type"
+              [(ngModel)]="customerObj.account_type"
+              [ngClass]="{
+                'is-invalid':
+                  useForm.get('account_type')?.touched &&
+                  useForm.get('account_type')?.invalid
+              }"
+            >
+              <option value="null" disabled>Select Account Type</option>
+              <option value="Individual">Individual</option>
+              <option value="Corporate">Corporate</option>
+              <option value="Retailer">Retailer</option>
+            </select>
+            <div
+              class="text-danger"
+              *ngIf="
+                useForm.get('account_type')?.touched &&
+                useForm.get('account_type')?.invalid
+              "
+            >
+              <span>Account Type is required.</span>
+            </div>
           </div>
-      </div> -->
 
-      <div [formGroup]="useForm" style="margin-inline: 1em; margin-bottom: 1em">
-        <select
-          class="form-control form-control-lg"
-          formControlName="account_type"
-          [(ngModel)]="customerObj.account_type"
-          [ngClass]="{
-            'is-invalid':
-              useForm.get('account_type')?.touched &&
-              useForm.get('account_type')?.invalid
-          }"
-        >
-          <option value="" disabled>Select Account Type</option>
-          <option value="Individual">Individual</option>
-          <option value="Corporate">Corporate</option>
-          <option value="Retailer">Retailer</option>
-        </select>
-        <div
-          class="text-danger"
-          *ngIf="
-            useForm.get('account_type')?.touched &&
-            useForm.get('account_type')?.invalid
-          "
-        >
-          <span>Account Type is required.</span>
+          <div class="form-group col-md-6">
+            <input
+              class="form-control form-control-lg"
+              type="text"
+              placeholder="First Name"
+              formControlName="fname"
+              [(ngModel)]="customerObj.fname"
+              [ngClass]="{
+                'is-invalid':
+                  useForm.get('fname')?.touched && useForm.get('fname')?.invalid
+              }"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                useForm.get('fname')?.touched && useForm.get('fname')?.invalid
+              "
+            >
+              <span *ngIf="useForm.get('fname')?.errors?.['required']"
+                >First Name is required.</span
+              >
+              <span *ngIf="useForm.get('fname')?.errors?.['minlength']"
+                >First Name must be at least 3 characters long.</span
+              >
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div [formGroup]="useForm" style="margin-inline: 1em">
-        <input
-          class="form-control form-control-lg"
-          type="text"
-          placeholder="First Name"
-          formControlName="fname"
-          [(ngModel)]="customerObj.fname"
-          [ngClass]="{
-            'is-invalid':
-              useForm.get('fname')?.touched && useForm.get('fname')?.invalid
-          }"
-        />
-        <div
-          class="text-danger"
-          *ngIf="useForm.get('fname')?.touched && useForm.get('fname')?.invalid"
-        >
-          <span *ngIf="useForm.get('fname')?.errors?.['required']"
-            >First Name is required.</span
-          >
-          <span *ngIf="useForm.get('fname')?.errors?.['minlength']"
-            >First Name must be at least 3 characters long.</span
-          >
+        <div class="row">
+          <div class="form-group col-md-6">
+            <input
+              class="form-control form-control-lg"
+              type="text"
+              placeholder="Last Name"
+              formControlName="lname"
+              [(ngModel)]="customerObj.lname"
+              [ngClass]="{
+                'is-invalid':
+                  useForm.get('lname')?.touched && useForm.get('lname')?.invalid
+              }"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                useForm.get('lname')?.touched && useForm.get('lname')?.invalid
+              "
+            >
+              <span *ngIf="useForm.get('lname')?.errors?.['required']"
+                >Last Name is required.</span
+              >
+              <span *ngIf="useForm.get('lname')?.errors?.['minlength']"
+                >Last Name must be at least 3 characters long.</span
+              >
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <select
+              id="dealer_code"
+              class="form-select form-control form-control-lg"
+              formControlName="dealer_code"
+              [disabled]="useForm.get('account_id')?.value"
+              [ngClass]="{
+                'is-invalid':
+                  useForm.get('dealer_code')?.touched &&
+                  useForm.get('dealer_code')?.invalid
+              }"
+              (change)="onDealerChange()"
+            >
+              <option value="null" disabled>Select Dealer</option>
+              <option
+                *ngFor="let dealer of dealerList()"
+                [value]="dealer.dealer_id"
+              >
+                {{ dealer.dealer_code }}
+              </option>
+            </select>
+
+            <div
+              class="text-danger"
+              *ngIf="
+                useForm.get('dealer_code')?.touched &&
+                useForm.get('dealer_code')?.invalid
+              "
+            >
+              <span>Dealer is required.</span>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <!-- <div [formGroup]="useForm" class=" " style="margin-inline: 1em">
-        <input
-          class="form-control form-control-lg"
-          type="text"
-          placeholder="First Name"
-          [(ngModel)]="customerObj.fname"
-          [ngClass]="{
-            'is-invalid':
-              useForm.get('fname')?.touched && useForm.get('fname')?.invalid
-          }"
-        />
-        <div
-          class="text-danger"
-          *ngIf="useForm.get('fname')?.touched && useForm.get('fname')?.invalid"
-        >
-          <span>Account Type is required.</span>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <input
+              class="form-control form-control-lg"
+              type="email"
+              placeholder="E-mail"
+              formControlName="email"
+              [(ngModel)]="customerObj.email"
+              [ngClass]="{
+                'is-invalid':
+                  useForm.get('email')?.touched && useForm.get('email')?.invalid
+              }"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                useForm.get('email')?.touched && useForm.get('email')?.invalid
+              "
+            >
+              <span *ngIf="useForm.get('email')?.errors?.['required']"
+                >Email is required.</span
+              >
+              <span *ngIf="useForm.get('email')?.errors?.['email']"
+                >Please enter a valid email.</span
+              >
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <input
+              class="form-control form-control-lg"
+              type="text"
+              placeholder="Phone"
+              formControlName="phone"
+              [(ngModel)]="customerObj.phone"
+              [ngClass]="{
+                'is-invalid':
+                  useForm.get('phone')?.touched && useForm.get('phone')?.invalid
+              }"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                useForm.get('phone')?.touched && useForm.get('phone')?.invalid
+              "
+            >
+              <span *ngIf="useForm.get('phone')?.errors?.['required']"
+                >Phone is required.</span
+              >
+              <span *ngIf="useForm.get('phone')?.errors?.['minlength']"
+                >Phone must be at least 3 characters long.</span
+              >
+              <span *ngIf="useForm.get('phone')?.errors?.['pattern']"
+                >Phone must contain only numbers.</span
+              >
+            </div>
+          </div>
         </div>
-      </div> -->
 
-      <!-- <div
-        [formGroup]="useForm"
-        class=" "
-        style="margin-inline: 1em; margin-top: 1em"
-      >
-        <input
-          class="form-control form-control-lg"
-          type="text"
-          placeholder="Last Name"
-          [(ngModel)]="customerObj.lname"
-          [ngClass]="{
-            'is-invalid':
-              useForm.get('lname')?.touched && useForm.get('lname')?.invalid
-          }"
-        />
-        <div
-          class="text-danger"
-          *ngIf="useForm.get('lname')?.touched && useForm.get('lname')?.invalid"
-        >
-          <span>Account Type is required.</span>
-        </div>
-      </div> -->
-
-      <div [formGroup]="useForm" style="margin-inline: 1em; margin-top: 1em">
-        <input
-          class="form-control form-control-lg"
-          type="text"
-          placeholder="Last Name"
-          formControlName="lname"
-          [(ngModel)]="customerObj.lname"
-          [ngClass]="{
-            'is-invalid':
-              useForm.get('lname')?.touched && useForm.get('lname')?.invalid
-          }"
-        />
-        <div
-          class="text-danger"
-          *ngIf="useForm.get('lname')?.touched && useForm.get('lname')?.invalid"
-        >
-          <span *ngIf="useForm.get('lname')?.errors?.['required']"
-            >Last Name is required.</span
-          >
-          <span *ngIf="useForm.get('lname')?.errors?.['minlength']"
-            >Last Name must be at least 3 characters long.</span
-          >
-        </div>
-      </div>
-
-      <!-- <div
-        [formGroup]="useForm"
-        class=""
-        style="margin-inline: 1em; margin-top: 1em"
-      >
-        <select
-          id="dealerSelect"
-          class="form-select form-control form-control-lg"
-          [(ngModel)]="customerObj.dealer_id"
-          [ngModelOptions]="{ standalone: true }"
-          (change)="onDealerChange()"
-          [disabled]="!!customerObj.account_id"
-          [ngClass]="{
-            'custom-disabled': !!dealerObj.dealer_id,
-            'is-invalid':
-              useForm.get('dealer_code')?.touched &&
-              useForm.get('dealer_code')?.invalid
-          }"
-        >
-          <option value="" disabled>Select Dealer</option>
-          <option
-            *ngFor="let dealer of dealerList()"
-            [value]="dealer.dealer_id"
-          >
-            {{ dealer.dealer_code }}
-          </option>
-        </select>
-        <div
-          class="text-danger"
-          *ngIf="
-            useForm.get('dealer_code')?.touched &&
-            useForm.get('dealer_code')?.invalid
-          "
-        >
-          <span>Account Type is required.</span>
-        </div>
-      </div> -->
-
-      <div [formGroup]="useForm" style="margin-inline: 1em; margin-top: 1em">
-        <select
-          id="dealer_code"
-          class="form-select form-control form-control-lg"
-          formControlName="dealer_code"
-          [disabled]="useForm.get('account_id')?.value"
-          [ngClass]="{
-            'is-invalid':
-              useForm.get('dealer_code')?.touched &&
-              useForm.get('dealer_code')?.invalid
-          }"
-          (change)="onDealerChange()"
-        >
-          <option value="" disabled>Select Dealer</option>
-          <option
-            *ngFor="let dealer of dealerList()"
-            [value]="dealer.dealer_id"
-          >
-            {{ dealer.dealer_code }}
-          </option>
-        </select>
-
-        <div
-          class="text-danger"
-          *ngIf="
-            useForm.get('dealer_code')?.touched &&
-            useForm.get('dealer_code')?.invalid
-          "
-        >
-          <span>Dealer is required.</span>
-        </div>
-      </div>
-
-      <!-- <div [formGroup]="useForm" class=" " style="margin: 1em">
-        <input
-          class="form-control form-control-lg"
-          type="text"
-          placeholder="E-mail"
-          [(ngModel)]="customerObj.email"
-          [ngClass]="{
-            'is-invalid':
-              useForm.get('email')?.touched && useForm.get('email')?.invalid
-          }"
-        />
-        <div
-          class="text-danger"
-          *ngIf="useForm.get('email')?.touched && useForm.get('email')?.invalid"
-        >
-          <span>Account Type is required.</span>
-        </div>
-      </div> -->
-
-      <div [formGroup]="useForm" style="margin-inline: 1em; margin-top: 1rem">
-        <input
-          class="form-control form-control-lg"
-          type="email"
-          placeholder="E-mail"
-          formControlName="email"
-          [(ngModel)]="customerObj.email"
-          [ngClass]="{
-            'is-invalid':
-              useForm.get('email')?.touched && useForm.get('email')?.invalid
-          }"
-        />
-        <div
-          class="text-danger"
-          *ngIf="useForm.get('email')?.touched && useForm.get('email')?.invalid"
-        >
-          <span *ngIf="useForm.get('email')?.errors?.['required']"
-            >Email is required.</span
-          >
-          <span *ngIf="useForm.get('email')?.errors?.['email']"
-            >Please enter a valid email.</span
-          >
-        </div>
-      </div>
-
-      <!-- <div [formGroup]="useForm" class=" " style="margin-inline: 1em">
-        <input
-          class="form-control form-control-lg"
-          type="text"
-          placeholder="Phone"
-          [(ngModel)]="customerObj.phone"
-          [ngClass]="{
-            'is-invalid':
-              useForm.get('phone')?.touched && useForm.get('phone')?.invalid
-          }"
-        />
-        <div
-          class="text-danger"
-          *ngIf="
-            useForm.get('account_type')?.touched &&
-            useForm.get('account_type')?.invalid
-          "
-        >
-          <span>Account Type is required.</span>
-        </div>
-      </div> -->
-
-      <div [formGroup]="useForm" style="margin-inline: 1em; margin-top: 1rem">
-        <input
-          class="form-control form-control-lg"
-          type="text"
-          placeholder="Phone"
-          formControlName="phone"
-          [(ngModel)]="customerObj.phone"
-          [ngClass]="{
-            'is-invalid':
-              useForm.get('phone')?.touched && useForm.get('phone')?.invalid
-          }"
-        />
-        <div
-          class="text-danger"
-          *ngIf="useForm.get('phone')?.touched && useForm.get('phone')?.invalid"
-        >
-          <span *ngIf="useForm.get('phone')?.errors?.['required']"
-            >Phone is required.</span
-          >
-          <span *ngIf="useForm.get('phone')?.errors?.['minlength']"
-            >Phone must be at least 3 characters long.</span
-          >
-          <span *ngIf="useForm.get('phone')?.errors?.['pattern']"
-            >Phone must contain only numbers.</span
-          >
-        </div>
-      </div>
-
-      <!-- <div
-        [formGroup]="useForm"
-        class=" "
-        style="margin-inline: 1em; margin-top: 1em"
-      >
-        <input
-          class="form-control form-control-lg"
-          type="text"
-          placeholder="Mobile"
-          [(ngModel)]="customerObj.mobile"
-          [ngClass]="{
-            'is-invalid':
-              useForm.get('mobile')?.touched && useForm.get('mobile')?.invalid
-          }"
-        />
-        <div
-          class="text-danger"
-          *ngIf="
-            useForm.get('mobile')?.touched && useForm.get('mobile')?.invalid
-          "
-        >
-          <span>Account Type is required.</span>
-        </div>
-      </div> -->
-
-      <div [formGroup]="useForm" style="margin-inline: 1em; margin-top: 1em">
-        <input
-          class="form-control form-control-lg"
-          type="text"
-          placeholder="Mobile"
-          formControlName="mobile"
-          [(ngModel)]="customerObj.mobile"
-          [ngClass]="{
-            'is-invalid':
-              useForm.get('mobile')?.touched && useForm.get('mobile')?.invalid
-          }"
-        />
-        <div
-          class="text-danger"
-          *ngIf="
-            useForm.get('mobile')?.touched && useForm.get('mobile')?.invalid
-          "
-        >
-          <span *ngIf="useForm.get('mobile')?.errors?.['required']"
-            >Mobile is required.</span
-          >
-          <span *ngIf="useForm.get('mobile')?.errors?.['minlength']"
-            >Mobile must be at least 3 characters long.</span
-          >
-          <span *ngIf="useForm.get('mobile')?.errors?.['pattern']"
-            >Mobile must contain only numbers.</span
-          >
+        <div class="row">
+          <div class="form-group col-md-6">
+            <input
+              class="form-control form-control-lg"
+              type="text"
+              placeholder="Mobile"
+              formControlName="mobile"
+              [(ngModel)]="customerObj.mobile"
+              [ngClass]="{
+                'is-invalid':
+                  useForm.get('mobile')?.touched &&
+                  useForm.get('mobile')?.invalid
+              }"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                useForm.get('mobile')?.touched && useForm.get('mobile')?.invalid
+              "
+            >
+              <span *ngIf="useForm.get('mobile')?.errors?.['required']"
+                >Mobile is required.</span
+              >
+              <span *ngIf="useForm.get('mobile')?.errors?.['minlength']"
+                >Mobile must be at least 3 characters long.</span
+              >
+              <span *ngIf="useForm.get('mobile')?.errors?.['pattern']"
+                >Mobile must contain only numbers.</span
+              >
+            </div>
+          </div>
         </div>
       </div>
       <!-- model footer buttons  -->

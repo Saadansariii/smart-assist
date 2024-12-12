@@ -1,5 +1,5 @@
 export class Accounts {
-  account_id?: string;
+  account_id: string;
   account_type: string;
   salutation: null;
   fname: string;

@@ -301,6 +301,19 @@ export class CustomerComponent implements OnInit {
     this.openModal(user);
   }
 
+  // onEdit(id : string){
+  //   this.masterSrv.(id).subscribe({
+  //     next: (res: Accounts) => {
+  //       this.customerObj = res;
+  //       this.openModal(res);
+  //     },
+  //     error: (err) => {
+  //       console.error('User fetch error:', err);
+  //       this.toastr.error('Failed to fetch user details', 'Error');
+  //     },
+  //   });
+  // }
+
   onSave() {
     if (this.useForm.invalid) {
       console.log('form is invalid', this.useForm);

@@ -156,14 +156,14 @@
                         <div class="modal-footer">
                           <button
                             type="button"
-                            class="btn btn-outline-danger"
+                            class="btn btn-outline-primary "
                             data-dismiss="modal"
                           >
                             Cancle
                           </button>
                           <button
                             type="button"
-                            class="btn btn-outline-primary"
+                            class="btn btn-outline-danger"
                             (click)="deleteUserId()"
                             data-dismiss="modal"
                           >
@@ -198,7 +198,7 @@
           {{ userObj.user_id ? "Edit User" : "Add New User" }}
         </h5>
         <button type="button" class="close" data-dismiss="modal">
-          <span>&times;</span>
+          <span class="x">&times;</span>
         </button>
       </div>
 
@@ -287,6 +287,9 @@
                 <span *ngIf="useForm.get('account_id')?.errors?.['minlength']"
                   >Must be at least 12 characters long.</span
                 >
+                <span *ngIf="useForm.get('account_id')?.errors?.['pattern']"
+                  >Only numbers are allowed.</span
+                >
               </div>
             </div>
 
@@ -352,7 +355,6 @@
                 class="form-control form-control-lg"
                 formControlName="dealer_code"
                 (change)="onDealerChange()"
-                [disabled]="!!userObj.user_id"
                 [ngClass]="{
                   'is-invalid':
                     useForm.get('dealer_code')?.touched &&
@@ -362,9 +364,7 @@
                 <option value="null" disabled>Select Dealer</option>
                 <option
                   *ngFor="let dealer of dealerList()"
-                  [value]="
-                    userObj.user_id ? dealer.dealer_id : dealer.dealer_code
-                  "
+                  [value]="dealer.dealer_code"
                 >
                   {{ dealer.dealer_code }}
                 </option>
@@ -387,14 +387,17 @@
                 id="phone"
                 class="form-control form-control-lg"
                 formControlName="phone"
-                placeholder="Phone"
+                placeholder="Phone" 
                 [ngClass]="{
                   'is-invalid':
                     useForm.get('phone')?.touched &&
                     useForm.get('phone')?.invalid
                 }"
+                maxlength="10"
+                (keypress)="restrictToNumbers($event)"
               />
-              <div
+              <!-- <div
+
                 class="text-danger"
                 *ngIf="
                   useForm.get('phone')?.touched && useForm.get('phone')?.invalid
@@ -406,9 +409,28 @@
                 <span *ngIf="useForm.get('phone')?.errors?.['minlength']"
                   >Must be at least 10 characters.</span
                 >
+                <span *ngIf="useForm.get('phone')?.errors?.['maxlength']"
+                  >Must be at least 10 characters.</span
+                >
                 <span *ngIf="useForm.get('phone')?.errors?.['pattern']"
                   >Only numbers are allowed.</span
                 >
+              </div> -->
+              <div
+                class="text-danger"
+                *ngIf="
+                  useForm.get('phone')?.touched && useForm.get('phone')?.invalid
+                "
+              >
+                <span *ngIf="useForm.get('phone')?.errors?.['required']">
+                  Phone is required.
+                </span>
+                <span *ngIf="useForm.get('phone')?.errors?.['maxlength']">
+                  Must not exceed 10 characters.
+                </span>
+                <span *ngIf="useForm.get('phone')?.errors?.['pattern']">
+                  Only numbers are allowed.
+                </span>
               </div>
             </div>
           </div>
@@ -416,54 +438,16 @@
       </div>
 
       <div class="modal-footer">
-        <!-- <button
-          type="button"
-          class="btn btn-outline-primary"
-           [disabled]="
-              !userObj.name ||
-              !userObj.email ||
-              !userObj.email ||
-              !userObj.dealer_code ||
-              !userObj.phone ||
-              !userObj.role
-            "
-          (click)="userObj.user_id ? onUpdate() : onSave()"
-          [attr.data-dismiss]="useForm.valid ? 'modal' : null"
-        >
-          {{ userObj.user_id ? "Update" : "Create" }}
-        </button> -->
-        <div>
-          <!-- Save Button -->
-          <button
-            *ngIf="!useForm.controls['dealer_code']?.value"
-            type="button"
-            class="btn btn-outline-primary"
-            (click)="onSave()"
-            [attr.data-dismiss]="useForm.valid ? 'modal' : null"
-          >
-            Save
-          </button>
+       
 
-          <!-- Edit Button -->
-          <button
-            *ngIf="useForm.controls['dealer_code']?.value"
-            type="button"
-            class="btn btn-outline-primary"
-            (click)="onUpdate()"
-            [disabled]="!isEmailChange()"
-          >
-            Edit
-          </button>
-        </div>
-
-        <!-- <ng-container *ngIf="userObj.user_id; else saveButton">
+        <ng-container *ngIf="isEditMode; else saveButton">
           <button
             type="button"
             class="btn btn-outline-primary"
             (click)="onUpdate()"
-            [disabled]="!isEmailChange()"
+            [disabled]="useForm.invalid"
           >
-            Edit
+            Update
           </button>
         </ng-container>
         <ng-template #saveButton>
@@ -471,11 +455,10 @@
             type="button"
             class="btn btn-outline-primary"
             (click)="onSave()"
-            [attr.data-dismiss]="useForm.valid ? 'modal' : null"
           >
-            save
+            Save
           </button>
-        </ng-template> -->
+        </ng-template>
         <button
           type="button"
           class="btn btn-outline-danger"

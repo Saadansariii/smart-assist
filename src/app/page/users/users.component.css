@@ -108,3 +108,8 @@ span {
     margin-bottom: 0.5rem;
   }
 }
+
+.x{ 
+  font-size: 20px !important;
+  font-weight: 500;
+}

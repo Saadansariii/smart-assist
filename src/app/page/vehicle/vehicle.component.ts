@@ -1,9 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal, Signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { DataTablesModule } from 'angular-datatables';
 import { Config } from 'datatables.net';
-import { FormControl, FormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { VehicleResponse } from '../../model/interface/master';
 import { Vehicles } from '../../model/class/vehicle';
 import { MasterService } from '../../service/master.service';
@@ -11,14 +17,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CalendarModule } from 'primeng/calendar';
 import { ToastrService } from 'ngx-toastr';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import $ from 'jquery'; 
 import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { error } from 'node:console';
-
+import { AleartSrvService } from '../../service/aleart-srv.service';
 
 @Component({
   selector: 'app-vehicle',
@@ -33,7 +35,6 @@ import { error } from 'node:console';
     MatInputModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    CalendarModule,
     SweetAlert2Module,
     NgbModalModule,
   ],
@@ -41,122 +42,157 @@ import { error } from 'node:console';
   styleUrl: './vehicle.component.css',
 })
 export class VehicleComponent implements OnInit {
+  // Signals for reactive state management
   count = signal<number>(0);
-
   vehicleList = signal<Vehicles[]>([]);
-  masterSrv = inject(MasterService);
-  vehicleObj: Vehicles = new Vehicles();
+
+  // Dependency Injections
+  private masterSrv = inject(MasterService);
   private readonly toastr = inject(ToastrService);
+  private modalService = inject(NgbModal);
+
+  // Component State Variables
+  vehicleObj: Vehicles = new Vehicles();
   dtOptions: Config = {};
-  items: any;
-  formGroup: FormGroup | undefined;
-
-  date: Date | undefined;
-
-  ngOnInit(): void {
-    this.displayAllVehicle();
-  }
-
   isModalVisible = false;
-  useForm: FormGroup = new FormGroup({});
+  isEditMode = false;
   previousValue: string = '';
 
-  constructor(private modalService: NgbModal) {
-    this.initializeform();
+  // Form Group
+  useForm: FormGroup = new FormGroup({});
+
+  constructor() {
+    this.initializeForm();
   }
 
-  initializeform() {
+  ngOnInit(): void {
+    this.loadVehicles();
+  }
+
+  // Initialize Reactive Form
+  private initializeForm(): void {
     this.useForm = new FormGroup({
-      vehicle_name: new FormControl(this.vehicleObj.vehicle_name, [
+      vehicle_name: new FormControl('', [
         Validators.required,
         Validators.minLength(2),
+        Validators.maxLength(50),
       ]),
-      VIN: new FormControl(this.vehicleObj.VIN, [
+      VIN: new FormControl('', [
         Validators.required,
         Validators.minLength(5),
+        Validators.maxLength(20),
       ]),
-      type: new FormControl(this.vehicleObj.type, [Validators.required]),
-      YOM: new FormControl(this.formatDate(this.vehicleObj.YOM), [
-        Validators.required,
-      ]),
+      type: new FormControl('', [Validators.required]),
+      YOM: new FormControl('', [Validators.required]),
     });
   }
 
-  isVehicleName(): boolean {
-    return this.useForm.value.vehicle_name !== this.previousValue;
+  // Load All Vehicles
+  private loadVehicles(): void {
+    this.masterSrv.getAllVehicle().subscribe({
+      next: (res: VehicleResponse) => {
+        this.count.set(res.count);
+        this.vehicleList.set(res.rows);
+      },
+      error: (err) => {
+        this.toastr.error('Failed to load vehicles', 'Error');
+        console.error('Vehicle load error:', err);
+      },
+    });
   }
 
-  openModal(vehicle?: Vehicles) {
-    if (vehicle) {
-      this.previousValue = vehicle.vehicle_name;
-    }
+  // Open Modal for Add/Edit
+  openModal(vehicle?: Vehicles): void {
+    // Reset form and mode
     this.useForm.reset();
+    this.isEditMode = !!vehicle;
+
+    if (vehicle) {
+      // Populate form for edit
+      this.vehicleObj = { ...vehicle };
+      this.previousValue = vehicle.vehicle_name;
+
+      this.useForm.patchValue({
+        vehicle_name: vehicle.vehicle_name,
+        VIN: vehicle.VIN,
+        type: vehicle.type,
+        YOM: this.formatDate(vehicle.YOM),
+      });
+
+      // Disable VIN for edit mode
+      this.useForm.get('VIN')?.disable();
+      this.useForm.get('YOM')?.disable();
+    } else {
+      // Reset for add mode
+      this.vehicleObj = new Vehicles();
+      this.useForm.get('VIN')?.enable();
+      this.useForm.get('YOM')?.enable();
+    }
+
     this.isModalVisible = true;
-    this.vehicleObj = vehicle
-      ? { ...vehicle }
-      : {
-          YOM: '',
-          vehicle_name: '',
-          type: '',
-          VIN: '',
-          vehicle_id: '',
-          created_at: '',
-          updated_at: '',
-          corporate_id: '',
-          deleted: false,
-        };
   }
 
-  // trackByIndex(index: number, vehicle: any): number {
-  //   return vehicle.vehicle_id; // Use a unique identifier
-  // }
+  // Close Modal
 
   closeModal() {
     ($('.bd-example-modal-lg') as any).modal('hide');
-    this.isModalVisible = false;
   }
 
-  // The users that will be displayed
-  // Method to update the displayed users when the dropdown changes
-
-  displayAllVehicle() {
-    this.masterSrv.getAllVehicle().subscribe((res: VehicleResponse) => {
-      this.count.set(res.count);
-      this.vehicleList.set(res.rows);
-    });
-  }
-
-  onSave() {
+  // Save New Vehicle
+  onSave(): void {
     if (this.useForm.invalid) {
-      console.log('Form is invalid', this.useForm);
-      this.useForm.markAllAsTouched(); // Mark all  
-      return; // If form is invalid, do not proceed
+      this.markFormGroupTouched(this.useForm);
+      this.toastr.warning(
+        'Please fill all required fields correctly',
+        'Validation'
+      );
+      return;
     }
 
-    // If form is valid, call the API to create the vehicle
-    this.createVehicle();
-    ($('.bd-example-modal-lg') as any).modal('hide');
-    console.log('Form is valid. Proceeding with API call.');
-  }
+    // Prepare submission data
+    const submitData = this.useForm.getRawValue();
 
-  createVehicle() {
-    console.log('Creating vehicle with the following data:', this.vehicleObj);
-    // this.isEditMode = true;
-    this.masterSrv.createNewVehicle(this.useForm.value).subscribe({
+    this.masterSrv.createNewVehicle(submitData).subscribe({
       next: () => {
-        this.toastr.success('new vehicle created!', 'Success');
-        this.displayAllVehicle();
+        this.toastr.success('Vehicle Created Successfully!', 'Success');
+        this.loadVehicles();
         this.closeModal();
       },
       error: (err) => {
-        this.toastr.error(
-          'Please Enter The Valid Response',
-          'Validation Error'
-        );
+        this.toastr.error('Failed to create vehicle', 'Error');
+        console.error('Vehicle creation error:', err);
       },
     });
   }
 
+  // Update Existing Vehicle
+  onUpdate(): void {
+    if (this.useForm.invalid) {
+      this.markFormGroupTouched(this.useForm);
+      this.toastr.warning('Please correct the form errors', 'Validation');
+      return;
+    }
+
+    // Prepare update data
+    const updateData = {
+      ...this.useForm.getRawValue(),
+      vehicle_id: this.vehicleObj.vehicle_id,
+    };
+
+    this.masterSrv.updateVehicle(updateData).subscribe({
+      next: () => {
+        this.toastr.success('Vehicle Updated Successfully!', 'Success');
+        this.loadVehicles();
+        this.closeModal();
+      },
+      error: (err) => {
+        this.toastr.error('Failed to update vehicle', 'Error');
+        console.error('Vehicle update error:', err);
+      },
+    });
+  }
+
+  // Delete Vehicle
   selectedVehicleForDeletion: Vehicles | null = null;
 
   selectVehicleForDeletion(vehicle: Vehicles) {
@@ -172,7 +208,8 @@ export class VehicleComponent implements OnInit {
         .deleteVehicle(this.selectedVehicleForDeletion.vehicle_id)
         .subscribe(
           (res: VehicleResponse) => {
-            this.displayAllVehicle();
+            this.loadVehicles();
+            this.toastr.success('Vehicle Delete Successfully!', 'Success');
           },
           (error) => {
             alert(error.message || 'Failed to delete vehicle');
@@ -183,52 +220,44 @@ export class VehicleComponent implements OnInit {
     }
   }
 
-  onUpdate() {
-    // this.isEditMode = false;
-    this.displayAllVehicle();
-    this.masterSrv.updateVehicle(this.vehicleObj).subscribe(
-      (res: VehicleResponse) => {
-        this.toastr.success('update successfully!', 'Success');
-        this.displayAllVehicle();
-        this.closeModal(); 
+  // Edit Single Vehicle
+  onEdit(id: string): void {
+    this.masterSrv.getSingleVehicle(id).subscribe({
+      next: (vehicle: Vehicles) => {
+        this.openModal(vehicle);
       },
-      (error) => {
-        console.error(error.message, 'error');
-      }
-    );
-  }
-
-  onEdit(id: string) {
-    this.openModal();
-    debugger;
-    this.masterSrv.getSingleVehicle(id).subscribe(
-      (res: Vehicles) => {
-        this.vehicleObj = res;
-        console.log('thiss is vehicle res', this.vehicleObj);
-        this.initializeform();
+      error: (err) => {
+        this.toastr.error('Failed to fetch vehicle details', 'Error');
+        console.error('Vehicle fetch error:', err);
       },
-      (error) => {
-        alert('API error');
+    });
+  }
+
+  // Utility Methods
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach((control) => {
+      control.markAsTouched();
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
       }
-    );
+    });
   }
 
-  onDateSelect(event: Event): void {
-    const input = event.target as HTMLInputElement | null; // Safeguard against null
-    const selectedDate = input?.value; // Safely access the value property
-
-    if (selectedDate) {
-      this.vehicleObj.YOM = selectedDate; // Update vehicleObj with the selected date
-      this.useForm.get('YOM')?.setValue(selectedDate); // Sync FormControl value
-    }
-  }
-
-  formatDate(date: string | null | undefined): string {
-    if (!date) return ''; // Handle null or undefined
+  // Date Formatting Utility
+  private formatDate(date: string | null | undefined): string {
+    if (!date) return '';
     const d = new Date(date);
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    return d.toISOString().split('T')[0];
+  }
+
+  // Validation Helpers
+  isFieldInvalid(controlName: string): boolean {
+    const control = this.useForm.get(controlName);
+    return !!(control && control.invalid && (control.dirty || control.touched));
+  }
+
+  isVehicleName(): boolean {
+    return this.useForm.value.vehicle_name !== this.previousValue;
   }
 }

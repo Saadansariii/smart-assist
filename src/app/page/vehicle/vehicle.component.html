@@ -34,40 +34,6 @@
           </h3>
         </div>
       </div>
-      <!-- <div class="col-xl-10">
-      <div class="card m-0">
-        <div class="card-body py-3 py-md-2">
-          <div class="row align-items-center">
-            <div class="col-md-5 mb-3 mb-md-0">
-              <div class="media align-items-end">
-                <span class="mr-2 mb-1">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g clip-path="url(#clip0)"></g>
-                    <defs>
-                      <clipPath id="clip0">
-                        <rect width="24" height="24" fill="white" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                </span>
-                <div class="media-body ml-1">
-                  <p class="mb-1 fs-14">Total Users</p>
-                  <h3 class="mb-0 text-black font-w600 fs-20">
-                    {{ totalVehicle() }}
-                  </h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
     </div>
 
     <!-- Api integration work start here -->
@@ -81,19 +47,6 @@
           >
             <thead>
               <tr>
-                <!-- <th>
-                <div class="checkbox mr-0 align-self-center">
-                  <div class="custom-control custom-checkbox checkbox-info">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="checkAll"
-                      required=""
-                    />
-                    <label class="custom-control-label" for="checkAll"></label>
-                  </div>
-                </div>
-              </th> -->
                 <th>Sr No</th>
                 <th>Vehicle Name</th>
                 <th>Yrs Of Mfg</th>
@@ -137,6 +90,10 @@
                     role="dialog"
                     aria-hidden="true"
                   >
+                    <div class="modal fade bd-example-modal-sm"
+                    tabindex="-1"
+                    role="dialog"
+                    aria-hidden="true">
                     <div class="modal-dialog modal-sm">
                       <div class="modal-content">
                         <div
@@ -166,6 +123,7 @@
                           </button>
                         </div>
                       </div>
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -180,7 +138,6 @@
 </div>
 
 <!-- Modal -->
-<!-- <ng-template #content let-modal></ng-template> -->
 <div
   class="modal fade bd-example-modal-lg custom-modal"
   tabindex="-1"
@@ -202,7 +159,7 @@
           (click)="closeModal()"
           data-dismiss="modal"
         >
-          <span>&times;</span>
+          <span class="x">&times;</span>
         </button>
       </div>
 
@@ -211,11 +168,12 @@
           <div class="col-md-6 form-group">
             <label for="vehicle_name" class="form-label">Vehicle Name*</label>
             <input
+            style="cursor:text;"
               id="vehicle_name"
               class="form-control form-control-lg"
               type="text"
               placeholder="Vehicle Name"
-              formControlName="vehicle_name" 
+              formControlName="vehicle_name"
               [ngClass]="{
                 'is-invalid':
                   useForm.get('vehicle_name')?.touched &&
@@ -233,58 +191,27 @@
             </div>
           </div>
 
-          <!-- <div class="form-group col-md-6">
-            <label for="YOM" class="form-label">YOM</label>
-            <p-calendar
-              id="YOM"
-              formControlName="YOM"
-              [(ngModel)]="vehicleObj.YOM"
-              [showIcon]="true"
-              [showOnFocus]="false"
-              [disabled]="!!vehicleObj.vehicle_id"
-              [ngClass]="{ 'custom-disabled': !!vehicleObj.vehicle_id }"
-              (onSelect)="onDateSelect($event)"
-            ></p-calendar>
-          </div> -->
-           
           <div class="form-group col-md-6">
             <label for="YOM" class="form-label">YOM</label>
             <input
               id="YOM"
               type="date"
               class="form-control form-control-lg"
-              formControlName="YOM" 
-              [disabled]="!!vehicleObj.vehicle_id"
-              [readonly]="!!vehicleObj.vehicle_id"  
-              [ngClass]="{ 'custom-disabled': !!vehicleObj.vehicle_id }"
-               (change)="onDateSelect($event)"
+              formControlName="YOM"
+              style="cursor:text;"
+               
             />
           </div>
         </div>
 
-        <!-- <div [formGroup]="useForm" style="margin-inline: 1em">
-        <label for="validationServer01" class="form-label">Type*</label>
-        <select
-          class="form-control form-control-lg"
-          [(ngModel)]="vehicleObj.type"
-          [ngModelOptions]="{ standalone: true }"
-        >
-          <option value="" disabled selected>Select Type</option>
-          <option value="petrol" selected>Petrol</option>
-          <option value="diesel">Diesel</option>
-          <option value="EV">EV</option>
-        </select>
-           <div class="text-danger" *ngIf="useForm.get('type')?.touched">
-          <span>Type is required.</span>
-        </div>
-      </div> -->
         <div class="row">
           <div class="col-md-6 form-group">
             <label for="typeSelect" class="form-label">Type*</label>
             <select
+            style="cursor: pointer;"
               id="typeSelect"
               formControlName="type"
-              class="form-control form-control-lg" 
+              class="form-control form-control-lg"
               [ngClass]="{
                 'is-invalid':
                   useForm.get('type')?.touched && useForm.get('type')?.invalid
@@ -307,20 +234,17 @@
           </div>
 
           <div class="col-md-6 form-group">
-            <label for="VIN" class="form-label">VIN ID*</label>
+            <label for="VIN" class="form-label">VIN ID</label>
             <input
               id="VIN"
-              class="form-control form-control-lg custom-disabled"
+              class="form-control form-control-lg  "
               type="text"
               placeholder="VIN"
               formControlName="VIN" 
-              [disabled]="!!vehicleObj.vehicle_id"
-              [ngClass]="{
-                'custom-disabled': !!vehicleObj.vehicle_id,
+              [ngClass]="{ 
                 'is-invalid':
                   useForm.get('VIN')?.touched && useForm.get('VIN')?.invalid
-              }"
-              [readOnly]="!!vehicleObj.vehicle_id"
+              }" 
             />
 
             <div
@@ -334,8 +258,9 @@
       </div>
 
       <!-- Modal footer buttons -->
+      <!-- In the modal footer -->
       <div class="modal-footer">
-        <ng-container *ngIf="vehicleObj.vehicle_id; else saveButton">
+        <ng-container *ngIf="isEditMode; else saveButton">
           <button
             type="button"
             class="btn btn-outline-primary"
@@ -346,6 +271,15 @@
           </button>
         </ng-container>
 
+        <ng-template #saveButton>
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            (click)="onSave()" 
+          >
+            Save
+          </button>
+        </ng-template>
         <button
           type="button"
           class="btn btn-outline-danger"
@@ -354,17 +288,6 @@
         >
           Close
         </button>
-
-        <ng-template #saveButton>
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            (click)="onSave()"
-            [attr.data-dismiss]="useForm.valid ? 'modal' : null"
-          >
-            Save
-          </button>
-        </ng-template>
       </div>
     </div>
   </div>

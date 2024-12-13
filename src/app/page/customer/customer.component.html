@@ -363,7 +363,7 @@
       </div>
       <!-- model footer buttons  -->
       <div class="modal-footer">
-        <ng-container *ngIf="customerObj.account_id; else saveButton">
+        <ng-container *ngIf="isEditMode; else saveButton">
           <button
             type="button"
             class="btn btn-outline-primary"

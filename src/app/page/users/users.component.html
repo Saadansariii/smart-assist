@@ -268,11 +268,13 @@
                 class="form-control form-control-lg"
                 formControlName="account_id"
                 placeholder="Account Id"
+                maxlength="12"
                 [ngClass]="{
                   'is-invalid':
                     useForm.get('account_id')?.touched &&
                     useForm.get('account_id')?.invalid
                 }"
+                 (keypress)="restrictToNumbers($event)"
               />
               <div
                 class="text-danger"
@@ -287,9 +289,7 @@
                 <span *ngIf="useForm.get('account_id')?.errors?.['minlength']"
                   >Must be at least 12 characters long.</span
                 >
-                <span *ngIf="useForm.get('account_id')?.errors?.['pattern']"
-                  >Only numbers are allowed.</span
-                >
+                 
               </div>
             </div>
 
@@ -298,6 +298,7 @@
               <label for="email" class="form-label">E-mail</label>
               <input
                 id="email"
+                type="email"
                 class="form-control form-control-lg"
                 formControlName="email"
                 placeholder="E-mail"

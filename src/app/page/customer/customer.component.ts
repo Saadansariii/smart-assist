@@ -39,30 +39,39 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './customer.component.css',
 })
 export class CustomerComponent implements OnInit {
+  // signals for reactive state management
   totalCustomer = signal<number>(0);
   customerList = signal<Accounts[]>([]);
+  dealerList = signal<dealers[]>([]);
+
+  // service injections
   masterSrv = inject(MasterService);
+  private readonly toastr = inject(ToastrService);
+
+  // Form and user management properties
+  useForm: FormGroup = new FormGroup({});
   customerObj: Accounts = new Accounts();
   dealerObj: dealers = new dealers();
-  dealerList = signal<dealers[]>([]);
-  useForm: FormGroup = new FormGroup({});
+  isEditMode : boolean = false;
+
+  // For the Edit button blocked
   previousValue: string = '';
 
   constructor(private modalService: NgbModalModule) {
     this.initializeForm();
   }
 
-  private readonly toastr = inject(ToastrService);
   ngOnInit(): void {
-    this.displayAllCustomer();
-    this.getAllDealer();
+    this.loadCustomers();
+    this.loadDealers();
   }
 
   isModalVisible = false;
 
+  // Form initialize
   initializeForm() {
     this.useForm = new FormGroup({
-      account_id : new FormControl(''),
+      account_id: new FormControl(''),
       account_type: new FormControl(this.customerObj.account_type, [
         Validators.required,
       ]),
@@ -97,9 +106,10 @@ export class CustomerComponent implements OnInit {
 
   openModal(customer?: Accounts) {
     this.useForm.reset();
+    this.isEditMode = !!customer;
     if (customer) {
       this.useForm.patchValue({
-        account_id : this.customerObj.account_id || '',
+        account_id: this.customerObj.account_id || '',
         account_type: this.customerObj.account_type || '',
         fname: this.customerObj.fname || '',
         lname: this.customerObj.lname || '',
@@ -107,69 +117,28 @@ export class CustomerComponent implements OnInit {
         phone: this.customerObj.phone || '',
         mobile: this.customerObj.mobile || '',
         dealer_code: this.customerObj.dealer_code || '', // Ensure only set once
-        dealer_id : this.customerObj.dealer_id || '',
+        dealer_id: this.customerObj.dealer_id || '',
       });
     }
-
-    // if (customer) {
-    //   this.previousValue = customer.email;
-    //   this.useForm.patchValue({ account_name: customer?.account_name });
-
-    //   // Make a copy of the customer object
-    //   this.customerObj = { ...customer };
-
-    //   // Check if dealerList() contains the dealer and log for debugging
-    //   const selectedDealer = this.dealerList().find(
-    //     (dealer) => dealer.dealer_id === customer.dealer_id
-    //   );
-
-    //   // Log for debugging
-    //   console.log('Selected Dealer: ', selectedDealer);
-
-    //   if (selectedDealer) {
-    //     // Ensure dealer_code is set correctly
-    //     this.customerObj.dealer_code = selectedDealer.dealer_code;
-
-    //     // Log to verify dealer_code is being set
-    //     console.log('Setting dealer_code: ', this.customerObj.dealer_code);
-
-    //     // Update the form with customer data, including dealer_code
-    //     this.useForm.patchValue({
-    //       account_type: this.customerObj.account_type || '',
-    //       fname: this.customerObj.fname || '',
-    //       lname: this.customerObj.lname || '',
-    //       email: this.customerObj.email || '',
-    //       phone: this.customerObj.phone || '',
-    //       mobile: this.customerObj.mobile || '',
-    //       dealer_code: this.customerObj.dealer_code || '', // Ensure only set once
-    //     });
-
-    //     // Log after form is patched
-    //     console.log('Form after patching: ', this.useForm.value);
-    //   } else {
-    //     // Log in case dealer was not found
-    //     console.log('Dealer not found for dealer_id: ', customer.dealer_id);
-    //   }
-    // } else {
-    //   this.customerObj = new Accounts();
-    //   this.useForm.reset();
-    // }
-  }
-
-  isEmailChange(): boolean {
-    return this.useForm.value.email !== this.previousValue;
   }
 
   closeModal() {
     ($('.bd-example-modal-lg') as any).modal('hide');
   }
 
-  displayAllCustomer() {
+  // edit button hide if the email not changed..!
+  isEmailChange(): boolean {
+    return this.useForm.value.email !== this.previousValue;
+  }
+
+
+  loadCustomers() {
     this.masterSrv.getCustomer().subscribe((res: AccountsResponse) => {
       this.totalCustomer.set(res.totalAccounts);
       this.customerList.set(res.accounts);
     });
   }
+
 
   getDealerCode(dealerId: string): string {
     const dealer = this.dealerList().find(
@@ -193,7 +162,7 @@ export class CustomerComponent implements OnInit {
     }
   }
 
-  getAllDealer() {
+  loadDealers() {
     this.masterSrv.getAllDealer().subscribe(
       (res: DealerResponse) => {
         this.dealerList.set(res.dealer.rows);
@@ -207,16 +176,15 @@ export class CustomerComponent implements OnInit {
     );
   }
 
-  createCustomer() {
+
+  createAccounts() {
     this.customerObj.phone = Number(this.customerObj.phone);
     this.customerObj.mobile = Number(this.customerObj.mobile);
     this.masterSrv.createCustomer(this.useForm.value).subscribe(
       (res: AccountsResponse) => {
         this.toastr.success('Account created successfully!', 'Success');
-        this.displayAllCustomer();
-        this.closeModal();
-        // this.isModalVisible = false;
-        // window.location.reload();
+        this.loadCustomers();
+        this.closeModal(); 
       },
       (error) => {
         this.toastr.error(error.message, 'Error');
@@ -234,8 +202,6 @@ export class CustomerComponent implements OnInit {
     );
   }
 
- 
-
   deleteCustomerId() {
     if (
       this.selectedCustomerForDeletion &&
@@ -245,9 +211,9 @@ export class CustomerComponent implements OnInit {
         .deleteCustomer(this.selectedCustomerForDeletion.account_id)
         .subscribe(
           (res: AccountsResponse) => {
-            this.displayAllCustomer();
+            this.loadDealers();
             this.closeModal();
-            window.location.reload();
+            // window.location.reload();
           },
           (error) => {
             console.error('Delete vehicle error:', error);
@@ -272,7 +238,7 @@ export class CustomerComponent implements OnInit {
     this.masterSrv.updateCustomer(this.useForm.value).subscribe({
       next: () => {
         this.toastr.success('Account Update successfully!', 'Success');
-        this.displayAllCustomer();
+        this.loadCustomers();
         this.closeModal();
       },
       error: (err) => {
@@ -303,7 +269,7 @@ export class CustomerComponent implements OnInit {
       return;
     }
 
-    this.createCustomer();
+    this.createAccounts();
     ($('.bd-example-modal-lg') as any).modal('hide');
     console.log('form is valid');
   }

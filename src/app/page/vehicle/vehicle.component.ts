@@ -138,6 +138,10 @@ export class VehicleComponent implements OnInit {
     ($('.bd-example-modal-lg') as any).modal('hide');
   }
 
+  openModals(){
+    ($('.bd-example-modal-sm') as any).modal('show');
+  }
+
   // Save New Vehicle
   onSave(): void {
     if (this.useForm.invalid) {

@@ -16,7 +16,7 @@
                                         <label class="mb-1"><strong>Password</strong></label>
                                         <input type="password" id="inputPassword"  class="form-control" [(ngModel)]="passwordTxt"
                                         name="password" required placeholder="Password">
-                                        <span class="showPassword" (click)="viewPassword()" [ngClass]="showPassword != true ? 'fa fa-eye': 'fa fa-eye-slash'"></span>
+                                        <span class="showPassword" (click)="viewPassword()" [ngClass]="showPassword != true ? 'fa fa-eye eye': 'fa fa-eye-slash'"></span>
                                     </div> 
                                     <div class="form-group mt-4 mb-2 float-right" >
                                         <a href="javascript:void(0)" (click)="forgotPasswordC()">Forgot Password?</a>

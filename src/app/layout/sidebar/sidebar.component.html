@@ -25,9 +25,9 @@
       </li>
       <li>
         <a
-         
+         style="cursor: pointer;"
           class="has-arrow ai-icon"
-          href="javascript:void()"
+          
           aria-expanded="false"
         >
           <i class="fa fa-users"></i>
@@ -44,7 +44,8 @@
           </li>
           <li 
           >
-            <a>Role Management</a>
+            <a  routerLink="/Admin/role"   class="ai-icon" aria-expanded="false" 
+            (click)="onRoleChange('user-all', 'Role Management')">Role Management</a>
           </li>
         </ul>
       </li>
@@ -73,8 +74,9 @@
 
       <li>
         <a
+        style="cursor: pointer;"
           class="has-arrow ai-icon"
-          href="javascript:void()"
+          
           aria-expanded="false"
         >
           <i class="fa fa-folder-open"></i>

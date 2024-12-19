@@ -21,6 +21,7 @@ import { SingleTaskComponent } from './page/single-task/single-task.component';
 import { SingleOppComponent } from './page/single-opp/single-opp.component';
 import { OpportunitiesResolver } from './service/opportunities-resolver.service';
 import { AuthGuard } from './component/guard/auth.guard'; 
+import { RoleComponent } from './page/role/role.component';
 
 // export const routes: Routes = [
 //   { path: '', component: Login1Component, pathMatch: 'full' },
@@ -114,7 +115,7 @@ export const routes: Routes = [
   {
     path: 'Admin',
     component: OverviewComponent,
-    canActivate: [AuthGuard],  
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
@@ -133,6 +134,12 @@ export const routes: Routes = [
         path: 'vehicle',
         component: VehicleComponent,
         data: { title: 'Vehicle' },
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'role',
+        component: RoleComponent,
+        data: { title: 'Role' },
         canActivate: [AuthGuard],
       },
       {

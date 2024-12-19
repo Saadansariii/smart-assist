@@ -187,7 +187,7 @@ export class CustomerComponent implements OnInit {
         this.closeModal(); 
       },
       (error) => {
-        this.toastr.error(error.message, 'Error');
+        this.toastr.error(error.error, 'Error');
       }
     );
   }

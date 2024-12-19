@@ -163,7 +163,7 @@ export class VehicleComponent implements OnInit {
         this.closeModal();
       },
       error: (err) => {
-        this.toastr.error('Failed to create vehicle', 'Error');
+        this.toastr.error(err.error.error, 'Error');
         console.error('Vehicle creation error:', err);
       },
     });
@@ -190,7 +190,7 @@ export class VehicleComponent implements OnInit {
         this.closeModal();
       },
       error: (err) => {
-        this.toastr.error('Failed to update vehicle', 'Error');
+        this.toastr.error(err.error.error, 'Error');
         console.error('Vehicle update error:', err);
       },
     });
@@ -216,7 +216,7 @@ export class VehicleComponent implements OnInit {
             this.toastr.success('Vehicle Delete Successfully!', 'Success');
           },
           (error) => {
-            alert(error.message || 'Failed to delete vehicle');
+            alert(error.error.error || 'Failed to delete vehicle');
           }
         );
     } else {
@@ -231,7 +231,7 @@ export class VehicleComponent implements OnInit {
         this.openModal(vehicle);
       },
       error: (err) => {
-        this.toastr.error('Failed to fetch vehicle details', 'Error');
+        this.toastr.error(err.error.error, 'Error');
         console.error('Vehicle fetch error:', err);
       },
     });

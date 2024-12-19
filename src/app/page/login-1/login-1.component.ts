@@ -191,7 +191,7 @@ export class Login1Component {
         },
         error: (error) => {
           console.error('Login error:', error);
-          const errorMessage = error.error?.message || 'Failed to login';
+          const errorMessage = error.error.error;
           this.toastr.error(errorMessage, 'Error');
         },
       });
@@ -217,8 +217,9 @@ export class Login1Component {
           this.startCountdown();
         },
         error: (error) => {
-          console.error('Email verification error:', error);
-          const errorMessage = error.error?.message || 'Failed to send OTP';
+          // console.error('Email verification error:', error);
+          console.log(error.error.error);
+          const errorMessage = error.error.error
           this.toastr.error(errorMessage, 'Error');
         },
       });
@@ -247,7 +248,7 @@ export class Login1Component {
         },
         error: (error) => {
           console.error('OTP verification error:', error);
-          const errorMessage = error.error?.message || 'Invalid OTP';
+          const errorMessage = error.error.error;
           this.toastr.error(errorMessage, 'Error');
         },
       });
@@ -329,7 +330,7 @@ export class Login1Component {
             this.toastr.error('User not found', 'Error');
           } else {
             const errorMessage =
-              error.error?.message || 'Failed to reset password';
+              error.error.error;
             this.toastr.error(errorMessage, 'Error');
           }
         },

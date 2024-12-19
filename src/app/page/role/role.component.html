@@ -47,14 +47,11 @@
               <tr>
                 <th>Sr No</th>
                 <th>Role Name</th>
-                <!-- <th>Yrs Of Mfg</th> -->
-                <!-- <th>Vehicle Types</th> -->
-                <!-- <th>VIN</th> -->
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody>
-              <!-- @for (vehicle of vehicleList(); track $index) {
+
+            <!-- @for (vehicle of vehicleList(); track $index) {
               <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ vehicle.vehicle_name }}</td>
@@ -127,7 +124,6 @@
                 </td>
               </tr>
               } -->
-            </tbody>
           </table>
         </div>
       </div>
@@ -137,7 +133,7 @@
 
 <!-- modal -->
 
-<div
+ <div
   class="modal fade bd-example-modal-lg custom-modal"
   tabindex="-1"
   role="dialog"
@@ -150,35 +146,67 @@
           class="modal-title"
           style="align-items: center; margin-inline: auto"
         >
-          Role modal
+         Create Role
         </h5>
-            
-      </div>
-      <div class="modal-footer">
-        <ng-container>
-          <button
-            type="button"
-            class="btn btn-outline-primary" 
-            data-dismiss="modal"
-          >
-            save
-          </button>
-        </ng-container>
-
-        <ng-template #saveButton>
-          <button
-            type="button"
-            data-dismiss="modal"
-            class="btn btn-outline-primary"
-           
-          >
-            Save
-          </button>
-        </ng-template>
         <button
           type="button"
-          class="btn btn-outline-danger"
-           
+          class="close" 
+          data-dismiss="modal"
+        >
+          <span class="x">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body"  >
+        <form [formGroup]="useForm"> 
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="vehicle_name" class="form-label">Role Name*</label>
+            <input
+              style="cursor: text" 
+              class="form-control form-control-lg"
+              type="text"
+              placeholder="Role Name"
+              formControlName="role_name"
+               
+            />
+             
+          </div>
+
+          <div class="col-md-6 form-group">
+            <label for="vehicle_name" class="form-label">Role Description*</label>
+            <input
+              style="cursor: text"
+              class="form-control form-control-lg"
+              type="text"
+              placeholder="Role Description"
+              formControlName="description"
+               
+            />
+             
+          </div>
+        </div>
+      </form>
+
+        
+      </div>
+
+      <!-- Modal footer buttons -->
+      <!-- In the modal footer -->
+      <div class="modal-footer"> 
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            (click)="onSave()" 
+            (click)="closeModal()"
+          >
+            Create
+          </button> 
+
+         
+        <button
+          type="button"
+          class="btn btn-outline-danger" 
           data-dismiss="modal"
         >
           Close

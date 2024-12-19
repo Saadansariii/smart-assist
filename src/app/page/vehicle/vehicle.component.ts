@@ -231,8 +231,7 @@ export class VehicleComponent implements OnInit {
         this.openModal(vehicle);
       },
       error: (err) => {
-        this.toastr.error(err.error.error, 'Error');
-        console.error('Vehicle fetch error:', err);
+        this.toastr.error(err.error.error, 'Error'); 
       },
     });
   }

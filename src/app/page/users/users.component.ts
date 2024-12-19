@@ -123,6 +123,10 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  // loadRole(){
+  //   this.masterSrv.role
+  // }
+
   // Open modal for adding/editing user
   openModal(user?: UserList) {
     // Reset form

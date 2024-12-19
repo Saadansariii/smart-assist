@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { StorageService } from './storage.service';
 import {
   AccountsResponse,
+  createRole,
   DealerResponse,
   EventResponse,
   LeadResponse,
@@ -134,7 +135,7 @@ export class MasterService {
     });
   }
 
-  getSingleVehicle(id : string): Observable<Vehicles> {
+  getSingleVehicle(id: string): Observable<Vehicles> {
     const headers = this.getAuthHeaders();
     return this.http.get<Vehicles>(`${this.apiUrl}/vehicles/${id}`, {
       headers,
@@ -232,8 +233,7 @@ export class MasterService {
     );
   }
 
-   
-  getSingleUser(id : string): Observable<UserList> {
+  getSingleUser(id: string): Observable<UserList> {
     const headers = this.getAuthHeaders();
     return this.http.get<UserList>(`${this.apiUrl}/users/${id}`, {
       headers,
@@ -258,7 +258,7 @@ export class MasterService {
     });
   }
 
-  getSingleAccount(id : string):Observable<Accounts> {
+  getSingleAccount(id: string): Observable<Accounts> {
     const headers = this.getAuthHeaders();
     return this.http.get<Accounts>(`${this.apiUrl}/accounts/${id}`, {
       headers,
@@ -298,6 +298,22 @@ export class MasterService {
   getProfileData(): Observable<ProfileResponse> {
     const headers = this.getAuthHeaders();
     return this.http.get<ProfileResponse>(this.apiUrl + 'show-profile', {
+      headers,
+    });
+  }
+
+  // Role
+
+  getAllRole(){
+     const headers = this.getAuthHeaders();
+     return this.http.get<createRole>(this.apiUrl + '', {
+       headers,
+     });
+  }
+
+  createRole(obj: createRole): Observable<createRole> {
+    const headers = this.getAuthHeaders();
+    return this.http.post<createRole>(this.apiUrl + 'create-role', obj, {
       headers,
     });
   }

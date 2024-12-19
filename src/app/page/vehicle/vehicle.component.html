@@ -41,11 +41,10 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="table-responsive">
-          
           <table
             id="example5"
             class="table display mb-4 table-responsive-xl dataTablesCard fs-14"
-             >
+          >
             <thead>
               <tr>
                 <th>Sr No</th>
@@ -57,7 +56,13 @@
               </tr>
             </thead>
             <tbody>
-              @for (vehicle of vehicleList(); track $index) {
+              @if (vehicleList().length === 0) {
+              <tr>
+                <td colspan="6" class="text-center">
+                  <p>No Vehicle Found</p>
+                </td>
+              </tr>
+              } @else { @for (vehicle of vehicleList(); track $index) {
               <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ vehicle.vehicle_name }}</td>
@@ -78,58 +83,60 @@
                   <a
                     href="javascript:void(0);"
                     type="button"
-                    class="btn btn-primary mb-2" 
+                    class="btn btn-primary mb-2"
                     class="btn btn-danger shadow btn-xs sharp"
                     (click)="openModals()"
                     (click)="selectVehicleForDeletion(vehicle)"
                     ><i class="fa fa-trash"></i
                   ></a>
-                   
+
                   <div
                     class="modal fade bd-example-modal-sm"
                     tabindex="-1"
                     role="dialog"
                     aria-hidden="true"
                   >
-                    <div class="modal fade bd-example-modal-sm"
-                    tabindex="-1"
-                    role="dialog"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-sm">
-                      <div class="modal-content">
-                        <div
-                          class="modal-header text-center"
-                          style="margin-inline: auto"
-                        >
-                          <h5 class="modal-title text-center">
-                            Delete Vehicle
-                          </h5>
-                        </div>
-                        <div class="modal-body">HEY ARE YOU Sure..!</div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn   btn-outline-primary"
-                            data-dismiss="modal"
+                    <div
+                      class="modal fade bd-example-modal-sm"
+                      tabindex="-1"
+                      role="dialog"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                          <div
+                            class="modal-header text-center"
+                            style="margin-inline: auto"
                           >
-                            cancel
-                          </button>
-                          <button
-                            type="button"
-                            class="btn  btn-outline-danger"
-                            data-dismiss="modal"
-                            (click)="deleteVehicleId()"
-                          >
-                            Delete
-                          </button>
+                            <h5 class="modal-title text-center">
+                              Delete Vehicle
+                            </h5>
+                          </div>
+                          <div class="modal-body">HEY ARE YOU Sure..!</div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-outline-primary"
+                              data-dismiss="modal"
+                            >
+                              cancel
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-outline-danger"
+                              data-dismiss="modal"
+                              (click)="deleteVehicleId()"
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </div>
-                      </div>
                       </div>
                     </div>
                   </div>
                 </td>
               </tr>
-              }
+              } }
             </tbody>
           </table>
         </div>
@@ -169,7 +176,7 @@
           <div class="col-md-6 form-group">
             <label for="vehicle_name" class="form-label">Vehicle Name*</label>
             <input
-            style="cursor:text;"
+              style="cursor: text"
               id="vehicle_name"
               class="form-control form-control-lg"
               type="text"
@@ -199,8 +206,7 @@
               type="date"
               class="form-control form-control-lg"
               formControlName="YOM"
-              style="cursor:text;"
-               
+              style="cursor: text"
             />
           </div>
         </div>
@@ -209,7 +215,7 @@
           <div class="col-md-6 form-group">
             <label for="typeSelect" class="form-label">Type*</label>
             <select
-            style="cursor: pointer;"
+              style="cursor: pointer"
               id="typeSelect"
               formControlName="type"
               class="form-control form-control-lg"
@@ -238,14 +244,14 @@
             <label for="VIN" class="form-label">VIN ID</label>
             <input
               id="VIN"
-              class="form-control form-control-lg  "
+              class="form-control form-control-lg"
               type="text"
               placeholder="VIN"
-              formControlName="VIN" 
-              [ngClass]="{ 
+              formControlName="VIN"
+              [ngClass]="{
                 'is-invalid':
                   useForm.get('VIN')?.touched && useForm.get('VIN')?.invalid
-              }" 
+              }"
             />
 
             <div
@@ -276,7 +282,7 @@
           <button
             type="button"
             class="btn btn-outline-primary"
-            (click)="onSave()" 
+            (click)="onSave()"
           >
             Save
           </button>

@@ -212,8 +212,8 @@ export class CustomerComponent implements OnInit {
         .subscribe(
           (res: AccountsResponse) => {
             this.loadDealers();
+            this.loadCustomers();
             this.closeModal();
-            // window.location.reload();
           },
           (error) => {
             console.error('Delete vehicle error:', error);

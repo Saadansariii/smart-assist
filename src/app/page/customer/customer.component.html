@@ -55,70 +55,79 @@
               </tr>
             </thead>
             <tbody>
-              @for (customer of customerList(); track $index) {
-              <tr>
-                <td>{{ $index + 1 }}</td>
-                <td>{{ customer.fname }}</td>
-                <td>{{ customer.lname }}</td>
-                <td>{{ customer.email }}</td>
-                <td>{{ customer.phone }}</td>
-                <td class="d-flex">
-                  <a
-                    href="javascript:void(0);"
-                    type="button"
-                    data-target=".bd-example-modal-lg"
-                    data-toggle="modal" 
-                    (click)="onEdit(customer.account_id)"
-                    class="btn btn-primary shadow btn-xs sharp mr-1"
-                    ><i class="fa fa-pencil"></i
-                  ></a>
-
-                  <a
-                    href="javascript:void(0);"
-                    type="button"
-                    class="btn btn-primary mb-2"
-                    data-toggle="modal"
-                    data-target=".bd-example-modal-sm"
-                    class="btn btn-danger shadow btn-xs sharp"
-                    (click)="selectCustomerForDeletion(customer)"
-                    ><i class="fa fa-trash"></i
-                  ></a>
-                  <div
-                    class="modal fade bd-example-modal-sm"
-                    tabindex="-1"
-                    role="dialog"
-                    aria-hidden="true"
-                  >
-                    <div class="modal-dialog modal-sm">
-                      <div class="modal-content">
-                        <div
-                          class="modal-header text-center"
-                          style="margin-inline: auto"
-                        >
-                          <h5 class="modal-title text-center">Delete User</h5>
-                        </div>
-                        <div class="modal-body">HEY ARE YOU OKAY..!</div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-outline-danger"
-                            data-dismiss="modal"
+              @if(customerList().length === 0){
+                <tr>
+                <td colspan="6" class="text-center">
+                  <p>No Accounts Found</p>
+                </td>
+              </tr>
+              }@else {
+                @for (customer of customerList(); track $index) {
+                <tr>
+                  <td>{{ $index + 1 }}</td>
+                  <td>{{ customer.fname }}</td>
+                  <td>{{ customer.lname }}</td>
+                  <td>{{ customer.email }}</td>
+                  <td>{{ customer.phone }}</td>
+                  <td class="d-flex">
+                    <a
+                      href="javascript:void(0);"
+                      type="button"
+                      data-target=".bd-example-modal-lg"
+                      data-toggle="modal" 
+                      (click)="onEdit(customer.account_id)"
+                      class="btn btn-primary shadow btn-xs sharp mr-1"
+                      ><i class="fa fa-pencil"></i
+                    ></a>
+  
+                    <a
+                      href="javascript:void(0);"
+                      type="button"
+                      class="btn btn-primary mb-2"
+                      data-toggle="modal"
+                      data-target=".bd-example-modal-sm"
+                      class="btn btn-danger shadow btn-xs sharp"
+                      (click)="selectCustomerForDeletion(customer)"
+                      ><i class="fa fa-trash"></i
+                    ></a>
+                    <div
+                      class="modal fade bd-example-modal-sm"
+                      tabindex="-1"
+                      role="dialog"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                          <div
+                            class="modal-header text-center"
+                            style="margin-inline: auto"
                           >
-                            Cancel
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-outline-primary"
-                            (click)="deleteCustomerId()"
-                          >
-                            Delete
-                          </button>
+                            <h5 class="modal-title text-center">Delete User</h5>
+                          </div>
+                          <div class="modal-body">HEY ARE YOU SURE TO DELETE..!</div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-outline-danger"
+                              data-dismiss="modal"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-outline-primary"
+                              (click)="closeModal()"
+                              (click)="deleteCustomerId()"
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-              </tr>
+                  </td>
+                </tr>
+                }
               }
             </tbody>
           </table>

@@ -122,6 +122,17 @@ export interface AccountsResponse{
 }
 
 
+export interface role{
+
+}
+
+// this interface convernt into class 
+export interface createRole {
+  role_name: string;
+  description: string
+}
+
+
 
 export interface ProfileResponse{
   corporate_id: string

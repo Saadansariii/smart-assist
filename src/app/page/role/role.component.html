@@ -47,83 +47,17 @@
               <tr>
                 <th>Sr No</th>
                 <th>Role Name</th>
-                <th>Action</th>
+                <th>Description</th>
               </tr>
             </thead>
 
-            <!-- @for (vehicle of vehicleList(); track $index) {
+            @for (role of roleList; track $index) {
               <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ vehicle.vehicle_name }}</td>
-                <td>{{ vehicle.YOM }}</td>
-                <td>{{ vehicle.type }}</td>
-                <td>{{ vehicle.VIN }}</td>
-
-                <td class="d-flex">
-                  <a
-                    href="javascript:void(0);"
-                    type="button"
-                    data-toggle="modal"
-                    data-target=".bd-example-modal-lg"
-                    (click)="onEdit(vehicle.vehicle_id)"
-                    class="btn btn-primary shadow btn-xs sharp mr-1"
-                    ><i class="fa fa-pencil"></i
-                  ></a>
-                  <a
-                    href="javascript:void(0);"
-                    type="button"
-                    class="btn btn-primary mb-2" 
-                    class="btn btn-danger shadow btn-xs sharp"
-                    (click)="openModals()"
-                    (click)="selectVehicleForDeletion(vehicle)"
-                    ><i class="fa fa-trash"></i
-                  ></a>
-                   
-                  <div
-                    class="modal fade bd-example-modal-sm"
-                    tabindex="-1"
-                    role="dialog"
-                    aria-hidden="true"
-                  >
-                    <div class="modal fade bd-example-modal-sm"
-                    tabindex="-1"
-                    role="dialog"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-sm">
-                      <div class="modal-content">
-                        <div
-                          class="modal-header text-center"
-                          style="margin-inline: auto"
-                        >
-                          <h5 class="modal-title text-center">
-                            Delete Vehicle
-                          </h5>
-                        </div>
-                        <div class="modal-body">HEY ARE YOU Sure..!</div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn   btn-outline-primary"
-                            data-dismiss="modal"
-                          >
-                            cancel
-                          </button>
-                          <button
-                            type="button"
-                            class="btn  btn-outline-danger"
-                            data-dismiss="modal"
-                            (click)="deleteVehicleId()"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
+                <td>{{ role.role_name }}</td>
+                <td>{{ role.description }}</td>  
               </tr>
-              } -->
+              }
           </table>
         </div>
       </div>

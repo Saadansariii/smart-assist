@@ -122,8 +122,8 @@ export interface AccountsResponse{
 }
 
 
-export interface role{
-
+export interface role {
+   
 }
 
 // this interface convernt into class 

@@ -306,7 +306,7 @@ export class MasterService {
 
   getAllRole(){
      const headers = this.getAuthHeaders();
-     return this.http.get<createRole>(this.apiUrl + '', {
+     return this.http.get<createRole>(this.apiUrl + 'role/all', {
        headers,
      });
   }

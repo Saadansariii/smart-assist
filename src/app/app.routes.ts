@@ -22,6 +22,7 @@ import { SingleOppComponent } from './page/single-opp/single-opp.component';
 import { OpportunitiesResolver } from './service/opportunities-resolver.service';
 import { AuthGuard } from './component/guard/auth.guard'; 
 import { RoleComponent } from './page/role/role.component';
+import { DatatableComponent } from './page/datatable/datatable.component';
 
 // export const routes: Routes = [
 //   { path: '', component: Login1Component, pathMatch: 'full' },
@@ -110,6 +111,12 @@ import { RoleComponent } from './page/role/role.component';
 // ];
 
 export const routes: Routes = [
+  // remove this
+  {
+    path: 'dataTable',
+    component: DatatableComponent,
+    // canActivate: [AuthGuard],
+  },
   { path: '', component: Login1Component, pathMatch: 'full' },
   { path: 'login', component: Login1Component },
   {
@@ -118,6 +125,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+
       {
         path: 'dashboard',
         component: DashboardComponent,
@@ -174,6 +182,7 @@ export const routes: Routes = [
         data: { title: 'Single events' },
         canActivate: [AuthGuard],
       },
+
       {
         path: 'single-lead/:leadId',
         component: SingleLeadComponent,

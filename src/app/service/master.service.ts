@@ -4,13 +4,13 @@ import { Observable } from 'rxjs';
 import { StorageService } from './storage.service';
 import {
   AccountsResponse,
-  createRole,
   DealerResponse,
   EventResponse,
   LeadResponse,
   MultiuserResponse,
   OppResponse,
   ProfileResponse,
+  roleResponse,
   SingleDealerResponse,
   TaskResponse,
   UserResponse,
@@ -24,6 +24,7 @@ import { Leads } from '../model/class/leads';
 import { Tasks } from '../model/class/tasks';
 import { Events } from '../model/class/event';
 import { Opportunities } from '../model/class/opportunities';
+import { Role } from '../model/class/role';
 
 @Injectable({
   providedIn: 'root',
@@ -304,16 +305,16 @@ export class MasterService {
 
   // Role
 
-  getAllRole(){
-     const headers = this.getAuthHeaders();
-     return this.http.get<createRole>(this.apiUrl + 'role/all', {
-       headers,
-     });
+  getAllRole() {
+    const headers = this.getAuthHeaders();
+    return this.http.get<roleResponse>(this.apiUrl + 'role/all', {
+      headers,
+    });
   }
 
-  createRole(obj: createRole): Observable<createRole> {
+  createRole(obj: Role): Observable<roleResponse[]> {
     const headers = this.getAuthHeaders();
-    return this.http.post<createRole>(this.apiUrl + 'create-role', obj, {
+    return this.http.post<roleResponse[]>(this.apiUrl + 'create-role', obj, {
       headers,
     });
   }

@@ -53,7 +53,7 @@ export class VehicleComponent implements OnInit {
 
   // Component State Variables
   vehicleObj: Vehicles = new Vehicles();
-  dtOptions: Config = {};
+  // dtOptions: Config = {};
   isModalVisible = false;
   isEditMode = false;
   previousValue: string = '';

@@ -17,6 +17,7 @@ import { Opportunities } from '../../model/class/opportunities';
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { param } from 'jquery';
+import { ContextService } from '../../service/context.service';
 
 @Component({
   selector: 'app-single-dealer',
@@ -46,13 +47,18 @@ export class SingleDealerComponent implements OnInit {
     private location: Location
   ) {}
 
-  selectedOption: string = 'users';
- 
+  // selectedOption: string = 'users';
+
+  private dropdownService = inject(ContextService);
+  selectedOption = this.dropdownService.getSelectedOption();
 
   handleSelectionChange(event: Event) {
     const option = (event.target as HTMLSelectElement).value;
-    this.selectedOption = option;
-    // console.log("Option selected:", option);
+    // this.selectedOption = option;
+    //  const option = (event.target as HTMLSelectElement).value;
+    this.dropdownService.setSelectedOption(option);
+
+    console.log('this is option', this.selectedOption());
 
     switch (option) {
       case 'leads':
@@ -76,9 +82,7 @@ export class SingleDealerComponent implements OnInit {
           this.getAllOpp(this.dealerData.dealer.dealer_id);
         }
         break;
-      // if (this.dealerData) {
-      // console.log(this.dealerData.dealer.dealer_id, "I am from opportunity")
-      // }
+       
       case 'events':
         this.toggleEventTable();
         if (this.dealerData) {
@@ -148,6 +152,8 @@ export class SingleDealerComponent implements OnInit {
         console.warn('Dealer data not available from resolver.');
       }
     });
+
+     
 
     this.route.paramMap.subscribe((params) => {
       const dealerId = params.get('id');

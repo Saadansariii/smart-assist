@@ -1,23 +1,26 @@
-import { Component, inject, OnInit, Signal } from '@angular/core';
+import { Component, inject, OnInit, signal, Signal } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MasterService } from '../../service/master.service';
 import { ToastrService } from 'ngx-toastr';
-import { CommonModule } from '@angular/common';
-import { createRole, role } from '../../model/interface/master';
+import { CommonModule } from '@angular/common'; 
+import { Role } from '../../model/class/role';
+import { roleResponse } from '../../model/interface/master';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-role',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule , CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './role.component.html',
   styleUrls: ['./role.component.css'],
 })
-export class RoleComponent implements OnInit{
+export class RoleComponent implements OnInit {
+   private http = inject(HttpClient);
   useForm: FormGroup = new FormGroup({});
+  roleList = signal<Role[]>([]); 
+  count = signal<number>(0);
 
-  roleList : createRole [] = [];
-
-  // service 
+  // service
   private masterSrv = inject(MasterService);
   private readonly toastr = inject(ToastrService);
 
@@ -43,13 +46,17 @@ export class RoleComponent implements OnInit{
   openModals() {
     ($('.bd-example-modal-sm') as any).modal('show');
   }
-
+ 
   loadRole(){
-    this.masterSrv.getAllRole().subscribe(
-      (res:any) => {
-
-      }
-    )
+    this.masterSrv.getAllRole().subscribe({
+      next : (res: roleResponse) => {
+        this.count.set(res.count);
+        this.roleList.set(res.rows);
+      },
+      error: (err) => {
+        this.toastr.error(err.error.error , 'Error')
+      },
+    });
   }
 
   onSave() {
@@ -59,10 +66,7 @@ export class RoleComponent implements OnInit{
         this.toastr.success('User created successfully!', 'Success');
       },
       error: (err) => {
-        this.toastr.error(
-          err.message || err.error.error,
-          'Creation Error'
-        );
+        this.toastr.error(err.error.error , 'Error');
       },
     });
   }

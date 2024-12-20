@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
@@ -29,4 +29,17 @@ export class ContextService {
   updateBreadcrumb(name: string, path: string) {
     this.breadcrumbSubject.next({ name, path });
   }
+
+
+  // dropdown service
+  private selectedOption = signal<string>('users');
+
+  getSelectedOption() {
+    return this.selectedOption;
+  }
+
+  setSelectedOption(option: string) {
+    this.selectedOption.set(option);
+  }
+  
 }

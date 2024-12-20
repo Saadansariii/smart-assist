@@ -5,6 +5,7 @@ import { Events } from '../class/event';
 import { Leads } from '../class/leads'; 
 import { UserList } from '../class/multiuser';
 import { Opportunities } from '../class/opportunities';
+import { Role } from '../class/role';
 import { Tasks } from '../class/tasks';
 import { Users } from '../class/users';
 import { Vehicles } from '../class/vehicle';
@@ -122,14 +123,20 @@ export interface AccountsResponse{
 }
 
 
-export interface role {
-   
-}
+// export interface role {
+     
+//     "role_id": "09796b32-bddd-4b1d-bb27-08d6d0f010c8",
+//     "role_name": "saad",
+//     "description": "343423",
+//     "created_at": "2024-12-19T12:53:59.116Z",
+//     "updated_at": "2024-12-19T12:53:59.116Z"
+  
+// }
 
 // this interface convernt into class 
-export interface createRole {
-  role_name: string;
-  description: string
+export interface roleResponse {
+  count : number;
+  rows : Role[] ;
 }
 
 

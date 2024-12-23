@@ -10,7 +10,7 @@
         </li>
         <li class="breadcrumb-item active">
           <a style="font-weight: 700 !important; color: black"
-            >Single Dealer
+            >{{ this.dealerData?.dealer?.dealer_name}}
           </a>
         </li>
       </ol>
@@ -167,6 +167,7 @@
           >
             <thead>
               <tr>
+                <th>Sr No</th>
                 <th>Account ID</th>
                 <th>Name</th>
                 <th>Email</th>
@@ -177,9 +178,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of userList()">
+              <tr *ngFor="let user of userList() ; let i = index" >
                 <td>
-                  {{ user.account_id }}
+                  {{  i + 1}}
+                </td>
+                <td>
+                  {{ user.user_account_id }}
                 </td>
                 <td>
                   {{ user.name }}
@@ -191,7 +195,7 @@
                   {{ user.phone }}
                 </td>
                 <td>
-                  {{ user.role }}
+                  {{ user.user_role }}
                 </td>
                 <td>
                   {{ user.dealer_code }}
@@ -221,6 +225,7 @@
           >
             <thead>
               <tr>
+                <th>Sr No</th>
                 <th>Lead Code</th>
                 <th>Dealer Name</th>
                 <!-- <th>Dealer Code</th> -->
@@ -241,6 +246,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let lead of leadList(); let i = index">
+                <td>{{i + 1}}</td>
                 <td>{{ lead.lead_code }}</td>
                 <td>{{ lead.dealer_name }}</td>
                 <!-- <td>{{ lead.dealer_code }}</td> -->
@@ -285,6 +291,7 @@
           >
             <thead>
               <tr>
+                <th>Sr No</th>
                 <th>Opportunity Name</th>
                 <th>stage</th>
                 <th>Opportunities Record</th>
@@ -306,6 +313,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let opp of OpportunityList(); let i = index">
+                <td>{{i + 1}}</td>
                 <td>
                   {{ opp.opportunity_name }}
                 </td>
@@ -389,6 +397,7 @@
           >
             <thead>
               <tr>
+                <th>Sr No</th>
                 <th>Subject</th>
                 <th>Status</th>
                 <th>Priority</th>
@@ -403,6 +412,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let task of TaskList(); let i = index">
+                <td>{{i + 1}}</td>
                 <td>
                   {{ task.subject }}
                 </td>
@@ -462,6 +472,7 @@
           >
             <thead>
               <tr>
+                <th>Sr No</th>
                 <th>Subject</th>
                 <th>Assigned</th>
                 <th>Description</th>
@@ -480,6 +491,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let event of EventList(); let i = index">
+                <td>{{i + 1}}</td>
                 <td>
                   {{ event.subject }}
                 </td>

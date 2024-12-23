@@ -82,7 +82,7 @@ export class SingleDealerComponent implements OnInit {
           this.getAllOpp(this.dealerData.dealer.dealer_id);
         }
         break;
-       
+
       case 'events':
         this.toggleEventTable();
         if (this.dealerData) {
@@ -139,26 +139,41 @@ export class SingleDealerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
-      this.dealerName = params['dealerName']; // The dealer name is passed as a query parameter
-      console.log('Dealer Name:', this.dealerData?.dealer.dealer_name); // Now you can use it in your component
-    });
+     this.handleQueryParams();
+     this.handleRouteData();
+     this.handleDealerId((dealerId)=>{
+      this.getUser(dealerId);
+      this.getAllEvent(dealerId);
+      this.getAllLeads(dealerId);
+      this.getAllOpp(dealerId);
+      this.getAllTasks(dealerId)
+     })
+  }
 
+  private handleQueryParams() {
+    this.route.queryParams.subscribe((params) => {
+      this.dealerName = params['dealerName'];
+      console.log('Dealer Name : ', this.dealerName);
+    });
+  }
+
+  private handleRouteData() {
     this.route.data.subscribe((data) => {
       this.dealerData = data['dealerData'];
       if (this.dealerData) {
-        this.getUser(this.dealerData.dealer.dealer_id);
+        const dealerId = this.dealerData.dealer.dealer_id;
+        this.getUser(dealerId);
       } else {
-        console.warn('Dealer data not available from resolver.');
+        console.log('Dealer Data not available from resolver');
       }
     });
+  }
 
-     
-
+  private handleDealerId(callback: (dealerId: string) => void) {
     this.route.paramMap.subscribe((params) => {
       const dealerId = params.get('id');
       if (dealerId) {
-        this.getUser(dealerId);
+        callback(dealerId);
       } else if (!this.dealerData) {
         console.error('Dealer ID not found in the URL and no resolver data.');
       }
@@ -234,11 +249,11 @@ export class SingleDealerComponent implements OnInit {
 
   router = inject(Router);
 
-  navigateWithReload(path: string) {
-    this.router.navigateByUrl(path).then(() => {
-      window.location.reload();
-    });
-  }
+  // navigateWithReload(path: string) {
+  //   this.router.navigateByUrl(path).then(() => {
+  //     window.location.reload();
+  //   });
+  // }
 
   userId() {
     const path = window.location.pathname.split('/')[3];
